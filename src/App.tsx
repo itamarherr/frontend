@@ -8,12 +8,13 @@ import Navbar from "./Components/Navbar";
 import "./App.css";
 import EcoSurveyPage from "./routes/EcoSurveyPage";
 import EcoConsultancyPage from "./routes/EcoConsultancyPage";
-import ForrestSurveyPage from "./routes/ForrestSurveyPage";
+import ForestSurveyPage from "./routes/ForestSurveyPage";
 import OakConsultancyPage from "./routes/OakConsultancyPage";
 import EcoConsultancyForm from "./routes/forms/EcoConsultancyForm";
 import OakConsultancyForm from "./routes/forms/OakConsultancyForm";
 import EcoSurveyForm from "./routes/forms/EcoSurveyForm";
-import ForrestSurveyForm from "./routes/forms/ForrestSurveyForm";
+import ForestSurveyForm from "./routes/forms/ForestSurveyForm";
+
 const App = () => {
 
 
@@ -34,13 +35,13 @@ const App = () => {
          <Route path="/login" element={<Login />} />
          <Route path="/products" element={<Products />} />
          <Route path="/EcoSurveyPage" element={<EcoSurveyPage />} />
-         <Route path="/ForrestSurveyPage" element={<ForrestSurveyPage />} />
+         <Route path="/ForestSurveyPage" element={<ForestSurveyPage />} />
          <Route path="/OakConsultancyPage" element={<OakConsultancyPage />} />
          <Route path="/EcoConsultancyPage" element={<EcoConsultancyPage />} />
          <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} />
          <Route path="/OakConsultancyForm" element={<OakConsultancyForm />} />
          <Route path="/EcoSurveyForm" element={<EcoSurveyForm/>} />
-         <Route path="/ForrestSurveyForm" element={<ForrestSurveyForm/>} />
+         <Route path="/ForestSurveyForm" element={<ForestSurveyForm/>} />
          <Route path="*" element={<div>Not Found</div>} />
        </Routes>
      </>

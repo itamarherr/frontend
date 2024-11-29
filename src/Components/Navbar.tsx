@@ -35,8 +35,8 @@ const Navbar = () => {
       {isLoggedIn && (
         <>
     
-         <NavLink className="rounded-lg p-2" to="/ForrestSurveyPage">
-          Forrest Survey
+         <NavLink className="rounded-lg p-2" to="/ForestSurveyPage">
+          Forest Survey
         </NavLink>
         <NavLink className="rounded-lg p-2" to="/EcoSurveyPage">
         Ecological Survey
