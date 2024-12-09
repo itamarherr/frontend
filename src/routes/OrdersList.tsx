@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { orders_api, OrderData } from "../api/Orders-api";
+import { orders_api, OrderFormData } from "../api/Orders-api";
 
 const OrdersList: React.FC = () => {
-  const [orders, setOrders] = useState<OrderData[]>([]);
+  const [orders, setOrders] = useState<OrderFormData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,9 +15,9 @@ const OrdersList: React.FC = () => {
         sortBy: "createAt",
         descending: true,
       });
-      console.log("Full Response:", response);
+ 
       console.log("Response Data:", response.data);
-      console.log("Response Type:", typeof response.data);
+      
 
       setOrders(response.data);
       setLoading(false);

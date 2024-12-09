@@ -1,10 +1,26 @@
 import axios from "axios";
 
-const url = import.meta.env.VITE_BASE_URL + "/orders";
-export interface OrderData {
+const url = import.meta.env.VITE_BASE_URL + "/Orders"; 
+console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL); 
+export interface OrderFormData {
     id: number;
+    name: string;
+    description?: string;
+    numberOfTrees: number;
+    city: string;
+    street: string;
+    number: number;
+    imageUrl?: string;
+    consultancyType?: string; 
+    isPrivateArea: boolean;
+    dateForConsultancy: Date;
+    editing: boolean;
     userId: number;
-    createAt: Date;
+    productId: number;
+    additionalNotes?: string;
+    totalPrice?: number;
+    status: string;                // New field for the order status (Pending/Completed)
+    orderDate: Date;  
 }
 export const orders_api = {
     getOrders(jwt: string, params?: {
@@ -13,7 +29,7 @@ export const orders_api = {
         sortBy?: string;
         descending?: boolean;
     }) {
-        return axios.get<OrderData[]>(url, {
+        return axios.get<OrderFormData[]>(url, {
             headers: {
                 Authorization: `bearer ${jwt}`,
             },
@@ -21,21 +37,28 @@ export const orders_api = {
         });
     },
     getOrderById(jwt: string, orderId: number){
-        return axios.get<OrderData>(`${url}/${orderId}`, {
+        return axios.get<OrderFormData>(`${url}/${orderId}`, {
             headers: {
                 Authorization: `bearer ${jwt}`,
             },
         });
     },
-    createOrder(jwt: string, orderData: OrderData){
-        return axios.post<OrderData>(url, orderData, {
+    createOrder(jwt: string, orderFormData: OrderFormData){
+        console.log('Full URL:', url );
+        return axios.post<OrderFormData>(url, orderFormData, {
             headers: {
                 Authorization: `bearer ${jwt}`,
+                'Content-Type': 'application/json' 
             },
+        })
+        .catch(error => {
+            console.error('Request data:', orderFormData); 
+            console.error('Error response:', error.response?.data); 
+            throw error;
         });
     },
-    updateOrder(jwt: string, orderData: OrderData){
-        return axios.put<OrderData>(`${url}/${orderData.id}`, orderData, {
+    updateOrder(jwt: string, orderFormData: OrderFormData){
+        return axios.put<OrderFormData>(`${url}/${orderFormData.id}`, orderFormData, {
             headers: {
                 Authorization: `bearer ${jwt}`,
             },

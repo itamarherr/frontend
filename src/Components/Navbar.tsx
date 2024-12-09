@@ -34,23 +34,20 @@ const Navbar = () => {
 
       {isLoggedIn && (
         <>
-          <NavLink className="rounded-lg p-2" to="/ForestSurveyPage">
-            Forest Survey
-          </NavLink>
+          {/* <NavLink className="rounded-lg p-2" to="/OkeConsultancyPage">
+            Oke Consultancy
+          </NavLink> */}
           <NavLink className="rounded-lg p-2" to="/OrdersList">
             Orders List
           </NavLink>
-          <NavLink className="rounded-lg p-2" to="/EcoSurveyPage">
+          {/* <NavLink className="rounded-lg p-2" to="/EcoSurveyPage">
             Ecological Survey
-          </NavLink>
-          {/* <NavLink className="rounded-lg p-2" to="/OakConsultancyPage">
-          Oak Consultancy
-        </NavLink> */}
-          <NavLink className="rounded-lg p-2" to="/EcoConsultancyPage">
+          </NavLink> */}
+          {/* <NavLink className="rounded-lg p-2" to="/EcoConsultancyPage">
             Ecological Consultancy
-          </NavLink>
-          <NavLink className="rounded-lg p-2" to="/EcoConsultancyPage">
-            Oak Transplate
+          </NavLink> */}
+          <NavLink className="rounded-lg p-2" to="/OakConsultancyPage">
+            Oak consultancy
           </NavLink>
         </>
       )}

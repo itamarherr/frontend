@@ -1,8 +1,13 @@
 import React from 'react'
 import HomeImage from '/src/images/HomeImage.jpg'
 import image3 from '/src/images/image3.jpg'
+import { useNavigate } from 'react-router-dom'
 
 const OakConsultancyPage = () => {
+  const navigate = useNavigate();
+  const handleButtonClick = ()=> {
+    navigate("/OakConsultancyForm");
+  }
   return (
     <>
     <h1 className="font-bold text-4xl mb-12 mt-12 text-center">Oak consultancy Services</h1>
@@ -51,7 +56,9 @@ const OakConsultancyPage = () => {
          text-white font-bold py-2 px-4 rounded 
          hover:bg-green-600 focus:outline-none focus:ring-2 
          focus:ring-green-500 focus:ring-opacity-50
-         ml-20 mr-20 mb-11">
+         ml-20 mr-20 mb-11"
+         onClick={handleButtonClick}
+         >
   Request an Oak Consultancy
    </button>
         </div>
