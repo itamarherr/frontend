@@ -38,82 +38,93 @@ const OakConsultancyForm = () => {
       const payload = JSON.parse(window.atob(base64));
       userId = payload.userId;
       const requestData: OrderFormData = {
-        id: values.id || 0,
-        name: "Oak Consultancy",
-        productId: values.productId,
+        userId: values.userId,
+        productId: 1,
+        // imageUrl: "string",
+        adminNotes: "string",
+        totalPrice: 1,
+        additionalNotes: "string",
         numberOfTrees: values.numberOfTrees,
         city: values.city,
         street: values.street,
         number: values.number,
-        imageUrl: values.imageUrl || "",
-        consultancyType: values.consultancyType,
-        isPrivateArea: values.isPrivateArea,
-        dateForConsultancy: values.dateForConsultancy,
-        editing:  false,
-        userId: values.userId,
-        additionalNotes: values.additionalNotes || "",
-        totalPrice: parseFloat(values.totalPrice),
-        status: "pending", // Assuming a default status, can be updated later
-        orderDate: new Date(),
+        consultancyType: values.consultancy,
+        isPrivateArea: true,
+        dateForConsultancy: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        userEmail: "Test",
+        status: 1,
+        serviceType: "Oak Consultancy",
       };
 
-      await orders_api
-        .createOrder(jwt, requestData)
-          await showSuccessDialog("Forest survey order was created successfully").then(() => {
-            navigate("/EcoConsultancyPage");
-        });
-       } catch(error) {
-        console.error("Error while creating order:", error);
-        showErrorDialog("Failed to create forest survey order. Please try again.");
-        }finally {
-          setIsLoading(false);
-          setSubmitting(false);
-        }
+      await orders_api.createOrder(jwt, requestData);
+      await showSuccessDialog(
+        "Oke Consultancy order was created successfully"
+      ).then(() => {
+        navigate("/OakConsultancyPage");
+      });
+    } catch (error) {
+      console.error("Error while creating order:", error);
+      showErrorDialog(
+        "Failed to create Oke Consultancy order. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
+      setSubmitting(false);
+    }
   };
 
   const initialValues = {
-    name: "Oak Consultancy",
-    numberOfTrees: 0,
-    city: "",
-    street: "",
-    number: 0,
-    imageUrl: "",
-    consultancyType: "Before Construction",
-    isPrivateArea: true,
-    dateForConsultancy: new Date(),
-    editing: true,
-    totalPrice: 0,
+    userId: 1, 
+  productId: 1, 
+  // imageUrl: "https://picsum.photos/id/1/200/300", 
+  adminNotes: "", 
+  totalPrice: 0,
+  additionalNotes: "NotesTest",
+  numberOfTrees: 1,
+  city: "Unknown City",
+  street: "Unknown Street",
+  number: 1, 
+  consultancyType: 1,
+  isPrivateArea: true,
+  dateForConsultancy: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
+  createdAt: new Date().toISOString(), 
+  status: 1, 
+  userEmail: "dror2@gmail.com",
+  serviceType: "Test Service", 
   };
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
-    numberOfTrees: Yup.number()
-      .required("Number of trees is required")
-      .min(1, "At least one tree is required"),
-    city: Yup.string().required("City is required"),
-    street: Yup.string().required("Street is required"),
-    number: Yup.number()
-      .required("Street number is required")
-      .min(1, "Street number must be positive"),
-    imageUrl: Yup.string().url("Image URL must be a valid URL").optional(),
-    consultancyType: Yup.string().optional(),
-    isPrivateArea: Yup.boolean().required("Please specify if this is a private area"),
-    dateForConsultancy: Yup.date()
-      .required("Consultancy date is required")
-      .min(new Date(), "Consultancy date cannot be in the past"),
-    editing: Yup.boolean().required(),
-    totalPrice: Yup.number()
-      .required("Total price is required")
-      .min(0, "Total price must be positive"),
-    status: Yup.string()
-      .oneOf(["Pending", "Completed"], "Status must be either Pending or Completed")
-      .required("Order status is required"),
-    orderDate: Yup.date()
-      .required("Order date is required")
-      .max(new Date(), "Order date cannot be in the future"),
-    additionalNotes: Yup.string().optional(),
-  });
-  
+  // const validationSchema = Yup.object({
+  //   userId: Yup.string().required("User ID is required"),
+  //   productId: Yup.string().required("Product ID is required"),
+  //   // imageUrl: Yup.string().url("Must be a valid URL").required("Image URL is required"),
+  //   adminNotes: Yup.string().optional(), // New field
+  //   totalPrice: Yup.number()
+  //     .required("Total price is required")
+  //     .min(0, "Total price must be positive"),
+  //   additionalNotes: Yup.string().optional(),
+  //   numberOfTrees: Yup.number()
+  //     .required("Number of trees is required")
+  //     .min(1, "At least one tree is required"),
+  //   city: Yup.string().required("City is required"),
+  //   street: Yup.string().required("Street is required"),
+  //   number: Yup.string()
+  //     .matches(/^\d+$/, "Street number must be numeric")
+  //     .required("Street number is required"),
+  //   consultancyType: Yup.number().required("Consultancy type is required"), // Numeric as backend expects
+  //   isPrivateArea: Yup.boolean().required(
+  //     "Please specify if this is a private area"
+  //   ),
+  //   dateForConsultancy: Yup.date()
+  //     .required("Consultancy date is required")
+  //     .min(new Date(), "Consultancy date cannot be in the past"),
+  //     createdAt: Yup.date().required("Created date is required"),
+  //     status: Yup.number()
+  //     .oneOf([1, 2], "Invalid status")  // Assuming 1 = Pending, 2 = Completed
+  //     .required("Status is required"),
+  //   serviceType: Yup.string().required("Service type is required"), // New field
+  // });
+
   const CustomFileInput = ({ field, form, ...props }) => {
     const handleChange = (event) => {
       const file = event.currentTarget.files[0];
@@ -122,13 +133,16 @@ const OakConsultancyForm = () => {
 
     return <input type="file" onChange={handleChange} {...props} />;
   };
+
+
+
   return (
-    <Formik 
-    initialValues={initialValues} 
-    onSubmit={handleSubmit}
-    validationSchema={validationSchema}
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      // validationSchema={validationSchema}
     >
-      {({ values }) => (
+      {({ values, errors }) => (
         <>
           <h1 className="font-bold text-4xl mb-6 mt-12 text-center">
             Order oak Cosultancy Form
@@ -141,6 +155,33 @@ const OakConsultancyForm = () => {
             {isLoading && <Spinner title="Processing..." />}
             {error && <p className="test-red-500">{error}</p>}
 
+              Email Field
+        <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
+          <label htmlFor="email">Email</label>
+          <Field
+            name="email"
+            type="email"
+            id="email"
+            className="rounded-md hover:border-2 border-2 px-2 py-2"
+          />
+          <ErrorMessage name="email" component="div" className="text-red-500" />
+        </div>
+
+        {/* User ID Field */}
+        <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
+          <label htmlFor="userId">User ID</label>
+          <Field
+            name="userId"
+            type="number"
+            id="userId"
+            className="rounded-md hover:border-2 border-2 px-2 py-2"
+          />
+          <ErrorMessage name="userId" component="div" className="text-red-500" />
+        </div>
+
+        {/* Product ID Hidden Field */}
+        <div><Field type="hidden" name="productId" value={1} /></div>
+
             <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
               <label htmlFor="consultancyType">Consultancy Type</label>
               <Field
@@ -150,9 +191,9 @@ const OakConsultancyForm = () => {
                 CalssName="rounded-md hover:border-2 border-2 px-2 py-2"
               >
                 <option value="">Select Consultancy Type</option>
-                <option value="Before Construction">Before Construction</option>
-                <option value="Dislocations">Dislocations</option>
-                <option value="Trees Illness">Trees Illness</option>
+                <option value="1">Before Construction</option>
+                <option value="2">Dislocations</option>
+                <option value="3">Trees Illness</option>
               </Field>
               <ErrorMessage
                 name="consultancyType"
@@ -190,7 +231,7 @@ const OakConsultancyForm = () => {
                 className="text-red-500"
               />
             </div>
-            <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
+            {/* <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
               <label htmlFor="imageUrl" className="block">
                 Upload Image
               </label>
@@ -208,23 +249,21 @@ const OakConsultancyForm = () => {
                   component={CustomFileInput}
                 />
               </div>
-            </div>
-
+            </div> */}
             <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-              <label htmlFor="dateOfAffiliation">Date of Affiliation</label>
+              <label htmlFor="dateForConsultancy">dateForConsultancy</label>
               <Field
-                name="dateOfAffiliation"
+                name="dateForConsultancy"
                 type="date"
-                id="dateOfAffiliation"
+                id="dateForConsultancy"
                 className="rounded-md hover:border-2 border-2 px-2 py-2"
               />
               <ErrorMessage
-                name="dateOfAffiliation"
+                name="dateForConsultancy"
                 component="div"
                 className="text-red-500"
               />
             </div>
-
             <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
               <div className="mb-2">
                 <h3 className="text-xl font-semibold mb-2">
@@ -242,7 +281,6 @@ const OakConsultancyForm = () => {
                       className="w-full rounded-md border-2 px-2 py-1"
                     />
                   </div>
-
                   <div className="flex-1">
                     <label htmlFor="street" className="block text-sm mb-1">
                       Street
@@ -254,7 +292,6 @@ const OakConsultancyForm = () => {
                       className="w-full rounded-md border-2 px-2 py-1"
                     />
                   </div>
-
                   <div className="flex-grow-0 w-1/4">
                     <label htmlFor="number" className="block text-sm mb-1">
                       Number
@@ -267,7 +304,6 @@ const OakConsultancyForm = () => {
                     />
                   </div>
                 </div>
-
                 <div className="flex space-x-2 mt-1">
                   <ErrorMessage
                     name="city"
@@ -292,7 +328,8 @@ const OakConsultancyForm = () => {
                 disabled={isLoading}
                 type="submit"
                 className="bg-green-500 disabled:bg-green-500/50 w-1/2 block text-center hover:bg-green-700 text-white font-bold py-2 px-4 rounded my-4"
-                onClick={() => console.log("Button clicked!")}>
+
+              >
                 Submit Consultancy
               </button>
             </div>

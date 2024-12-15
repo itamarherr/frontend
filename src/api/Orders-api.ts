@@ -1,26 +1,26 @@
 import axios from "axios";
+import { object } from "yup";
 
 const url = import.meta.env.VITE_BASE_URL + "/Orders"; 
 console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL); 
 export interface OrderFormData {
-    id: number;
-    name: string;
-    description?: string;
+    userId: number;
+    productId: number;
+    // imageUrl: string;
+    adminNotes?: string; 
+    totalPrice: number;
+    additionalNotes?: string; 
     numberOfTrees: number;
     city: string;
     street: string;
     number: number;
-    imageUrl?: string;
-    consultancyType?: string; 
+    consultancyType: number; 
     isPrivateArea: boolean;
-    dateForConsultancy: Date;
-    editing: boolean;
-    userId: number;
-    productId: number;
-    additionalNotes?: string;
-    totalPrice?: number;
-    status: string;                // New field for the order status (Pending/Completed)
-    orderDate: Date;  
+    dateForConsultancy: string; 
+    createdAt: string; 
+    status: number;
+    serviceType: string; 
+    userEmail: string
 }
 export const orders_api = {
     getOrders(jwt: string, params?: {
@@ -44,7 +44,6 @@ export const orders_api = {
         });
     },
     createOrder(jwt: string, orderFormData: OrderFormData){
-        console.log('Full URL:', url );
         return axios.post<OrderFormData>(url, orderFormData, {
             headers: {
                 Authorization: `bearer ${jwt}`,
@@ -52,18 +51,28 @@ export const orders_api = {
             },
         })
         .catch(error => {
-            console.error('Request data:', orderFormData); 
-            console.error('Error response:', error.response?.data); 
+            if (error.response?.data?.errors) {
+                const validationErrors = error.response.data.errors;
+        
+                Object.entries(validationErrors).forEach(([field,messages]) => {
+                    if(Array.isArray(messages)){
+                        console.error(`Field ${field} has errors: ${messages.join(", ")}`);
+                    }
+                });
+            } else {
+                console.error("An unknown error occurred:", error);
+            }
             throw error;
         });
+        
     },
-    updateOrder(jwt: string, orderFormData: OrderFormData){
-        return axios.put<OrderFormData>(`${url}/${orderFormData.id}`, orderFormData, {
-            headers: {
-                Authorization: `bearer ${jwt}`,
-            },
-        });
-    },
+    // updateOrder(jwt: string, orderFormData: OrderFormData){
+    //     return axios.put<OrderFormData>(`${url}/${orderFormData.id}`, orderFormData, {
+    //         headers: {
+    //             Authorization: `bearer ${jwt}`,
+    //         },
+    //     });
+    // },
     deleteOrder(jwt: string, orderId: number){
         return axios.delete(`${url}/${orderId}`, {
             headers: {
