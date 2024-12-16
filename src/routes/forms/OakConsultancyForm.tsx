@@ -62,7 +62,7 @@ const OakConsultancyForm = () => {
       await showSuccessDialog(
         "Oke Consultancy order was created successfully"
       ).then(() => {
-        navigate("/OakConsultancyPage");
+        navigate("/MyOrderPage");
       });
     } catch (error) {
       console.error("Error while creating order:", error);

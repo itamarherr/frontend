@@ -15,6 +15,7 @@ import OakConsultancyForm from "./routes/forms/OakConsultancyForm";
 import EcoSurveyForm from "./routes/forms/EcoSurveyForm";
 import ForestSurveyForm from "./routes/forms/ForestSurveyForm";
 import OrdersList from "./routes/OrdersList";
+import MyOrderPage from "./routes/MyOrderPage";
 
 const App = () => {
 
@@ -38,6 +39,7 @@ const App = () => {
          <Route path="/EcoSurveyPage" element={<EcoSurveyPage />} />
          <Route path="/OakconsultancyPage" element={<OakConsultancyPage />} />
          <Route path="/EcoConsultancyPage" element={<EcoConsultancyPage />} />
+         <Route path="/MyOrderPage" element={<MyOrderPage />} />
          <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} />
          <Route path="/OakConsultancyForm" element={<OakConsultancyForm />} />
          <Route path="/EcoSurveyForm" element={<EcoSurveyForm/>} />
