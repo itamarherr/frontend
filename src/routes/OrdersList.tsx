@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { orders_api, OrderFormData } from "../api/Orders-api";
+import { orders_api, DatabaseOrder } from "../api/Orders-api";
+
+
 
 const OrdersList: React.FC = () => {
-  const [orders, setOrders] = useState<OrderFormData[]>([]);
+  const [orders, setOrders] = useState<DatabaseOrder[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -11,10 +13,11 @@ const OrdersList: React.FC = () => {
       const jwt = localStorage.getItem("jwt") || "";
       const response = await orders_api.getOrders(jwt, {
         page: 1,
-        pageSize: 10,
-        sortBy: "createAt",
+        pageSize: 20,
+        sortBy: "CreatedAt",
         descending: true,
       });
+      console.log("Fetched orders:", response.data);
  
       setOrders(response.data);
       setLoading(false); 
@@ -29,8 +32,17 @@ const OrdersList: React.FC = () => {
     }
   };
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    // This runs only once when the component mounts to fetch data
+    const fetchData = async () => {
+      await fetchOrders();
+    };
+    fetchData();
+  }, []); 
+  useEffect(() => {
+    // This runs every time orders change, logging updated orders
+    console.log("Updated orders:", orders);
+  }, [orders]);
+
   if (loading) {
     return(
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -57,7 +69,9 @@ const OrdersList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+       
+          {Array.isArray(orders) && orders.length > 0 ? (
+          orders.map((order) => (
             <tr key={order.id}>
               <td className="px-4 py-2 text-center">{order.id}</td>
               <td className="px-4 py-2 text-center">{order.userEmail}</td>
@@ -65,7 +79,12 @@ const OrdersList: React.FC = () => {
                 {new Date(order.createdAt).toLocaleDateString()}
                 </td>
             </tr>
-          ))}
+          ))
+            ) : (
+              <tr>
+                <td colSpan={3} className="text-center">No orders found</td>
+              </tr>
+          )}
         </tbody>
       </table>
     </div>

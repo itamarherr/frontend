@@ -23,6 +23,11 @@ export interface OrderFormData {
     serviceType: string; 
     userEmail: string
 }
+export interface DatabaseOrder {
+    id: number;
+    userEmail: string;
+    createdAt: string;
+  }
 export const orders_api = {
     getOrders(jwt: string, params?: {
         page?: number;
@@ -30,7 +35,7 @@ export const orders_api = {
         sortBy?: string;
         descending?: boolean;
     }) {
-        return axios.get<OrderFormData[]>(url, {
+        return axios.get<DatabaseOrder[]>(url, {
             headers: {
                 Authorization: `bearer ${jwt}`,
             },

@@ -158,10 +158,10 @@ const OakConsultancyForm = () => {
 
              
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-          <label htmlFor="email">Email</label>
+          {/* <label htmlFor="email">Email</label> */}
           <Field
             name="email"
-            type="email"
+            type="hidden"
             id="email"
             className="rounded-md hover:border-2 border-2 px-2 py-2"
           />
