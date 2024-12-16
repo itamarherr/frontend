@@ -16,13 +16,15 @@ const OrdersList: React.FC = () => {
         descending: true,
       });
  
-      console.log("Response Data:", response.data);
-      
-
       setOrders(response.data);
-      setLoading(false);
+      setLoading(false); 
     } catch (err) {
-      setError("Feild to fetch ordes");
+      if (err.response) {
+        console.error("Error fetching orders:", err.response.data);  // Log full response
+      } else {
+        console.error("Network or other error:", err);
+      }
+      setError("Feild to fetch ordres");
       setLoading(false);
     }
   };
@@ -30,28 +32,38 @@ const OrdersList: React.FC = () => {
     fetchOrders();
   }, []);
   if (loading) {
-    return <div>Loading orders...</div>;
+    return(
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="text-lg text-gray-700">Loading orders...</div>
+      </div>
+    )
   }
   if (error) {
-    return <div>error: {error}</div>;
+    return(
+    <div className="flex items-center justify-center min-h-screen bg-red-50">
+    <div className="text-lg text-red-600">{error}</div>
+  </div>
+    )
   }
   return (
-    <div className="order-list-container">
-      <h2>Order List</h2>
-      <table className="order-table">
+    <div className="p-4 bg-gray-100 min-h-screen">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Order List</h2>
+      <table className="table-auto w-full bg-white rounded shadow">
         <thead>
           <tr>
-            <th>Order ID</th>
-            <th>User ID</th>
-            <th>CreateAt</th>
+            <th className="px-4 py-2">Order ID</th>
+            <th className="px-4 py-2">User ID</th>
+            <th className="px-4 py-2">CreatedAt</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
             <tr key={order.id}>
-              <td>order.id</td>
-              <td>order.userId</td>
-              <td>{new Date(order.createAt).toLocaleDateString()}</td>
+              <td className="px-4 py-2 text-center">{order.id}</td>
+              <td className="px-4 py-2 text-center">{order.userEmail}</td>
+              <td className="px-4 py-2 text-center">
+                {new Date(order.createdAt).toLocaleDateString()}
+                </td>
             </tr>
           ))}
         </tbody>

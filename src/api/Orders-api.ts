@@ -4,6 +4,7 @@ import { object } from "yup";
 const url = import.meta.env.VITE_BASE_URL + "/Orders"; 
 console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL); 
 export interface OrderFormData {
+    id: number;
     userId: number;
     productId: number;
     // imageUrl: string;

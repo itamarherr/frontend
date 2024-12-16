@@ -38,6 +38,7 @@ const OakConsultancyForm = () => {
       const payload = JSON.parse(window.atob(base64));
       userId = payload.userId;
       const requestData: OrderFormData = {
+        id: 0,
         userId: values.userId,
         productId: 1,
         // imageUrl: "string",
@@ -48,9 +49,9 @@ const OakConsultancyForm = () => {
         city: values.city,
         street: values.street,
         number: values.number,
-        consultancyType: values.consultancy,
-        isPrivateArea: true,
-        dateForConsultancy: new Date().toISOString(),
+        consultancyType: Number(values.consultancyType),
+        isPrivateArea: values.isPrivateArea,
+        dateForConsultancy: values.dateForConsultancy,
         createdAt: new Date().toISOString(),
         userEmail: "Test",
         status: 1,
@@ -155,7 +156,7 @@ const OakConsultancyForm = () => {
             {isLoading && <Spinner title="Processing..." />}
             {error && <p className="test-red-500">{error}</p>}
 
-              Email Field
+             
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="email">Email</label>
           <Field
@@ -191,9 +192,9 @@ const OakConsultancyForm = () => {
                 CalssName="rounded-md hover:border-2 border-2 px-2 py-2"
               >
                 <option value="">Select Consultancy Type</option>
-                <option value="1">Before Construction</option>
-                <option value="2">Dislocations</option>
-                <option value="3">Trees Illness</option>
+                <option value={1}>Before Construction</option>
+                <option value={2}>Dislocations</option>
+                <option value={3}>Trees Illness</option>
               </Field>
               <ErrorMessage
                 name="consultancyType"
