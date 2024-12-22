@@ -28,6 +28,50 @@ export interface DatabaseOrder {
     userEmail: string;
     createdAt: string;
   }
+  export interface OrderResponse {
+    id: number;
+    userId: string;
+    userName: string;
+    createdAt: string;
+    serviceType: string;
+    city: string;
+    street: string;
+    number: number;
+    isPrivateArea: boolean;
+    dateForConsultancy: string;
+    additionalNotes?: string;
+    totalPrice: number;
+    userEmail: string;
+    statusTypeString: string;
+    // adminNotes?: string;
+    // consultancyType: Purpose;
+    consultancyTypeString: string;
+}
+// export enum OrderStatus {
+//     pending = 'pending',
+//     approved = 'approved',
+//     inProgress = 'inProgress',
+//     completed = 'completed',
+//     cancelled = 'cancelled'
+// }
+// export enum Purpose {
+//     BeforeConstruction = "Before Construction",
+//     Dislocations = "Dislocations",
+//     TreesIllness = "Trees Illness",
+   
+//  }
+// export function mapPurposeEnum(value: number): Purpose {
+//     switch (value) {
+//         case 1:
+//             return Purpose.BeforeConstruction;
+//         case 2:
+//             return Purpose.Dislocations;
+//         case 3:
+//             return Purpose.TreesIllness;
+//         default:
+//             throw new Error("Invalid Purpose value");
+//     }
+// }
 export const orders_api = {
     getOrders(jwt: string, params?: {
         page?: number;
@@ -46,6 +90,13 @@ export const orders_api = {
         return axios.get<OrderFormData>(`${url}/${orderId}`, {
             headers: {
                 Authorization: `bearer ${jwt}`,
+            },
+        });
+    },
+    getMyOrder(jwt: string) {
+        return axios.get<OrderResponse>(`${url}/my-orders`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
             },
         });
     },
