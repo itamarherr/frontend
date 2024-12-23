@@ -5,7 +5,7 @@ const url = import.meta.env.VITE_BASE_URL + "/Orders";
 console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL); 
 export interface OrderFormData {
     id: number;
-    userId: number;
+    userId: string;
     productId: number;
     // imageUrl: string;
     adminNotes?: string; 
@@ -43,35 +43,9 @@ export interface DatabaseOrder {
     totalPrice: number;
     userEmail: string;
     statusTypeString: string;
-    // adminNotes?: string;
-    // consultancyType: Purpose;
     consultancyTypeString: string;
 }
-// export enum OrderStatus {
-//     pending = 'pending',
-//     approved = 'approved',
-//     inProgress = 'inProgress',
-//     completed = 'completed',
-//     cancelled = 'cancelled'
-// }
-// export enum Purpose {
-//     BeforeConstruction = "Before Construction",
-//     Dislocations = "Dislocations",
-//     TreesIllness = "Trees Illness",
-   
-//  }
-// export function mapPurposeEnum(value: number): Purpose {
-//     switch (value) {
-//         case 1:
-//             return Purpose.BeforeConstruction;
-//         case 2:
-//             return Purpose.Dislocations;
-//         case 3:
-//             return Purpose.TreesIllness;
-//         default:
-//             throw new Error("Invalid Purpose value");
-//     }
-// }
+
 export const orders_api = {
     getOrders(jwt: string, params?: {
         page?: number;

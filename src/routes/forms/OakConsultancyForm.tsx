@@ -39,7 +39,7 @@ const OakConsultancyForm = () => {
       userId = payload.userId;
       const requestData: OrderFormData = {
         id: 0,
-        userId: values.userId,
+        userId: userId,
         productId: 1,
         // imageUrl: "string",
         adminNotes: "string",
@@ -76,7 +76,6 @@ const OakConsultancyForm = () => {
   };
 
   const initialValues = {
-    userId: 1, 
   productId: 1, 
   // imageUrl: "https://picsum.photos/id/1/200/300", 
   adminNotes: "", 
@@ -169,7 +168,7 @@ const OakConsultancyForm = () => {
         </div>
 
         {/* User ID Field */}
-        <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
+        {/* <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="userId">User ID</label>
           <Field
             name="userId"
@@ -178,7 +177,7 @@ const OakConsultancyForm = () => {
             className="rounded-md hover:border-2 border-2 px-2 py-2"
           />
           <ErrorMessage name="userId" component="div" className="text-red-500" />
-        </div>
+        </div> */}
 
         {/* Product ID Hidden Field */}
         <div><Field type="hidden" name="productId" value={1} /></div>
