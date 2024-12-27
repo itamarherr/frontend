@@ -22,28 +22,29 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
             <strong>serviceType:</strong> {myOrder.serviceType}
           </p>
           <p className="mb-2">
-            <strong>Type Of Consultancy:</strong> {myOrder.consultancyTypeString}
+            <strong>Type Of Consultancy:</strong> {myOrder.consultancyType}
           </p>
-       
+          <p className="mb-2">
+            <strong>Number of trees:</strong> {myOrder.numberOfTrees}
+          </p>
           <p className="mb-2">
             <strong>isPrivateArea:</strong> {myOrder.isPrivateArea? "Yes" : "No"}
           </p>
-        
-          {/* <p className="mb-2">
-            <strong>Status:</strong> {myOrder.status}
-          </p> */}
          
           <p className="mb-2">
             <strong>dateForConsultancy:</strong>{""}
             {new Date(myOrder.dateForConsultancy).toLocaleDateString()}
           </p>
+
           <p className="mb-2">
             <strong>Order Creat at:</strong>{" "}
             {new Date(myOrder.createdAt).toLocaleDateString()}
           </p>
+
           <p className="mb-2">
-            <strong>status:</strong> {myOrder.statusTypeString}
+            <strong>status:</strong> {myOrder.statusType}
           </p>
+
           <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-8">
           <h2 className="text-l font-bold">Consultancy location address:</h2>
           <p className="mb-2">
@@ -55,10 +56,10 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
           <p className="mb-2">
             <strong>number:</strong> {myOrder.number}
           </p>
-          
-
           </div>
-         
+         <p className="mb-2">
+            <strong>total price:</strong> {myOrder.totalPrice}
+          </p>
           <div className="flex justify-end">
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
               Edit Order

@@ -64,8 +64,9 @@ const OrdersList: React.FC = () => {
         <thead>
           <tr>
             <th className="px-4 py-2">Order ID</th>
-            <th className="px-4 py-2">User ID</th>
-            <th className="px-4 py-2">CreatedAt</th>
+            <th className="px-4 py-2">Created Date</th>
+            <th className="px-4 py-2">User ID</th>       
+            <th className="px-4 py-2">Total Price</th>
           </tr>
         </thead>
         <tbody>
@@ -74,10 +75,11 @@ const OrdersList: React.FC = () => {
           orders.map((order) => (
             <tr key={order.id}>
               <td className="px-4 py-2 text-center">{order.id}</td>
-              <td className="px-4 py-2 text-center">{order.userEmail}</td>
               <td className="px-4 py-2 text-center">
                 {new Date(order.createdAt).toLocaleDateString()}
                 </td>
+              <td className="px-4 py-2 text-center">{order.userEmail}</td> 
+                <td className="px-4 py-2 text-center">{order.totalPrice}</td>
             </tr>
           ))
             ) : (

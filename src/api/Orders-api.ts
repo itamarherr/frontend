@@ -19,7 +19,7 @@ export interface OrderFormData {
     isPrivateArea: boolean;
     dateForConsultancy: string; 
     createdAt: string; 
-    status: number;
+    statusType: number;
     serviceType: string; 
     userEmail: string
 }
@@ -27,6 +27,7 @@ export interface DatabaseOrder {
     id: number;
     userEmail: string;
     createdAt: string;
+    totalPrice: number;
   }
   export interface OrderResponse {
     id: number;
@@ -39,11 +40,12 @@ export interface DatabaseOrder {
     number: number;
     isPrivateArea: boolean;
     dateForConsultancy: string;
+    numberOfTrees: number;
     additionalNotes?: string;
     totalPrice: number;
     userEmail: string;
-    statusTypeString: string;
-    consultancyTypeString: string;
+    statusType: number;
+    consultancyType: number;
 }
 
 export const orders_api = {
@@ -75,6 +77,7 @@ export const orders_api = {
         });
     },
     createOrder(jwt: string, orderFormData: OrderFormData){
+        console.log('Constructed URL:', url); console.log('JWT Token:', jwt); console.log('Order Form Data:', JSON.stringify(orderFormData, null, 2));
         return axios.post<OrderFormData>(url, orderFormData, {
             headers: {
                 Authorization: `bearer ${jwt}`,
