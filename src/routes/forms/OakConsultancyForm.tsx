@@ -7,37 +7,16 @@ import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import { orders_api, OrderFormData } from "../../api/Orders-api";
 // import { OrderFormData } from "../../api/Products-api";
 import axios from "axios";
+import { calculateTotalPrice } from "../../utils/calculateTotalPrice";
+import { showErrorDialog, showSuccessDialog } from "../../dialogs/dialogs";
 
 const OakConsultancyForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
-  const [totalPrice, setTotalPrice] = useState(0);
+  // const [totalPrice, setTotalPrice] = useState(0);
   // const { values, setFieldValue } = useFormikContext();
   const navigate = useNavigate();
-  const showSuccessDialog = (message) => {
-    alert(message);
-    return Promise.resolve();
-  };
-  const calculateTotalPrice = (consultancyType, numberOfTrees, isPrivate) => {
-    let basePrice = 1000;
-    if (consultancyType === "BeforeConstruction") basePrice = basePrice;
-    if (consultancyType === "Dislocations") basePrice = 1500;
-    if (consultancyType === "TreesIllness") basePrice = 1800;
-
-    let treeMultiplier = 1.0;
-    if (numberOfTrees > 1 && numberOfTrees <= 5) treeMultiplier = 1.2;
-    if (numberOfTrees > 5 && numberOfTrees <= 10) treeMultiplier = 1.3;
-    if (numberOfTrees > 10) treeMultiplier = 1.5;
-
-    const privateAreaMultiplier = isPrivate ? 1.0 : 1.2;
-
-    return basePrice * treeMultiplier * privateAreaMultiplier;
-  }
-
-  const showErrorDialog = (message) => {
-    alert(message);
-    return Promise.resolve();
-  };
+ 
 
   const handleSubmit = async (values, { setSubmitting }) => {
     setIsLoading(true);

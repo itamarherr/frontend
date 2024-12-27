@@ -100,13 +100,13 @@ export const orders_api = {
         });
         
     },
-    // updateOrder(jwt: string, orderFormData: OrderFormData){
-    //     return axios.put<OrderFormData>(`${url}/${orderFormData.id}`, orderFormData, {
-    //         headers: {
-    //             Authorization: `bearer ${jwt}`,
-    //         },
-    //     });
-    // },
+    updateOrder(jwt: string, orderFormData: OrderFormData){
+        return axios.put<OrderFormData>(`${url}/${orderFormData.id}`, orderFormData, {
+            headers: {
+                Authorization: `bearer ${jwt}`,
+            },
+        });
+    },
     deleteOrder(jwt: string, orderId: number){
         return axios.delete(`${url}/${orderId}`, {
             headers: {
