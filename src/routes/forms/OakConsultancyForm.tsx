@@ -29,10 +29,22 @@ const OakConsultancyForm = () => {
     return;
   }
   let userId;
+  // const tokenParts = jwt.split(".");
+  //     const base64Url = tokenParts[1];
+  //     const base64 = base64Url.replace("-", "+").replace("_", "/");
+  //     const payload = JSON.parse(window.atob(base64));
+  // userId = payload.userId;
   try {
     const tokenParts = jwt.split(".");
-    const payload = JSON.parse(window.atob(tokenParts[1].replace("-", "+").replace("_", "/")));
-    userId = payload.userId;
+    const base64Url = tokenParts[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const payload = JSON.parse(window.atob(base64));
+    
+    const USER_ID_CLAIM = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+    userId = payload[USER_ID_CLAIM];
+    if (!userId) {
+      throw new Error("userId not found in JWT payload");
+    }
     const requestData: OrderFormData = {
       id: 0,
       userId: userId,
@@ -53,7 +65,7 @@ const OakConsultancyForm = () => {
       statusType: values.statusType,
       serviceType: "Oak Consultancy",
     };
-
+    console.log("JWT payload:", payload);
     await orders_api.createOrder(jwt, requestData);
     await showSuccessDialog(
       "Oke Consultancy order was created successfully"
@@ -87,10 +99,10 @@ const initialValues: OrderFormData = {
   createdAt: new Date().toISOString(),
   // statusType: {value="pending"},
   statusType: 1,
-  userEmail: "dror2@gmail.com",
+  userEmail: "",
   serviceType: "Test Service",
   id: 0,
-  userId: ""
+  userId: "0c95394c-6656-4f98-adc0-fd4d350701a1"
 };
 
 // const validationSchema = Yup.object({

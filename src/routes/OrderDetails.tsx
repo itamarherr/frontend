@@ -2,7 +2,7 @@ import React from "react";
 import { orders_api, DatabaseOrder, OrderResponse } from "../api/Orders-api";
 
 interface OrderDetailsProps {
-  myOrder:OrderResponse;
+  myOrder: OrderResponse;
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
@@ -17,7 +17,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
           <p className="mb-2">
             <strong>User Email:</strong> {myOrder.userEmail}
           </p>
-         
+
           <p className="mb-2">
             <strong>serviceType:</strong> {myOrder.serviceType}
           </p>
@@ -28,11 +28,13 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
             <strong>Number of trees:</strong> {myOrder.numberOfTrees}
           </p>
           <p className="mb-2">
-            <strong>isPrivateArea:</strong> {myOrder.isPrivateArea? "Yes" : "No"}
+            <strong>isPrivateArea:</strong>{" "}
+            {myOrder.isPrivateArea ? "Yes" : "No"}
           </p>
-         
+
           <p className="mb-2">
-            <strong>dateForConsultancy:</strong>{""}
+            <strong>dateForConsultancy:</strong>
+            {""}
             {new Date(myOrder.dateForConsultancy).toLocaleDateString()}
           </p>
 
@@ -46,18 +48,18 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
           </p>
 
           <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-8">
-          <h2 className="text-l font-bold">Consultancy location address:</h2>
-          <p className="mb-2">
-            <strong>city:</strong> {myOrder.city}
-          </p>
-          <p className="mb-2">
-            <strong>street:</strong> {myOrder.street}
-          </p>
-          <p className="mb-2">
-            <strong>number:</strong> {myOrder.number}
-          </p>
+            <h2 className="text-l font-bold">Consultancy location address:</h2>
+            <p className="mb-2">
+              <strong>city:</strong> {myOrder.city}
+            </p>
+            <p className="mb-2">
+              <strong>street:</strong> {myOrder.street}
+            </p>
+            <p className="mb-2">
+              <strong>number:</strong> {myOrder.number}
+            </p>
           </div>
-         <p className="mb-2">
+          <p className="mb-2">
             <strong>total price:</strong> {myOrder.totalPrice}
           </p>
           <div className="flex justify-end">

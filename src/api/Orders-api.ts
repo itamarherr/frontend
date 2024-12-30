@@ -80,7 +80,7 @@ export const orders_api = {
         console.log('Constructed URL:', url); console.log('JWT Token:', jwt); console.log('Order Form Data:', JSON.stringify(orderFormData, null, 2));
         return axios.post<OrderFormData>(url, orderFormData, {
             headers: {
-                Authorization: `bearer ${jwt}`,
+                Authorization: `Bearer ${jwt}`,
                 'Content-Type': 'application/json' 
             },
         })
