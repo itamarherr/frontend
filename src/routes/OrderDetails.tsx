@@ -1,11 +1,17 @@
 import React from "react";
 import { orders_api, DatabaseOrder, OrderResponse } from "../api/Orders-api";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface OrderDetailsProps {
   myOrder: OrderResponse;
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
+  const navigate = useNavigate()
+  const handleEditClick = () => {
+    navigate("/my-orders/for-update");
+  };
   return (
     <>
       {myOrder && (
@@ -63,7 +69,9 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
             <strong>total price:</strong> {myOrder.totalPrice}
           </p>
           <div className="flex justify-end">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+            <button 
+                onClick={handleEditClick}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
               Edit Order
             </button>
           </div>

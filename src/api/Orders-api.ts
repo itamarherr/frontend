@@ -47,7 +47,43 @@ export interface DatabaseOrder {
     statusType: number;
     consultancyType: number;
 }
-
+// const mapResponseToFormData = (response: OrderResponse): Partial<OrderFormData> => ({
+//     id: response.id,
+//     userId: response.userId,
+//     productId: response.productId,
+//     adminNotes: response.adminNotes || "",
+//     totalPrice: response.totalPrice,
+//     additionalNotes: response.additionalNotes || "",
+//     numberOfTrees: response.numberOfTrees,
+//     city: response.city,
+//     street: response.street,
+//     number: response.number,
+//     consultancyType: response.consultancyType,
+//     isPrivateArea: response.isPrivateArea,
+//     dateForConsultancy: response.dateForConsultancy,
+//     createdAt: response.createdAt,
+//     statusType: response.statusType,
+//     userEmail: response.userEmail,
+//     serviceType: response.serviceType
+//   });
+export interface UpdateOrderData {
+    id: number;
+    userId: string;
+    productId?: number; // Optional if not always updated
+    adminNotes?: string;
+    totalPrice: number;
+    additionalNotes?: string;
+    numberOfTrees: number;
+    city: string;
+    street: string;
+    number: number;
+    consultancyType: number;
+    isPrivateArea: boolean;
+    dateForConsultancy: string;
+    statusType: number;
+    serviceType: string;
+    userEmail: string;
+}
 export const orders_api = {
     getOrders(jwt: string, params?: {
         page?: number;
@@ -100,8 +136,22 @@ export const orders_api = {
         });
         
     },
+    getMyOrderForUpdate(jwt: string) {
+        return axios.get<OrderFormData>(`${url}/my-orders/for-update`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+    },
     updateOrder(jwt: string, orderFormData: OrderFormData){
         return axios.put<OrderFormData>(`${url}/${orderFormData.id}`, orderFormData, {
+            headers: {
+                Authorization: `bearer ${jwt}`,
+            },
+        });
+    },
+    updateMyOrder(jwt: string, orderFormData: OrderFormData){
+        return axios.put<OrderFormData>(`${url}/my-orders/for-update`, orderFormData, {
             headers: {
                 Authorization: `bearer ${jwt}`,
             },
