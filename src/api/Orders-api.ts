@@ -29,6 +29,10 @@ export interface DatabaseOrder {
     createdAt: string;
     totalPrice: number;
   }
+  export interface OrdersApiResponse {
+    orders: DatabaseOrder[];
+    totalItems: number;
+  }
   export interface OrderResponse {
     id: number;
     userId: string;
@@ -91,7 +95,7 @@ export const orders_api = {
         sortBy?: string;
         descending?: boolean;
     }) {
-        return axios.get<DatabaseOrder[]>(url, {
+        return axios.get<OrdersApiResponse>(url, {
             headers: {
                 Authorization: `bearer ${jwt}`,
             },

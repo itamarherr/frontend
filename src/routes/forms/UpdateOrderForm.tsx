@@ -11,7 +11,9 @@ import OaKConsultancyFormFields from "./OakConsultancyFormFields";
 const UpdateOrderForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [orderFormData, setOrderFormData] = useState<OrderFormData | null>(null);
+  const [orderFormData, setOrderFormData] = useState<OrderFormData | null>(
+    null
+  );
   // const { orderId } = useParams<{ orderId: string }>();
   const navigate = useNavigate();
   console.log("Order Form Data:", orderFormData);
@@ -19,7 +21,7 @@ const UpdateOrderForm = () => {
     const fetchOrder = async () => {
       setIsLoading(true);
       const jwt = localStorage.getItem("token");
-      
+
       if (!jwt) {
         showErrorDialog("Authentication failed");
         setError("Authentication failed");
@@ -37,16 +39,17 @@ const UpdateOrderForm = () => {
         setError(error);
         showErrorDialog("Failed to fetch order details");
         navigate("/MyOrderPage");
-        
       } finally {
         setIsLoading(false);
       }
     };
     fetchOrder();
   }, [navigate]);
-  
-  const handleSubmit = async (values: OrderFormData, { setSubmitting }: any) => {
-  
+
+  const handleSubmit = async (
+    values: OrderFormData,
+    { setSubmitting }: any
+  ) => {
     const jwt = localStorage.getItem("token");
     if (!jwt) {
       showErrorDialog("Authentication failed. Please log in again.");
@@ -55,42 +58,41 @@ const UpdateOrderForm = () => {
       setSubmitting(false);
       return;
     }
-  
 
-  try {
-    await orders_api.updateMyOrder(jwt, values); // Update the order using API
-    await showSuccessDialog("Order updated successfully");
-    navigate("/MyOrderPage");
-  } catch (error) {
-    console.error("Error updating order:", error);
-    showErrorDialog("Failed to update order. Please try again.");
-    setError("Failed to update order. Please try again.");
-  } finally {
-    setIsLoading(false);
-    setSubmitting(false);
+    try {
+      await orders_api.updateMyOrder(jwt, values); // Update the order using API
+      await showSuccessDialog("Order updated successfully");
+      navigate("/MyOrderPage");
+    } catch (error) {
+      console.error("Error updating order:", error);
+      showErrorDialog("Failed to update order. Please try again.");
+      setError("Failed to update order. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setSubmitting(false);
+    }
+  };
+
+  // Wait until the order data is loaded to render the form
+  if (!orderFormData) {
+    return <div>Loading...</div>;
   }
-};
 
-// Wait until the order data is loaded to render the form
-if (!orderFormData) {
-  return <div>Loading...</div>;
-}
-
-  return (   
-  <Formik<OrderFormData>
-    initialValues={orderFormData}
-    onSubmit={handleSubmit}
-  >
-    {({values, setFieldValue }) => (
-      <OaKConsultancyFormFields
-        isLoading={isLoading}
-        error={error}
-        values={values}
-        setFieldValue={setFieldValue}
-      />
-    )}
-  </Formik>
+  return (
+    <Formik<OrderFormData>
+      initialValues={orderFormData}
+      onSubmit={handleSubmit}
+    >
+      {({ values, setFieldValue }) => (
+        <OaKConsultancyFormFields
+          isLoading={isLoading}
+          error={error}
+          values={values}
+          setFieldValue={setFieldValue}
+        />
+      )}
+    </Formik>
   );
-}
+};
 
 export default UpdateOrderForm;

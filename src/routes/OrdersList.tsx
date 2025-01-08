@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { orders_api, DatabaseOrder } from "../api/Orders-api";
+import { orders_api, DatabaseOrder, OrdersApiResponse } from "../api/Orders-api";
 
 
 
@@ -19,7 +19,7 @@ const OrdersList: React.FC = () => {
       });
       console.log("Fetched orders:", response.data);
  
-      setOrders(response.data);
+      setOrders(response.data.orders);
       setLoading(false); 
     } catch (err) {
       if (err.response) {
@@ -65,7 +65,7 @@ const OrdersList: React.FC = () => {
           <tr>
             <th className="px-4 py-2">Order ID</th>
             <th className="px-4 py-2">Created Date</th>
-            <th className="px-4 py-2">User ID</th>       
+            <th className="px-4 py-2">User Email</th>       
             <th className="px-4 py-2">Total Price</th>
           </tr>
         </thead>
@@ -78,7 +78,7 @@ const OrdersList: React.FC = () => {
               <td className="px-4 py-2 text-center">
                 {new Date(order.createdAt).toLocaleDateString()}
                 </td>
-              <td className="px-4 py-2 text-center">{order.userEmail}</td> 
+              <td className="px-4 py-2 text-center">{order.userEmail || "No email available"}</td> 
                 <td className="px-4 py-2 text-center">{order.totalPrice}</td>
             </tr>
           ))

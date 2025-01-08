@@ -31,23 +31,22 @@ const Navbar = () => {
       <NavLink className="rounded-lg p-2" to="/about">
         About
       </NavLink>
+      <NavLink className="rounded-lg p-2" to="/">
+        home
+      </NavLink>
 
       {isLoggedIn && (
         <>
-          {/* <NavLink className="rounded-lg p-2" to="/OkeConsultancyPage">
-            Oke Consultancy
-          </NavLink> */}
+        
           <NavLink className="rounded-lg p-2" to="/OrdersList">
             Orders List
           </NavLink>
-          {/* <NavLink className="rounded-lg p-2" to="/EcoSurveyPage">
-            Ecological Survey
-          </NavLink> */}
-          {/* <NavLink className="rounded-lg p-2" to="/EcoConsultancyPage">
-            Ecological Consultancy
-          </NavLink> */}
-          <NavLink className="rounded-lg p-2" to="/OakConsultancyPage">
-            Oak consultancy
+        
+          <NavLink className="rounded-lg p-2" to="/OakConsultancyForm">
+            Request Oak Consultancy
+          </NavLink>
+          <NavLink className="rounded-lg p-2" to="/MyOrderPage">
+            My Order
           </NavLink>
         </>
       )}
