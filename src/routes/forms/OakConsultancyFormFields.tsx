@@ -5,11 +5,7 @@ import { calculateTotalPrice } from "../../utils/calculateTotalPrice";
 import React from 'react'
 
  const OaKConsultancyFormFields = ({ isLoading, error, values, setFieldValue }) => {
-  console.log("Error:", error);
-console.log("Values:", values);
-console.log("Consultancy Type:", values.consultancyType);
-console.log("Number of Trees:", values.numberOfTrees);
-console.log("Is Private Area:", values.isPrivateArea);
+
   useEffect(() => {
     const price = calculateTotalPrice(values.consultancyType, values.numberOfTrees, values.isPrivateArea);
     setFieldValue("totalPrice", price);

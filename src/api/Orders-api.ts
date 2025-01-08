@@ -164,5 +164,17 @@ export const orders_api = {
             },
         });
     },
+    async deleteMyOrder(jwt: string){
+        try {
+            return await axios.delete(`${url}/my-orders/latest`, {
+                headers: {
+                    Authorization: `bearer ${jwt}`,
+                },
+            });
+        } catch (error) {
+            console.error("Failed to delete order:", error.response || error.message);
+            throw error;
+        }
+    },
 
 }

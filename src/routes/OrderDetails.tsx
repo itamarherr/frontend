@@ -2,6 +2,7 @@ import React from "react";
 import { orders_api, DatabaseOrder, OrderResponse } from "../api/Orders-api";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { showErrorDialog, showSuccessDialog } from "../dialogs/dialogs";
 
 interface OrderDetailsProps {
   myOrder: OrderResponse;
@@ -9,8 +10,24 @@ interface OrderDetailsProps {
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
   const navigate = useNavigate()
-  const handleEditClick = () => {
+  const handleUpdateClick = () => {
     navigate("/my-orders/for-update");
+  };
+
+  const handleDeleteClick = () => {
+   const jwt = localStorage.getItem("token");
+   if(!jwt){
+    console.log("jwt not found")
+    return;
+  }
+    orders_api.deleteMyOrder(jwt)
+    .then (() =>{
+      navigate("/about")
+  })
+  .catch((error) => {
+    console.error("Error deleting order:", error);
+    showErrorDialog("Failed to delete order");
+  });
   };
   return (
     <>
@@ -70,9 +87,16 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
           </p>
           <div className="flex justify-end">
             <button 
-                onClick={handleEditClick}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-              Edit Order
+                onClick={handleUpdateClick}
+                
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-14">
+              Update Order
+            </button>
+            <button 
+                onClick={handleDeleteClick}
+               
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+              Delete Order
             </button>
           </div>
         </div>
