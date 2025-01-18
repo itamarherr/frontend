@@ -162,7 +162,7 @@ export const orders_api = {
         });
     },
     deleteOrder(jwt: string, orderId: number){
-        return axios.delete(`${url}/${orderId}`, {
+        return axios.delete(`${url}/Delete/${orderId}`, {
             headers: {
                 Authorization: `bearer ${jwt}`,
             },
@@ -182,3 +182,4 @@ export const orders_api = {
     },
 
 }
+

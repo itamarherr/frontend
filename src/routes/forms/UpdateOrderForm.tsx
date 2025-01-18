@@ -14,9 +14,12 @@ const UpdateOrderForm = () => {
   const [orderFormData, setOrderFormData] = useState<OrderFormData | null>(
     null
   );
-  // const { orderId } = useParams<{ orderId: string }>();
+  const { id } = useParams<{ id: string }>();
+  const orderId = id ? parseInt(id, 10) : undefined;
   const navigate = useNavigate();
+
   console.log("Order Form Data:", orderFormData);
+
   useEffect(() => {
     const fetchOrder = async () => {
       setIsLoading(true);
@@ -30,21 +33,21 @@ const UpdateOrderForm = () => {
       }
       console.log("Order Form Data:", orderFormData);
       try {
-        const response = await orders_api.getMyOrderForUpdate(jwt);
-        setOrderFormData(response.data);
-        console.log("Order Form Data:", orderFormData);
-        console.log("response data: ", response.data);
-      } catch (error) {
-        console.error("Error fetching order:", error);
-        setError(error);
-        showErrorDialog("Failed to fetch order details");
-        navigate("/MyOrderPage");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+        const response = orderId
+        ? await orders_api.getOrderById(jwt, orderId)
+        : await orders_api.getMyOrderForUpdate(jwt); 
+          setOrderFormData(response.data);
+        } catch (error) {
+          console.error("Error fetching order:", error);
+          setError(error);
+          showErrorDialog("Failed to fetch order details");
+          navigate("/MyOrderPage");
+        } finally {
+          setIsLoading(false);
+        } 
+      };
     fetchOrder();
-  }, [navigate]);
+  }, [navigate, orderId]);
 
   const handleSubmit = async (
     values: OrderFormData,
@@ -60,9 +63,20 @@ const UpdateOrderForm = () => {
     }
 
     try {
-      await orders_api.updateMyOrder(jwt, values); // Update the order using API
+
+      if (orderId) {
+         await orders_api.updateOrder(jwt, values);
+      } else {
+          await orders_api.updateMyOrder(jwt, values); 
+      }
+      
       await showSuccessDialog("Order updated successfully");
+      if (orderId) {
+        navigate("/OrdersList");
+     } else {
       navigate("/MyOrderPage");
+     }
+     
     } catch (error) {
       console.error("Error updating order:", error);
       showErrorDialog("Failed to update order. Please try again.");

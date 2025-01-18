@@ -1,24 +1,30 @@
-// import { useEffect, useState } from "react";
-// import request from "../utils/axios-interceptors";
+import { useEffect, useState } from "react";
+import { users_api } from "../api/Users-api";
 
-// const useFetch = <T = any> (url: string) => {
+const useFetch = <T = any>(apiCall: () => Promise<{ data: T }>) => {
  
-//     const [loading, setLoading] = useState(true);
-//     const [data, setData] = useState<T>(null);
-//     const [error, setError] = useState<string>(null);
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState<T | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-//     useEffect(() => {
-//         request({url})
-//         .then((res) => {
-//             setData(res.data);
-//             setLoading(false);
-//         })
-//         .catch((err) => {
-//             setError(err);
-//             setLoading(false);
-//         });
-//     }, [url]);
-//   return {loading, data, error}
-// }
+    useEffect(() => {
 
-// export default useFetch
+        const fetchData = async () => {
+            try{
+                setLoading(true);
+                const response = await apiCall();
+                console.log("Fetched data:", response.data);
+                setData(response.data);
+               setLoading(false);
+        }
+        catch(err: any) {
+            setError(err?.response?.data?.message || err.message);
+            setLoading(false);
+        }
+    };
+    fetchData();
+    }, [apiCall]);
+    return {loading, data, error}
+}
+
+export default useFetch;

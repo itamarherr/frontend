@@ -8,27 +8,29 @@ interface OrderDetailsProps {
   myOrder: OrderResponse;
 }
 
+
 const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
   const navigate = useNavigate()
-  const handleUpdateClick = () => {
+
+   const handleUpdateClick = () => {
     navigate("/my-orders/for-update");
   };
-
-  const handleDeleteClick = () => {
-   const jwt = localStorage.getItem("token");
-   if(!jwt){
-    console.log("jwt not found")
-    return;
-  }
-    orders_api.deleteMyOrder(jwt)
-    .then (() =>{
-      navigate("/about")
-  })
-  .catch((error) => {
-    console.error("Error deleting order:", error);
-    showErrorDialog("Failed to delete order");
-  });
-  };
+   const handleDeleteClick = () => {
+    const jwt = localStorage.getItem("token");
+    if(!jwt){
+     console.log("jwt not found")
+     return;
+   }
+     orders_api.deleteMyOrder(jwt)
+     .then (() =>{
+       navigate("/about")
+   })
+   .catch((error) => {
+     console.error("Error deleting order:", error);
+     showErrorDialog("Failed to delete order");
+   });
+   };
+  
   return (
     <>
       {myOrder && (
@@ -87,14 +89,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
           </p>
           <div className="flex justify-end">
             <button 
-                onClick={handleUpdateClick}
-                
+                onClick={handleUpdateClick}                
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-14">
               Update Order
             </button>
             <button 
-                onClick={handleDeleteClick}
-               
+                onClick={handleDeleteClick}         
             className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
               Delete Order
             </button>

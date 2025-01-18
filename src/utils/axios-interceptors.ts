@@ -19,8 +19,16 @@ const onError = (error) => {
   return error;
 };
 
-const request = (options: AxiosRequestConfig) => {
-   return client(options).then(onSuccess).catch(onError);
+const request = async (options: AxiosRequestConfig) => {
+   try {
+    const response = await client(options);
+    console.log("response:", response);
+    console.log("response:", response.data);
+    console.log("options:",options);
+    return onSuccess(response);
+  } catch (error) {
+    return onError(error);
+  }
 }
 
 //request({ url: "/products", method: "GET" })

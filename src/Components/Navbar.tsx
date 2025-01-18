@@ -48,6 +48,9 @@ const Navbar = () => {
           <NavLink className="rounded-lg p-2" to="/MyOrderPage">
             My Order
           </NavLink>
+          <NavLink className="rounded-lg p-2" to="/UsersList">
+            Users List
+          </NavLink>
         </>
       )}
       <div className="flex-1"></div>

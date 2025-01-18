@@ -17,6 +17,7 @@ import ForestSurveyForm from "./routes/forms/ForestSurveyForm";
 import OrdersList from "./routes/OrdersList";
 import MyOrderPage from "./routes/MyOrderPage";
 import UpdateOrderForm from "./routes/forms/UpdateOrderForm";
+import UsersList from "./routes/UsersList";
 
 const App = () => {
 
@@ -46,7 +47,9 @@ const App = () => {
          <Route path="/EcoSurveyForm" element={<EcoSurveyForm/>} />
          <Route path="/ForestSurveyForm" element={<ForestSurveyForm/>} />
          <Route path="/my-orders/for-update" element={<UpdateOrderForm/>} />
+         <Route path="/Orders/:id" element={<UpdateOrderForm/>} />
          <Route path="/OrdersList" element={<OrdersList/>} />
+         <Route path="/UsersList" element={<UsersList/>} />
          <Route path="/edit-order/:orderId" element={<OakConsultancyForm />} />
          <Route path="*" element={<div>Not Found</div>} />
          
