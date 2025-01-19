@@ -1,8 +1,13 @@
 import axios from "axios";
+
 const baseUrl = "https://localhost:7129/api/auth";
 
-const register = (email: string, username: string, password: string) =>
-  axios.post(`${baseUrl}/register`, { email, username, password });
+const register = (form: FormData) =>
+  axios.post(`${baseUrl}/register`, form,{
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
 //after successful login, the server will return a token
 //and we will store it in the local storage

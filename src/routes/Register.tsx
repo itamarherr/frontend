@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik, useFormikContext } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 import Spinner from "../Components/Spinner";
@@ -26,11 +26,19 @@ const Register = () => {
     confirmPassword: Yup.string()
       .required()
       .oneOf([Yup.ref("password")], "Passwords must match"),
+      phone: Yup.string().nullable().matches(
+        /^[0-9]{10}$/,
+        "Phone number must be exactly 10 digits"
+      ),
   });
 
   const initialValues = {
     email: "",
     username: "",
+    firstName: "",
+    lastName: "",
+    phone: null,
+    image: null,
     password: "",
     confirmPassword: "",
   };
@@ -38,16 +46,29 @@ const Register = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(o) => {
+      onSubmit={(Values) => {
         setIsLoading(true);
+        const formData = new FormData();
+        formData.append("Email", Values.email);
+        formData.append("Username", Values.username);
+        formData.append("Password", Values.password);
+        formData.append("FirstName", Values.firstName);
+        formData.append("LastName", Values.lastName);
+        formData.append("PhoneNumber", Values.phone);
+        if(Values.image){
+          formData.append("image", Values.image);
+        }
+        for (let pair of formData.entries()) {
+          console.log(pair[0] + ': ' + pair[1]);
+        }
         auth
-          .register(o.email, o.username, o.password)
-          .then((response) => {
+          .register(formData)
+          .then(() => {
             showSuccessDialog("Registration Successful").then(() => {
               navigate("/login");
             });
           })
-          .catch((error) => {
+          .catch(() => {
             showErrorDialog("Registration Failed");
           })
           .finally(() => {
@@ -55,9 +76,13 @@ const Register = () => {
           });
       }}
     >
+      {({ setFieldValue }) => (
       <Form className="flex flex-col items-center">
         {isLoading && <Spinner title="WaitUp!" />}
         {error && <p className="text-red-500">{error}</p>}
+
+        <h1 className="text-2xl font-bold text-gray-800 mb-12">Register Form</h1>
+
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="username">User Name</label>
           <Field
@@ -74,6 +99,36 @@ const Register = () => {
         </div>
 
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
+          <label htmlFor="firstName">First Name</label>
+          <Field
+            name="firstName"
+            type="text"
+            id="firstName"
+            className="rounded-md hover:border-2 border-2 px-2 py-2"
+          />
+          <ErrorMessage
+            name="firstName"
+            component="div"
+            className="text-red-500"
+          />
+        </div>
+
+        <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
+          <label htmlFor="lastName">Last Name</label>
+          <Field
+            name="lastName"
+            type="text"
+            id="lastName"
+            className="rounded-md hover:border-2 border-2 px-2 py-2"
+          />
+          <ErrorMessage
+            name="lastName"
+            component="div"
+            className="text-red-500"
+          />
+        </div>
+
+        <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="email">Email Address</label>
           <Field
             name="email"
@@ -82,6 +137,40 @@ const Register = () => {
             className="rounded-md hover:border-2 border-2 px-2 py-2"
           />
           <ErrorMessage name="email" component="div" className="text-red-500" />
+        </div>
+
+        <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
+          <label htmlFor="phone">Phone number</label>
+          <Field
+          name="phone"
+          type="text"
+          id="phone"
+          className="rounded-md hover:border-2 border-2 px-2 py-2"
+          />
+          <ErrorMessage name="phone" component="div" className="text-red-500" />
+        </div>
+
+        <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
+          <label htmlFor="image">Profile Image</label>
+          <Field name="image">
+          {({form}) => (
+          <input
+          type="file"
+           id="image"
+          className="rounded-md hover:border-2 border-2 px-2 py-2"
+          accept="image/*"
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            const file = event.currentTarget.files?.[0];
+            if(file)  {
+            setFieldValue("image", file);
+            }
+          }}
+          />
+          )}
+          </Field>
+         
+          
+          <ErrorMessage name="image" component="div" className="text-red-500" />
         </div>
 
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
@@ -122,6 +211,7 @@ const Register = () => {
           Register
         </button>
       </Form>
+      )}
     </Formik>
   );
 };
