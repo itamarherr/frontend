@@ -14,12 +14,15 @@ export interface UpdateUserData {
     // Add other fields as needed
 }
 export const users_api = {
-    getAllUsers: () => {
-  return request({
+    getAllUsers: async () => {
+  const response = await request({
     url: "/Users",
     method: "GET",
     
 });
+return response.data;
+
+
 },
 getUserByid: (userId: string) => {
     return  request({
