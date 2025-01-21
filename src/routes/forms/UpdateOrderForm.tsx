@@ -34,18 +34,18 @@ const UpdateOrderForm = () => {
       console.log("Order Form Data:", orderFormData);
       try {
         const response = orderId
-        ? await orders_api.getOrderById(jwt, orderId)
-        : await orders_api.getMyOrderForUpdate(jwt); 
-          setOrderFormData(response.data);
-        } catch (error) {
-          console.error("Error fetching order:", error);
-          setError(error);
-          showErrorDialog("Failed to fetch order details");
-          navigate("/MyOrderPage");
-        } finally {
-          setIsLoading(false);
-        } 
-      };
+          ? await orders_api.getOrderById(jwt, orderId)
+          : await orders_api.getMyOrderForUpdate(jwt);
+        setOrderFormData(response.data);
+      } catch (error) {
+        console.error("Error fetching order:", error);
+        setError(error);
+        showErrorDialog("Failed to fetch order details");
+        navigate("/MyOrderPage");
+      } finally {
+        setIsLoading(false);
+      }
+    };
     fetchOrder();
   }, [navigate, orderId]);
 
@@ -63,20 +63,18 @@ const UpdateOrderForm = () => {
     }
 
     try {
-
       if (orderId) {
-         await orders_api.updateOrder(jwt, values);
+        await orders_api.updateOrder(jwt, values);
       } else {
-          await orders_api.updateMyOrder(jwt, values); 
+        await orders_api.updateMyOrder(jwt, values);
       }
-      
+
       await showSuccessDialog("Order updated successfully");
       if (orderId) {
         navigate("/OrdersList");
-     } else {
-      navigate("/MyOrderPage");
-     }
-     
+      } else {
+        navigate("/MyOrderPage");
+      }
     } catch (error) {
       console.error("Error updating order:", error);
       showErrorDialog("Failed to update order. Please try again.");

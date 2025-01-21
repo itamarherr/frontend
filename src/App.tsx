@@ -18,45 +18,41 @@ import OrdersList from "./routes/OrdersList";
 import MyOrderPage from "./routes/MyOrderPage";
 import UpdateOrderForm from "./routes/forms/UpdateOrderForm";
 import UsersList from "./routes/UsersList";
+import UserRegistrationFormFields from "./routes/forms/UserRegistrationFormFields";
+import UserSettingsPage from "./routes/UserSettingsPage";
 
 const App = () => {
-
-
-
   const url = import.meta.env.VITE_BASE_URL;
   const mode = import.meta.env.VITE_MODE;
   console.log(url);
-  
-  
-  
+
   return (
     <>
-     <Navbar/>
-       <Routes>
-         <Route path="/" element={<Home />} />
-         <Route path="/about" element={<About />} />
-         <Route path="/register" element={<Register />} />
-         <Route path="/login" element={<Login />} />
-         <Route path="/products" element={<Products />} />
-         <Route path="/EcoSurveyPage" element={<EcoSurveyPage />} />
-         <Route path="/OakconsultancyPage" element={<OakConsultancyPage />} />
-         <Route path="/EcoConsultancyPage" element={<EcoConsultancyPage />} />
-         <Route path="/MyOrderPage" element={<MyOrderPage />} />
-         <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} />
-         <Route path="/OakConsultancyForm" element={<OakConsultancyForm />} />
-         <Route path="/EcoSurveyForm" element={<EcoSurveyForm/>} />
-         <Route path="/ForestSurveyForm" element={<ForestSurveyForm/>} />
-         <Route path="/my-orders/for-update" element={<UpdateOrderForm/>} />
-         <Route path="/Orders/:id" element={<UpdateOrderForm/>} />
-         <Route path="/OrdersList" element={<OrdersList/>} />
-         <Route path="/UsersList" element={<UsersList/>} />
-         {/* <Route path="/Users/:id" element={<UpdateUsersForm/>} /> */}
-         <Route path="/edit-order/:orderId" element={<OakConsultancyForm />} />
-         <Route path="*" element={<div>Not Found</div>} />
-         
-       </Routes>
-     </>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/EcoSurveyPage" element={<EcoSurveyPage />} />
+        <Route path="/OakconsultancyPage" element={<OakConsultancyPage />} />
+        <Route path="/EcoConsultancyPage" element={<EcoConsultancyPage />} />
+        <Route path="/MyOrderPage" element={<MyOrderPage />} />
+        <Route path="/UserSettingsPage" element={<UserSettingsPage />} />
+        <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} />
+        <Route path="/OakConsultancyForm" element={<OakConsultancyForm />} />
+        <Route path="/EcoSurveyForm" element={<EcoSurveyForm />} />
+        <Route path="/ForestSurveyForm" element={<ForestSurveyForm />} />
+        <Route path="/my-orders/for-update" element={<UpdateOrderForm />} />
+        <Route path="/Orders/:id" element={<UpdateOrderForm />} />
+        <Route path="/OrdersList" element={<OrdersList />} />
+        <Route path="/UsersList" element={<UsersList />} />
+        {/* <Route path="/Users/:id" element={<UpdateUsersForm/>} /> */}
+        <Route path="/edit-order/:orderId" element={<OakConsultancyForm />} />
+        <Route path="*" element={<div>Not Found</div>} />
+      </Routes>
+    </>
   );
 };
 export default App;
-
