@@ -3,33 +3,39 @@ import axios, { AxiosRequestConfig } from "axios";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const client = axios.create({
-  baseURL: baseUrl,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+baseURL:  baseUrl,
+})
+
+
+client.interceptors.request.use(
+  (config) =>{
+    const jwt = localStorage.getItem("token");
+    if(jwt){
+config.headers.Authorization = `Bearer ${jwt}`;
+    }
+    return config;
   },
-});
+  (error) => Promise.reject(error)
+);
 
-const onSuccess = (response) => {
-  console.debug("Request Successful!", response);
-  return response;
-};
-
-const onError = (error) => {
-  console.error("Request Failed:", error);
-  return error;
-};
+client.interceptors.response.use(
+  (response) =>  response,
+  (error) => {
+    if(error.response && error.response.status === 401){
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 const request = async (options: AxiosRequestConfig) => {
-   try {
+  try {
     const response = await client(options);
-    console.log("response:", response);
-    console.log("response:", response.data);
-    console.log("options:",options);
-    return onSuccess(response);
+    return response.data;
   } catch (error) {
-    return onError(error);
+    console.log("requesr error:", error)
+    throw error;
   }
 }
-
-//request({ url: "/products", method: "GET" })
 export default request;

@@ -6,9 +6,6 @@ import Login from "./routes/Login";
 import Products from "./routes/Products";
 import Navbar from "./Components/Navbar";
 import "./App.css";
-import EcoSurveyPage from "./routes/EcoSurveyPage";
-import EcoConsultancyPage from "./routes/EcoConsultancyPage";
-import ForestSurveyPage from "./routes/ForestSurveyPage";
 import OakConsultancyPage from "./routes/OakConsultancyPage";
 import EcoConsultancyForm from "./routes/forms/EcoConsultancyForm";
 import OakConsultancyForm from "./routes/forms/OakConsultancyForm";
@@ -20,6 +17,8 @@ import UpdateOrderForm from "./routes/forms/UpdateOrderForm";
 import UsersList from "./routes/UsersList";
 import UserRegistrationFormFields from "./routes/forms/UserRegistrationFormFields";
 import UserSettingsPage from "./routes/UserSettingsPage";
+import AdminUserProfilePage from "./routes/AdminUserProfilePage";
+import UserProfilePage from "./routes/UserProfilePage";
 
 const App = () => {
   const url = import.meta.env.VITE_BASE_URL;
@@ -35,11 +34,10 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/EcoSurveyPage" element={<EcoSurveyPage />} />
-        <Route path="/OakconsultancyPage" element={<OakConsultancyPage />} />
-        <Route path="/EcoConsultancyPage" element={<EcoConsultancyPage />} />
         <Route path="/MyOrderPage" element={<MyOrderPage />} />
         <Route path="/UserSettingsPage" element={<UserSettingsPage />} />
+        <Route path="/Profile" element={<UserProfilePage />} />
+        <Route path="/AdminUserProfilePage/:id" element={<AdminUserProfilePage />} />
         <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} />
         <Route path="/OakConsultancyForm" element={<OakConsultancyForm />} />
         <Route path="/EcoSurveyForm" element={<EcoSurveyForm />} />

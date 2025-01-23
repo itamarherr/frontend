@@ -42,7 +42,10 @@ const Navbar = () => {
             Orders List
           </NavLink>
           <NavLink className="rounded-lg p-2" to="/UserSettingsPage">
-          UserSettingsPage
+          User Settings Page
+          </NavLink>
+          <NavLink className="rounded-lg-2 p-2" to="/Profile">
+          My Profile
           </NavLink>
           <NavLink className="rounded-lg p-2" to="/OakConsultancyForm">
             Request Oak Consultancy
