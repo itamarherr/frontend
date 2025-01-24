@@ -7,13 +7,13 @@
 import { createContext, useEffect, useState } from "react";
 
 
-export interface DarkModeContexttype{
+export interface DarkModeContextType{
   darkMode : boolean;
   toggle : () => void;
 } 
  
 
-const DarkModeContext = createContext<DarkModeContexttype>(null);
+const DarkModeContext = createContext<DarkModeContextType>(null);
 
 function DarkModeProvider({ children }) {
 

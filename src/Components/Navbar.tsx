@@ -11,7 +11,7 @@ import useAuth from "../hooks/useAuth";
 //2) if the user is not logged in: show the login and register buttons
 //3) only show the products page if the user is logged in
 const Navbar = () => {
-  // const { darkMode, toggle } = useDarkMode();
+   //const { darkMode, toggle } = useDarkMode();
   const { isLoggedIn, logout } = useAuth();
   return (
     <nav
@@ -37,15 +37,14 @@ const Navbar = () => {
 
       {isLoggedIn && (
         <>
-        
           <NavLink className="rounded-lg p-2" to="/OrdersList">
             Orders List
           </NavLink>
           <NavLink className="rounded-lg p-2" to="/UserSettingsPage">
-          User Settings Page
+            User Settings Page
           </NavLink>
           <NavLink className="rounded-lg-2 p-2" to="/Profile">
-          My Profile
+            My Profile
           </NavLink>
           <NavLink className="rounded-lg p-2" to="/OakConsultancyForm">
             Request Oak Consultancy
@@ -76,9 +75,9 @@ const Navbar = () => {
           <BsGithub aria-description="Github" />
         </a>
 
-        {/* <button onClick={toggle} className="rounded-lg p-2">
+         {/* <button onClick={toggle} className="rounded-lg p-2">
           {darkMode ? "🌞" : "🌚"}
-        </button> */}
+        </button>  */}
 
         {isLoggedIn && (
           <button

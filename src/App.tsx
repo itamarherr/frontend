@@ -5,12 +5,13 @@ import Register from "./routes/Register";
 import Login from "./routes/Login";
 import Products from "./routes/Products";
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 import "./App.css";
 import OakConsultancyPage from "./routes/OakConsultancyPage";
-import EcoConsultancyForm from "./routes/forms/EcoConsultancyForm";
+// import EcoConsultancyForm from "./routes/forms/EcoConsultancyForm";
 import OakConsultancyForm from "./routes/forms/OakConsultancyForm";
-import EcoSurveyForm from "./routes/forms/EcoSurveyForm";
-import ForestSurveyForm from "./routes/forms/ForestSurveyForm";
+// import EcoSurveyForm from "./routes/forms/EcoSurveyForm";
+// import ForestSurveyForm from "./routes/forms/ForestSurveyForm";
 import OrdersList from "./routes/OrdersList";
 import MyOrderPage from "./routes/MyOrderPage";
 import UpdateOrderForm from "./routes/forms/UpdateOrderForm";
@@ -26,8 +27,9 @@ const App = () => {
   console.log(url);
 
   return (
-    <>
+    <div className=" flex flex-col min-h-screen">
       <Navbar />
+      <main className="flex-grow">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -38,10 +40,10 @@ const App = () => {
         <Route path="/UserSettingsPage" element={<UserSettingsPage />} />
         <Route path="/Profile" element={<UserProfilePage />} />
         <Route path="/AdminUserProfilePage/:id" element={<AdminUserProfilePage />} />
-        <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} />
+        {/* <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} /> */}
         <Route path="/OakConsultancyForm" element={<OakConsultancyForm />} />
-        <Route path="/EcoSurveyForm" element={<EcoSurveyForm />} />
-        <Route path="/ForestSurveyForm" element={<ForestSurveyForm />} />
+        {/* <Route path="/EcoSurveyForm" element={<EcoSurveyForm />} />
+        <Route path="/ForestSurveyForm" element={<ForestSurveyForm />} /> */}
         <Route path="/my-orders/for-update" element={<UpdateOrderForm />} />
         <Route path="/Orders/:id" element={<UpdateOrderForm />} />
         <Route path="/OrdersList" element={<OrdersList />} />
@@ -50,7 +52,9 @@ const App = () => {
         <Route path="/edit-order/:orderId" element={<OakConsultancyForm />} />
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>
-    </>
+      </main>
+      <Footer/>
+    </div>
   );
 };
 export default App;

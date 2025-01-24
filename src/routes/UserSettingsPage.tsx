@@ -55,16 +55,16 @@ const UserSettingsPage = () => {
         const response = await getCurrentUserProfile(jwt);
         console.log("User Details:", response.data);
         setUserDetails({
-            id: response.data.id || "",
-            email: response.data.email || "",
-            username: response.data.username || "",
-            firstName: response.data.firstName || "",
-            lastName: response.data.lastName || "",
-            phone: response.data.phone || "",
-            image: null,
-            password: "",
-            confirmPassword: "",
-          });
+          id: response.data.id || "",
+          email: response.data.email || "",
+          username: response.data.username || "",
+          firstName: response.data.firstName || "",
+          lastName: response.data.lastName || "",
+          phone: response.data.phone || "",
+          image: null,
+          password: "",
+          confirmPassword: "",
+        });
         console.log("User Details:", userDetails);
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -86,7 +86,7 @@ const UserSettingsPage = () => {
         return;
       }
       console.log("Updated Profile Values before submission:", values);
-    
+
       const formData = new FormData();
       formData.append("Id", values.id);
       formData.append("Email", values.email);
@@ -95,7 +95,7 @@ const UserSettingsPage = () => {
       formData.append("LastName", values.lastName);
       formData.append("PhoneNumber", values.phone);
       if (values.image) formData.append("image", values.image);
-  
+
       for (let [key, value] of formData.entries()) {
         console.log(`FormData entry - ${key}:`, value);
       }
@@ -104,7 +104,10 @@ const UserSettingsPage = () => {
       navigate("/");
     } catch (error: any) {
       console.error("Error during profile update:", error);
-      setError(error.response?.data?.message || "Failed to update profile. Please try again.");
+      setError(
+        error.response?.data?.message ||
+          "Failed to update profile. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -113,25 +116,35 @@ const UserSettingsPage = () => {
   if (error) return <p className="text-red-500">{error}</p>;
   return (
     <div className=" items-center">
-      <section >    
+      <section>
         {userDetails && (
-        <Formik
-        enableReinitialize
-        initialValues={userDetails}
-        validationSchema={validationSchema}
-        onSubmit={(values) => updateProfile(values)}
-      >
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <h1 className="text-4xl font-bold text-center mb-6">User Settings</h1>
-            <h2 className="text-2xl mb-12 text-center">Update your profile details</h2>
-            <UserRegistrationFormFields isLoading={isLoading} error={error} />
-            <button type="submit" className="bg-green-500 disabled:bg-blue-500/50 w-1/2 text-white font-bold px-4 py-2 mt-4 rounded">
-              Save Changes
-            </button>
-          </form>
-        )}
-      </Formik>
+          <Formik
+            enableReinitialize
+            initialValues={userDetails}
+            validationSchema={validationSchema}
+            onSubmit={(values) => updateProfile(values)}
+          >
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <h1 className="text-4xl font-bold text-center mb-6">
+                  User Settings
+                </h1>
+                <h2 className="text-2xl mb-12 text-center">
+                  Update your profile details
+                </h2>
+                <UserRegistrationFormFields
+                  isLoading={isLoading}
+                  error={error}
+                />
+                <button
+                  type="submit"
+                  className="bg-green-500 disabled:bg-blue-500/50 w-1/2 text-white font-bold px-4 py-2 mt-4 rounded"
+                >
+                  Save Changes
+                </button>
+              </form>
+            )}
+          </Formik>
         )}
       </section>
     </div>
