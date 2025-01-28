@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback} from "react";
 import { users_api, UpdateUserData } from "../api/Users-api";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
@@ -6,16 +6,19 @@ import { showErrorDialog, showSuccessDialog } from "../dialogs/dialogs";
 import { array } from "yup";
 
 const UsersList: React.FC = () => {
-  const { loading, data: users, error } = useFetch(() => users_api.getAllUsers());
+  const fetchUsers = useCallback(() => users_api.getAllUsers(), []);
+  const { data: users, loading,  error } = useFetch(fetchUsers);
   // const users = Array.isArray(data) ? data : [];
   const navigate = useNavigate();
 
   if (loading) return <div>Loading users...</div>;
   if (error) return <div className="text-red-500">Error: {error}</div>;
+  if (!users || users.length === 0) return <div>No users found</div>;
 
+ 
   const handleRowClick = (userId: string) => {
     if (window.confirm("Do you want to view this user?")) {
-    navigate(`/AdminUserProfilePage/${userId}`);
+      navigate(`/AdminUserProfilePage/${userId}`);
     }
   };
 
@@ -34,11 +37,10 @@ const UsersList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {Array.isArray(users) && users.length > 0 ? (
-          users?.map((user) => (
+        {users.map((user) => (
             <tr key={user.id}
                 className="cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition-all"
-                onClick={() => handleRowClick(user.id)}
+                 onClick={() => handleRowClick(user.id)}
               >
               <td className="px-4 py-2 text-center">{user.userName}</td>
               <td className="px-4 py-2 text-center">{user.firstName}</td>
@@ -59,14 +61,7 @@ const UsersList: React.FC = () => {
                 )}
               </td>
             </tr>
-          ))
-        ) : (
-        <tr>
-        <td colSpan={6} className="text-center">
-          No users found
-        </td>
-        </tr>
-        )}
+          ))}
         </tbody>
       </table>
     </div>

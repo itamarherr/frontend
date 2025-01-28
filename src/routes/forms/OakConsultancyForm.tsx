@@ -4,10 +4,10 @@ import * as Yup from "yup";
 import Spinner from "../../Components/Spinner";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import { orders_api, OrderFormData } from "../../api/Orders-api";
-import axios from "axios";
 import { calculateTotalPrice } from "../../utils/calculateTotalPrice";
 import { showErrorDialog, showSuccessDialog } from "../../dialogs/dialogs";
 import OaKConsultancyFormFields from "./OakConsultancyFormFields";
+import useFetch from "../../hooks/useFetch";
 
 const OakConsultancyForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,62 +20,38 @@ const OakConsultancyForm = () => {
   ) => {
     setIsLoading(true);
 
-    const jwt = localStorage.getItem("token");
-    if (!jwt) {
-      showErrorDialog("Authentication failed. Please log in again.");
-      setIsLoading(false);
-      setSubmitting(false);
-      return;
-    }
     let userId: string;
 
     try {
+      const jwt = localStorage.getItem("token");
+      if (!jwt) throw new Error("Authentication failed. Please log in again.");
+  
       const tokenParts = jwt.split(".");
       const base64Url = tokenParts[1];
       const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
       const payload = JSON.parse(window.atob(base64));
-
-      const USER_ID_CLAIM =
-        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
-      userId = payload[USER_ID_CLAIM];
-      if (!userId) {
-        throw new Error("userId not found in JWT payload");
-      }
+      
+      const USER_ID_CLAIM = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+      const userId = payload[USER_ID_CLAIM];
+  
+      if (!userId) throw new Error("userId not found in JWT payload");
+  
       const requestData: OrderFormData = {
-        id: 0,
-        userId: userId,
-        productId: values.productId,
-        // imageUrl: "string",
-        adminNotes: values.adminNotes,
-        totalPrice: values.totalPrice,
-        additionalNotes: values.additionalNotes,
-        numberOfTrees: values.numberOfTrees,
-        city: values.city,
-        street: values.street,
-        number: values.number,
-        consultancyType: values.consultancyType,
-        isPrivateArea: values.isPrivateArea,
-        dateForConsultancy: values.dateForConsultancy,
+        ...values,
+        id: 0,  
+        userId,  // Pass extracted userId
         createdAt: new Date().toISOString(),
-        userEmail: values.userEmail,
-        statusType: values.statusType,
         serviceType: "Oak Consultancy",
       };
-
-      await orders_api.createOrder(jwt, requestData);
-      await showSuccessDialog(
-        "Oke Consultancy order was created successfully"
-      ).then(() => {
-        navigate("/MyOrderPage");
-      });
+  
+      await orders_api.createOrder(requestData);
+      await showSuccessDialog("Oak Consultancy order was created successfully.");
+      navigate("/MyOrderPage");
+  
     } catch (error) {
       console.error("Error while creating order:", error);
-      showErrorDialog(
-        "Failed to create Oke Consultancy order. Please try again."
-      );
-      setError(error);
+      showErrorDialog(error.message || "Failed to create Oak Consultancy order. Please try again.");
     } finally {
-      setIsLoading(false);
       setSubmitting(false);
     }
   };
@@ -108,12 +84,11 @@ const OakConsultancyForm = () => {
     <Formik<OrderFormData>
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      // validationSchema={validationSchema}
     >
-      {({ values, setFieldValue }) => (
+      {({ values, setFieldValue, isSubmitting }) => (
         <OaKConsultancyFormFields
-          isLoading={isLoading}
-          error={error}
+          isLoading={isSubmitting}
+          error={null}
           values={values}
           setFieldValue={setFieldValue}
         />

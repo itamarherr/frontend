@@ -20,6 +20,7 @@ import UserRegistrationFormFields from "./routes/forms/UserRegistrationFormField
 import UserSettingsPage from "./routes/UserSettingsPage";
 import AdminUserProfilePage from "./routes/AdminUserProfilePage";
 import UserProfilePage from "./routes/UserProfilePage";
+import AdminOrderDetailsPage from "./routes/AdminOrderDetailsPage";
 
 const App = () => {
   const url = import.meta.env.VITE_BASE_URL;
@@ -36,10 +37,11 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/MyOrderPage" element={<MyOrderPage />} />
+        <Route path="/MyOrderPage/:id" element={<MyOrderPage />} />
         <Route path="/UserSettingsPage" element={<UserSettingsPage />} />
         <Route path="/Profile" element={<UserProfilePage />} />
         <Route path="/AdminUserProfilePage/:id" element={<AdminUserProfilePage />} />
+        <Route path="/AdminOrderDetailsPage/:id" element={<AdminOrderDetailsPage />} />
         {/* <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} /> */}
         <Route path="/OakConsultancyForm" element={<OakConsultancyForm />} />
         {/* <Route path="/EcoSurveyForm" element={<EcoSurveyForm />} />

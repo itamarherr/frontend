@@ -29,7 +29,7 @@ const UserProfilePage = () => {
   }, [navigate]);
 
   function handleUpdateClick() {
-    navigate("UserSettingsPage");
+    navigate("/UserSettingsPage");
   }
   const handleDeleteClick = () => {
     const confirmDelete = window.confirm(

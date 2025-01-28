@@ -8,29 +8,38 @@ interface OrderDetailsProps {
   myOrder: OrderResponse;
 }
 
-
 const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-   const handleUpdateClick = () => {
-    navigate("/my-orders/for-update");
+  const handleUpdateClick = () => {
+    if (myOrder.id) {
+      console.log(`User Order that the admin want to update: ${myOrder.id}`);
+      navigate(`/Orders/${myOrder.id}`);
+    } else {
+      console.log("User updating their own order.");
+      navigate("/my-orders/for-update");
+    }
   };
-   const handleDeleteClick = () => {
-    const jwt = localStorage.getItem("token");
-    if(!jwt){
-     console.log("jwt not found")
-     return;
-   }
-     orders_api.deleteMyOrder(jwt)
-     .then (() =>{
-       navigate("/about")
-   })
-   .catch((error) => {
-     console.error("Error deleting order:", error);
-     showErrorDialog("Failed to delete order");
-   });
-   };
-  
+  const handleDeleteClick = async () => {
+    try {
+      if (myOrder.id) {
+        await orders_api.deleteOrder(myOrder.id);
+      } else {
+        await orders_api.deleteMyOrder();
+      }
+      await showSuccessDialog("Your order has been deleted successfully.");
+
+      if (myOrder.id) {
+        navigate("/OrdersList");
+      } else {
+        navigate("/");
+      }
+     
+    } catch (error) {
+      showErrorDialog("Failed to delete the order. Please try again.");
+    }
+  };
+
   return (
     <>
       {myOrder && (
@@ -88,14 +97,16 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
             <strong>total price:</strong> {myOrder.totalPrice}
           </p>
           <div className="flex justify-end">
-            <button 
-                onClick={handleUpdateClick}                
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-14">
+            <button
+              onClick={handleUpdateClick}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-14"
+            >
               Update Order
             </button>
-            <button 
-                onClick={handleDeleteClick}         
-            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+            <button
+              onClick={handleDeleteClick}
+              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+            >
               Delete Order
             </button>
           </div>

@@ -1,6 +1,5 @@
 import { string } from 'yup';
 import React from 'react'
-// import axios from 'axios'
 import request from "../utils/axios-interceptors";
 
 const usersUrl = import.meta.env.VITE_BASE_URL + "/Users";
@@ -12,7 +11,6 @@ export interface UpdateUserData {
     email?: string;
     phoneNumber?: string;
     imageUrl?: string;
-    // Add other fields as needed
 }
 export const users_api = {
 
@@ -31,7 +29,7 @@ export const users_api = {
             });
         }
         catch(error){
-            console.error("Error fetching user:, error")
+            console.error("Error fetching user:", error)
             return null;
         }
     },

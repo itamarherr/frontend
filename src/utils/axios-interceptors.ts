@@ -29,7 +29,7 @@ client.interceptors.response.use(
   }
 );
 
-const request = async (options: AxiosRequestConfig) => {
+const request = async <T =any> (options: AxiosRequestConfig):Promise<T> => {
   try {
     const response = await client(options);
     return response.data;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { showErrorDialog, showSuccessDialog } from "../../dialogs/dialogs";
@@ -7,97 +7,77 @@ import { Value } from "sass";
 import { orders_api, OrderFormData } from "../../api/Orders-api";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import OaKConsultancyFormFields from "./OakConsultancyFormFields";
+import useFetch from "../../hooks/useFetch";
 
 const UpdateOrderForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [orderFormData, setOrderFormData] = useState<OrderFormData | null>(
-    null
-  );
   const { id } = useParams<{ id: string }>();
-  const orderId = id ? parseInt(id, 10) : undefined;
+  console.log(`extract id: " ${id}` )
   const navigate = useNavigate();
+  const orderId = id ? parseInt(id, 10) : undefined;
 
-  console.log("Order Form Data:", orderFormData);
-
-  useEffect(() => {
-    const fetchOrder = async () => {
-      setIsLoading(true);
-      const jwt = localStorage.getItem("token");
-
-      if (!jwt) {
-        showErrorDialog("Authentication failed");
-        setError("Authentication failed");
-        navigate("/login");
-        return;
+  const fetchOrder = useCallback(async () => {
+    console.log(`id: " ${orderId}${id}` )
+    if (orderId) {
+      if (isNaN(orderId)) {
+        throw new Error("Order Id is missing");
       }
-      console.log("Order Form Data:", orderFormData);
-      try {
-        const response = orderId
-          ? await orders_api.getOrderById(jwt, orderId)
-          : await orders_api.getMyOrderForUpdate(jwt);
-        setOrderFormData(response.data);
-      } catch (error) {
-        console.error("Error fetching order:", error);
-        setError(error);
-        showErrorDialog("Failed to fetch order details");
-        navigate("/MyOrderPage");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchOrder();
-  }, [navigate, orderId]);
+      return await orders_api.getOrderById(orderId);
+    } else {
+      return await orders_api.getMyOrderForUpdate();
+    }
+  }, [orderId, id]);
+
+  const {
+    data: orderFormData,
+    loading,
+    error,
+  } = useFetch<OrderFormData>(fetchOrder);
 
   const handleSubmit = async (
     values: OrderFormData,
     { setSubmitting }: any
   ) => {
-    const jwt = localStorage.getItem("token");
-    if (!jwt) {
-      showErrorDialog("Authentication failed. Please log in again.");
-      setError("Authentication failed");
-      setIsLoading(false);
-      setSubmitting(false);
-      return;
-    }
-
     try {
+      console.log("Submitting order update:", values);
+      let response;
       if (orderId) {
-        await orders_api.updateOrder(jwt, values);
+        response = await orders_api.updateOrder(values);
       } else {
-        await orders_api.updateMyOrder(jwt, values);
+        response = await orders_api.updateMyOrder(values);
       }
+      console.log("Update response:", response);
+      if (response === null) {
+        throw new Error("Failed to update order, empty response.");
+      }
+      await showSuccessDialog("Order updated successfully.");
 
-      await showSuccessDialog("Order updated successfully");
       if (orderId) {
-        navigate("/OrdersList");
+        navigate(`/AdminOrderDetailsPage/${orderId}`, { state: { refetch: true } });
       } else {
-        navigate("/MyOrderPage");
+        navigate("/MyOrderPage", { state: { refetch: true } });
       }
     } catch (error) {
       console.error("Error updating order:", error);
       showErrorDialog("Failed to update order. Please try again.");
-      setError("Failed to update order. Please try again.");
     } finally {
-      setIsLoading(false);
       setSubmitting(false);
     }
   };
 
-  // Wait until the order data is loaded to render the form
-  if (!orderFormData) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading order details...</div>;
+  if (error)
+    return <p className="text-red-500">Failed to load order: {error}</p>;
+  if (!orderFormData) return <p>No order found.</p>;
 
   return (
     <Formik<OrderFormData>
       initialValues={orderFormData}
+      enableReinitialize
       onSubmit={handleSubmit}
     >
-      {({ values, setFieldValue }) => (
+      {({ values, setFieldValue, isSubmitting }) => (
         <OaKConsultancyFormFields
-          isLoading={isLoading}
+          isLoading={isSubmitting}
           error={error}
           values={values}
           setFieldValue={setFieldValue}

@@ -1,44 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { orders_api, DatabaseOrder, OrderResponse } from "../api/Orders-api";
 import OrderDetails from "./OrderDetails";
-import axios from "axios";
+import useFetch from "../hooks/useFetch";
 
-const isTokenExpired = (token) => {
-  const { exp } = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-  return Date.now() >= exp * 1000; // Compare current time with exp
-};
 const MyOrderPage: React.FC = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
-  const [myOrder, setMyOrder] = useState<OrderResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const { 
+    data: myOrder,
+    loading,
+    error,
+    refetch
+  } = useFetch<OrderResponse>(() => orders_api.getMyOrder());
 
   useEffect(() => {
-    const fetchMyOrder = async () => {
-      try {
-        const jwt = localStorage.getItem("token");
-        if (!jwt || isTokenExpired(jwt)) {
-          return navigate("/login");
-        }
-        const response = await orders_api.getMyOrder(jwt);
-
-        console.log(response.data);
-        setMyOrder(response.data);
-      } catch (err) {
-        setError("Failed to fetch your last order. Please try again later.");
-        if (
-          axios.isAxiosError(err) &&
-          (err.response?.status === 401 || err.response?.status === 404)
-        ) {
-          navigate("/login");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMyOrder();
-  }, [navigate]);
+    if(location.state?.refetch){
+      refetch();
+      navigate(".", { replace: true});
+    }
+  }, [location.state, refetch, navigate]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

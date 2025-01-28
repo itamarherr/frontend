@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { users_api } from "../api/Users-api";
 import UserProfileDetails from "../Components/UserProfileDetails";
@@ -8,22 +8,26 @@ import { showErrorDialog, showSuccessDialog } from "../dialogs/dialogs";
 const AdminUserProfilePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const fetchUserById = useCallback(() =>{
+    if(!id) throw new Error("User ID is missing");
+    return users_api.getUserById(id);
+  },[id]);
+
   const {
     data: user,
     loading,
     error,
     refetch,
-  } = useFetch(() => users_api.getUserById(id));
+  } = useFetch(fetchUserById);
 
   const handleDeleteClick = async () => {
     try {
       await users_api.deleteUser(id);
-      refetch();
+      await showSuccessDialog("User deleted successfully!");
       navigate("/usersList");
     } catch (error) {
       console.error("Error deleting user", error);
       showErrorDialog("Failed to delete user. Please try again");
-      navigate("/login");
     }
   };
   return (
