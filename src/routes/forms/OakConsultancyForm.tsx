@@ -55,9 +55,29 @@ const OakConsultancyForm = () => {
       setSubmitting(false);
     }
   };
+    const validationSchema = Yup.object({
+      consultancyType: Yup.string()
+        .required(" Consultancy type is required"),
+        numberOfTrees: Yup.number()
+        .required("Number of trees is required")
+        .min(1, "Number of trees must contain at least 1")
+        .max(30, "Number of trees cannot exceed 30 characters"),
+        dateForConsultancy: Yup.date()
+        .required("Date For Consultancy is required")
+        .min(new Date().setHours(0, 0, 0, 0), "Date for consultancy must be in the future"),
+        city: Yup.string()
+        .required("city is required")
+        .max(50, "city name cennot exceed 50 characters"),
+        street: Yup.string()
+        .required("Street name is required")
+        .max(50, "Street name cennot exceed 50 characters"),
+        number: Yup.number()
+        .min(1, "Street number must be positive"),
+    });
 
   const initialValues: OrderFormData = {
     productId: 1,
+    userName:"",
     // imageUrl: "https://picsum.photos/id/1/200/300",
     adminNotes: "",
     totalPrice: 0,
@@ -83,12 +103,13 @@ const OakConsultancyForm = () => {
   return (
     <Formik<OrderFormData>
       initialValues={initialValues}
+      validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
       {({ values, setFieldValue, isSubmitting }) => (
         <OaKConsultancyFormFields
           isLoading={isSubmitting}
-          error={null}
+          error={error}
           values={values}
           setFieldValue={setFieldValue}
         />

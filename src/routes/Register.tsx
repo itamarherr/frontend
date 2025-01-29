@@ -14,22 +14,33 @@ const Register = () => {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
+    firstName: Yup.string()
+      .required("First Name is required")
+      .min(2, "First Name must contain at least 2 characters")
+      .max(20, "First Name cannot exceed 20 characters"),
+    lastName: Yup.string()
+      .required("Last Name is required")
+      .min(2, "Last Name must contain at least 2 characters")
+      .max(20, "Last Name cannot exceed 20 characters"),
     email: Yup.string().email("Bad Email!").required("The email is required"),
-    username: Yup.string().required().min(2).max(20),
+    username: Yup.string()
+      .required("UserName is required")
+      .min(2, "UserName must contain at least 2 characters")
+      .max(20, "UserName cannot exceed 20 characters"),
     password: Yup.string()
-      .required()
-      .min(8)
-      .max(20)
+      .required("Password is required")
+      .min(8, "Password must contain at least 8 characters")
+      .max(20, "Password cannot exceed 20 characters")
       .matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_-]).{8,30}$/,
         "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
       ),
     confirmPassword: Yup.string()
-      .required()
+      .required("Confirm Password is requierd")
       .oneOf([Yup.ref("password")], "Passwords must match"),
     phone: Yup.string()
       .nullable()
-      .matches(/^[0-9]{10}$/, "Phone number must be exactly 10 digits"),
+      .matches(/^\+?[0-9]{10,15}$/, "Invalid phone number"),
   });
 
   const initialValues = {

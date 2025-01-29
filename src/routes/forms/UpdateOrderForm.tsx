@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { showErrorDialog, showSuccessDialog } from "../../dialogs/dialogs";
-import { string } from "yup";
+import  * as Yup  from "yup";
 import { Value } from "sass";
 import { orders_api, OrderFormData } from "../../api/Orders-api";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
@@ -69,9 +69,23 @@ const UpdateOrderForm = () => {
     return <p className="text-red-500">Failed to load order: {error}</p>;
   if (!orderFormData) return <p>No order found.</p>;
 
+  const validationSchema = Yup.object({
+          numberOfTrees: Yup.number()
+          .min(1, "Number of trees must contain at least 1")
+          .max(30, "Number of trees cannot exceed 30 characters"),
+          dateForConsultancy: Yup.date()
+          .min(new Date().setHours(0, 0, 0, 0), "Date for consultancy must be in the future"),
+          city: Yup.string()
+          .max(50, "city name cennot exceed 50 characters"),
+          street: Yup.string()
+          .max(50, "Street name cennot exceed 50 characters"),
+          number: Yup.number()
+          .min(1, "Street number must be positive"),
+      });
   return (
     <Formik<OrderFormData>
       initialValues={orderFormData}
+      validationSchema={validationSchema}
       enableReinitialize
       onSubmit={handleSubmit}
     >
