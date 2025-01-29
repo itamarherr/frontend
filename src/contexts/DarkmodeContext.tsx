@@ -7,47 +7,44 @@
 import { createContext, useEffect, useState } from "react";
 
 
-export interface DarkModeContextType{
-  darkMode : boolean;
-  toggle : () => void;
-} 
+// export interface DarkModeContextType{
+//   darkMode : boolean;
+//   toggle : () => void;
+// } 
  
 
-const DarkModeContext = createContext<DarkModeContextType>(null);
+// const DarkModeContext = createContext<DarkModeContextType | null>(null);
+
+const DarkModeContext = createContext(null);
 
 function DarkModeProvider({ children }) {
 
-  //state variables:  
-
-  const [darkMode, setDarkMode] = useState(false);
-
-  //functions:
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "dark";
+  });
 
   useEffect(() => {
-    console.log("code that run on each render");
-  }, []);
-
-
-  useEffect(() => {
-    console.log("code that run on mount");
-      }, []);
-
-  useEffect(() =>{
-    const mode = localStorage.getItem("darkMode");
-    if(mode === "dark"){
-      setDarkMode(true);
-      document.body.classList.toggle("dark");
-      
+    const htmlElement = document.documentElement; 
+    if (darkMode) {
+      htmlElement.classList.add("dark");
+    } else {
+      htmlElement.classList.remove("dark");
     }
-  }, []);
+  }, [darkMode]);
 
   function toggle() {
-    const newMode = !darkMode ? "dark" : "light";
-    localStorage.setItem("darkMode", newMode);
+    setDarkMode((prev) => {
+      const newMode = !prev;
+      localStorage.setItem("darkMode", newMode ? "dark" : "light");
 
-    setDarkMode((prev) => !prev);
-    document.body.classList.toggle("dark");
+      if (newMode) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
 
+      return newMode;
+    });
   }
 
   return (

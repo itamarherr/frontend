@@ -16,7 +16,7 @@ export interface OrderFormData {
     number: number;
     consultancyType: number; 
     isPrivateArea: boolean;
-    dateForConsultancy: string; 
+    dateForConsultancy: Date; 
     createdAt: string; 
     statusType: number;
     serviceType: string; 

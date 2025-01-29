@@ -28,13 +28,12 @@ const UserRegistrationFormFields: React.FC<UserRegistrationFormFieldsProps> = ({
   }
   const { values, setFieldValue } = formikContext;
  
-
   return (
-    <Form className="flex flex-col items-center">
+    <Form className=" mb-10 mt-10 max-w-3xl mx-auto bg-white dark:bg-gray-900 text-black dark:text-white p-8 rounded-xl shadow-lg">
       
       {isLoading && <Spinner title="Processing..." />}
       {error && (
-        <p className="text-red-500">
+         <p className="text-red-500 dark:text-red-400 text-center font-semibold">
           {typeof error === "object" && "message" in error
             ? (error as { message: string }).message
             : typeof error === "string"
@@ -42,78 +41,83 @@ const UserRegistrationFormFields: React.FC<UserRegistrationFormFieldsProps> = ({
             : "An unexpected error occurred"}
         </p>
       )}
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="username">User Name</label>
+      <div className="mb-5">
+        <label htmlFor="username" className="block font-semibold mb-1">User Name</label>
         <Field
           name="username"
           type="text"
           id="username"
-          className="rounded-md hover:border-2 border-2 px-2 py-2"
+        className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
         />
         <ErrorMessage
           name="username"
           component="div"
-          className="text-red-500"
+          className="text-red-500 dark:text-red-400 text-sm mt-1"
         />
       </div>
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="firstName">First Name</label>
+      <div className="grid grid-cols-2 gap-4 mb-5">
+      <div>
+        <label htmlFor="firstName" className="block font-semibold mb-1">First Name</label>
         <Field
           name="firstName"
           type="text"
           id="firstName"
-          className="rounded-md hover:border-2 border-2 px-2 py-2"
+           className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
         />
         <ErrorMessage
           name="firstName"
           component="div"
-          className="text-red-500"
+          className="text-red-500 dark:text-red-400 text-sm mt-1"
         />
       </div>
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="lastName">Last Name</label>
+      <div>
+        <label htmlFor="lastName" className="block font-semibold mb-1" >Last Name</label>
         <Field
           name="lastName"
           type="text"
           id="lastName"
-          className="rounded-md hover:border-2 border-2 px-2 py-2"
-        />
+         className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+         />
         <ErrorMessage
           name="lastName"
           component="div"
-          className="text-red-500"
+          className="text-red-500 dark:text-red-400 text-sm mt-1"
         />
       </div>
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="email">Email Address</label>
+      </div>
+
+
+
+      <div className="mb-5">
+        <label htmlFor="email" className="block font-semibold mb-1">Email Address</label>
         <Field
           name="email"
           type="email"
           id="email"
-          className="rounded-md hover:border-2 border-2 px-2 py-2"
+         className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
         />
-        <ErrorMessage name="email" component="div" className="text-red-500" />
+        <ErrorMessage name="email" component="div"  className="text-red-500 dark:text-red-400 text-sm mt-1" />
       </div>
 
       <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="phone">Phone number</label>
+        <label htmlFor="phone" className="block font-semibold mb-1">Phone number</label>
         <Field
           name="phone"
           type="text"
           id="phone"
-          className="rounded-md hover:border-2 border-2 px-2 py-2"
+         className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
         />
-        <ErrorMessage name="phone" component="div" className="text-red-500" />
+        <ErrorMessage name="phone" component="div"  className="text-red-500 dark:text-red-400 text-sm mt-1"/>
       </div>
 
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="image">Profile Image</label>
+      <div className="mb-5">
+        <label htmlFor="image" className="block font-semibold mb-1">Profile Image</label>
         <Field name="image">
           {({ field, form }) => (
             <input
               type="file"
               id="image"
-              className="rounded-md hover:border-2 border-2 px-2 py-2"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
               accept="image/*"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const file = event.currentTarget.files?.[0] || null;
@@ -122,41 +126,40 @@ const UserRegistrationFormFields: React.FC<UserRegistrationFormFieldsProps> = ({
             />
           )}
         </Field>
-
-        <ErrorMessage name="image" component="div" className="text-red-500" />
+        <ErrorMessage name="image" component="div"  className="text-red-500 dark:text-red-400 text-sm mt-1" />
       </div>
 
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="password">Password</label>
+      <div className="grid grid-cols-2 gap-4 mb-5">
+        <div>
+        <label htmlFor="password" className="block font-semibold mb-1">Password</label>
         <Field
           name="password"
           type="password"
           id="password"
-          className="rounded-md hover:border-2 border-2 px-2 py-2"
+         className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
         />
         <ErrorMessage
           name="password"
           component="div"
-          className="text-red-500"
+          className="text-red-500 dark:text-red-400 text-sm mt-1"
         />
       </div>
 
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="confirmPassword">Confirm Password</label>
+      <div>
+        <label htmlFor="confirmPassword" className="block font-semibold mb-1">Confirm Password</label>
         <Field
           name="confirmPassword"
           type="password"
           id="confirmPassword"
-          className="rounded-md hover:border-2 border-2 px-2 py-2"
+         className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
         />
         <ErrorMessage
           name="confirmPassword"
           component="div"
-          className="text-red-500"
+          className="text-red-500 dark:text-red-400 text-sm mt-1"
         />
       </div>
-
-    
+      </div>
     </Form>
   );
 };

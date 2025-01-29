@@ -2,104 +2,194 @@ import { Field, ErrorMessage, Form } from "formik";
 import { useEffect } from "react";
 import Spinner from "../../Components/Spinner";
 import { calculateTotalPrice } from "../../utils/calculateTotalPrice";
-import React from 'react'
+import React from "react";
+import { useFormikContext } from "formik";
+import { OrderFormData } from "../../api/Orders-api";
 
- const OaKConsultancyFormFields = ({ isLoading, error, values, setFieldValue }) => {
-
+const OaKConsultancyFormFields = ({ isLoading, error }) => {
+  const { values, setFieldValue } = useFormikContext<OrderFormData>();
   useEffect(() => {
-    const price = calculateTotalPrice(values.consultancyType, values.numberOfTrees, values.isPrivateArea);
-    setFieldValue("totalPrice", price);
-  }, [values.consultancyType, values.numberOfTrees, values.isPrivateArea, setFieldValue]);
+    const price = calculateTotalPrice(
+      values.consultancyType,
+      values.numberOfTrees,
+      values.isPrivateArea
+    );
+
+    if (values.totalPrice !== price) {
+      setFieldValue("totalPrice", price);
+    }
+  }, [
+    values.consultancyType,
+    values.numberOfTrees,
+    values.isPrivateArea,
+    setFieldValue,
+  ]);
 
   return (
-     <Form className="flex flex-col items-center">
-      <h1 className="font-bold text-4xl mb-6 mt-12 text-center">Order Oak Consultancy Form</h1>
-      <h2 className="text-2xl mb-12 text-center">Fill out the form to order the Oak Consultancy</h2>
+    <Form className=" mt-10 mb-10 max-w-3xl mx-auto bg-white dark:bg-gray-900 text-black dark:text-white p-6 rounded-lg shadow-lg">
+      <h1 className="font-bold text-4xl mb-6 mt-12 text-center text-gray-800 dark:text-gray-100">
+        Order Oak Consultancy Form
+      </h1>
+      <h2 className="text-xl mb-6 text-center text-gray-600 dark:text-gray-300">
+        Fill out the form to order the Oak Consultancy
+      </h2>
 
       {isLoading && <Spinner title="Processing..." />}
       {error && (
-  <p className="text-red-500">
-    {typeof error === "object" && error.message
-      ? error.message
-      : typeof error === "string"
-      ? error
-      : "An unexpected error occurred"}
-  </p>
-)}
+        <p className="text-red-500 dark:text-red-400 text-center font-semibold">
+          {typeof error === "object" && error.message
+            ? error.message
+            : typeof error === "string"
+            ? error
+            : "An unexpected error occurred"}
+        </p>
+      )}
 
       <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <Field name="email" type="hidden" id="email" className="rounded-md hover:border-2 border-2 px-2 py-2" />
-        <ErrorMessage name="email" component="div" className="text-red-500" />
+        <Field
+          name="email"
+          type="hidden"
+          id="email"
+          className="rounded-md hover:border-2 border-2 px-2 py-2"
+        />
+        <ErrorMessage
+          name="email"
+          component="div"
+          className="text-red-500 dark:text-red-400"
+        />
       </div>
 
       <Field type="hidden" name="productId" value={1} />
 
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="consultancyType">Consultancy Type</label>
-        <Field as="select" name="consultancyType" className="rounded-md hover:border-2 border-2 px-2 py">
+      <div className="mb-5">
+        <label htmlFor="consultancyType" className="block font-semibold mb-1">
+          Consultancy Type
+        </label>
+        <Field
+          as="select"
+          name="consultancyType"
+          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+        >
           <option value="">Select Consultancy Type</option>
           <option value="BeforeConstruction">Before Construction</option>
           <option value="Dislocations">Dislocations</option>
           <option value="TreesIllness">Trees Illness</option>
         </Field>
-        <ErrorMessage name="consultancyType" component="div" className="text-red-500" />
+        <ErrorMessage
+          name="consultancyType"
+          component="div"
+          className="text-red-500 dark:text-red-400 text-sm mt-1"
+        />
       </div>
 
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="numberOfTrees">Number of Trees</label>
-        <Field type="number" name="numberOfTrees" className="rounded-md hover:border-2 border-2 px-2 py" />
-        <ErrorMessage name="numberOfTrees" component="div" className="text-red-500" />
+      <div className="mb-5">
+        <label htmlFor="numberOfTrees" className="block font-semibold mb-1">
+          Number of Trees
+        </label>
+        <Field
+          type="number"
+          name="numberOfTrees"
+          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+        />
+        <ErrorMessage
+          name="numberOfTrees"
+          component="div"
+          className="text-red-500 dark:text-red-400 text-sm mt-1"
+        />
       </div>
 
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <div className="flex items-center">
-          <Field type="checkbox" name="isPrivateArea" />
-          <label htmlFor="isPrivateArea" className="ml-2">Is this a private area?</label>
-        </div>
-        <ErrorMessage name="isPrivateArea" component="div" className="text-red-500" />
+      <div className="mb-5 flex items-center">
+        <Field type="checkbox" name="isPrivateArea" />
+        <label htmlFor="isPrivateArea" className="font-semibold">
+          Is this a private area?
+        </label>
+        <ErrorMessage
+          name="isPrivateArea"
+          component="div"
+          className="text-red-500 dark:text-red-400 text-sm ml-2"
+        />
       </div>
 
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label htmlFor="dateForConsultancy">Date for Consultancy</label>
-        <Field type="date" name="dateForConsultancy" className="rounded-md hover:border-2 border-2 px-2 py-2" />
-        <ErrorMessage name="dateForConsultancy" component="div" className="text-red-500" />
+      <div className="mb-5">
+        <label htmlFor="dateForConsultancy" className="block font-semibold mb-1">Date for Consultancy</label>
+        <Field
+          type="date"
+          name="dateForConsultancy"
+          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+        />
+        <ErrorMessage
+          name="dateForConsultancy"
+          component="div"
+          className="text-red-500 dark:text-red-400 text-sm mt-1"
+        />
       </div>
 
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <label>Total Price</label>
-        <Field type="number" name="totalPrice" className="rounded-md hover:border-2 border-2 px-2 py-2" readOnly />
+      <div className="mb-5">
+        <label className="block font-semibold mb-1">Total Price</label>
+        <Field
+          type="number"
+          name="totalPrice"
+          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+          readOnly
+        />
       </div>
-
-      <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
-        <div className="mb-2">
-          <h3 className="text-xl font-semibold mb-2">Consultancy Location Address</h3>
-          <div className="flex space-x-2">
-            <div className="flex-1">
-              <label htmlFor="city" className="block text-sm mb-1">City</label>
-              <Field name="city" type="text" id="city" className="w-full rounded-md border-2 px-2 py-1" />
-            </div>
-            <div className="flex-1">
-              <label htmlFor="street" className="block text-sm mb-1">Street</label>
-              <Field name="street" type="text" id="street" className="w-full rounded-md border-2 px-2 py-1" />
-            </div>
-            <div className="flex-grow-0 w-1/4">
-              <label htmlFor="number" className="block text-sm mb-1">Number</label>
-              <Field name="number" type="number" id="number" className="w-full rounded-md border-2 px-2 py-1" />
-            </div>
+      <div className="mb-5">
+        <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100">
+          Consultancy Location Address
+        </h3>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label htmlFor="city" className="block font-semibold mb-1">City</label>
+            <Field
+              name="city"
+              type="text"
+              id="city"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+            />
+          </div>
+          <div className="flex-1">
+            <label htmlFor="street" className="block font-semibold mb-1">Street</label>
+            <Field
+              name="street"
+              type="text"
+              id="street"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+            />
+          </div>
+          <div className="w-1/4">
+            <label htmlFor="number" className="block font-semibold mb-1">Number</label>
+            <Field
+              name="number"
+              type="number"
+              id="number"
+             className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+            />
           </div>
           <div className="flex space-x-2 mt-1">
-            <ErrorMessage name="city" component="div" className="text-red-500 text-sm flex-1" />
-            <ErrorMessage name="street" component="div" className="text-red-500 text-sm flex-1" />
-            <ErrorMessage name="number" component="div" className="text-red-500 text-sm flex-grow-0 w-1/4" />
+            <ErrorMessage
+              name="city"
+              component="div"
+              className="text-red-500 dark:text-red-400 text-sm mt-1"
+            />
+            <ErrorMessage
+              name="street"
+              component="div"
+              className="text-red-500 dark:text-red-400 text-sm mt-1"
+            />
+            <ErrorMessage
+              name="number"
+              component="div"
+              className="text-red-500 dark:text-red-400 text-sm mt-1"
+            />
           </div>
         </div>
       </div>
 
-      <div className="flex justify-center">
+      <div className="text-center mt-6">
         <button
           disabled={isLoading}
           type="submit"
-          className="bg-green-500 disabled:bg-green-500/50 w-1/2 block text-center hover:bg-green-700 text-white font-bold py-2 px-16 rounded my-4"
+          className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-md disabled:bg-green-500/50"
         >
           Submit
         </button>

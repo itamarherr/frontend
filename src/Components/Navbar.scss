@@ -1,7 +1,25 @@
 
-#app-nav .active{
+// #app-nav .active{
 
-    color: black;
-    font-weight: bolder;
+//     color: black;
+//     font-weight: bolder;
    
-}
+// }
+
+/* Light mode (default) */
+body {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* Dark mode */
+  body.dark {
+    background-color: #121212;
+    color: #ffffff;
+  }
+  
+  /* Ensure the navbar and other elements adjust */
+  .dark #app-nav {
+    background-color: #333;
+    color: white;
+  }

@@ -64,7 +64,7 @@ const OakConsultancyForm = () => {
         .max(30, "Number of trees cannot exceed 30 characters"),
         dateForConsultancy: Yup.date()
         .required("Date For Consultancy is required")
-        .min(new Date().setHours(0, 0, 0, 0), "Date for consultancy must be in the future"),
+        .min(new Date(), "Date for consultancy must be in the future"),
         city: Yup.string()
         .required("city is required")
         .max(50, "city name cennot exceed 50 characters"),
@@ -90,7 +90,7 @@ const OakConsultancyForm = () => {
     isPrivateArea: false,
     dateForConsultancy: new Date(
       new Date().setDate(new Date().getDate() + 1)
-    ).toISOString(),
+    ),
     createdAt: new Date().toISOString(),
     // statusType: {value="pending"},
     statusType: 1,
@@ -111,7 +111,13 @@ const OakConsultancyForm = () => {
           isLoading={isSubmitting}
           error={error}
           values={values}
-          setFieldValue={setFieldValue}
+          setFieldValue={(field, value) => {
+            if (field === "dateForConsultancy") {
+              setFieldValue(field, new Date(value));
+            } else {
+              setFieldValue(field, value);
+            }
+          }}
         />
       )}
     </Formik>
