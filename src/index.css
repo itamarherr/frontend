@@ -3,17 +3,34 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer base {
+  body {
+    @apply bg-white text-black transition-colors duration-300 dark:bg-green-900 dark:text-green-100;
+}
+input, textarea, select {
+  @apply w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white text-black dark:bg-green-900 dark:text-green-100 focus:ring focus:ring-green-300 dark:focus:ring-green-500;
+}
+
+.dark .max-w-lg {
+  background-color: #14532d !important; /* Tailwind's green-900 */
+  color: #d1fae5 !important;            /* Tailwind's green-100 */
+  border-color: #166534 !important;     /* Tailwind's green-700 */
+}
+}
+
 /* Default (light mode) */
-body {
+
+/* body {
     @apply bg-white text-black transition-colors duration-300;
   }
   
-  /* Dark mode */
+  
   body.dark {
     @apply bg-gray-900 text-white;
   }
   
-  /* Make sure other elements inherit */
+ 
   .dark a, 
   .dark button, 
   .dark input, 
@@ -29,3 +46,4 @@ body {
   .dark .card {
     @apply bg-gray-800 text-gray-200;
   }
+*/

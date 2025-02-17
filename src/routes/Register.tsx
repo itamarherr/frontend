@@ -91,7 +91,7 @@ const Register = () => {
           <UserRegistrationFormFields isLoading={isLoading} error={error} />
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 mt-4 rounded"
+            className="px-4 py-2 mt-4 rounded bg-blue-500 text-white dark:bg-green-700 dark:text-green-100"
           >
             Register
           </button>

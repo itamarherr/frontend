@@ -43,7 +43,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
   return (
     <>
       {myOrder && (
-        <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-8">
+        <div className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 bg-white text-black border border-gray-300 dark:bg-green-900 dark:text-green-100 dark:border-green-700">
           <h3 className="text-xl font-bold mb-4">Order Details</h3>
           <p className="mb-2">
             <strong>User name:</strong> {myOrder.userName}
@@ -81,7 +81,8 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
             <strong>status:</strong> {myOrder.statusType}
           </p>
 
-          <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-8">
+          <div className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 bg-white text-black border border-gray-300 dark:bg-green-900 dark:text-green-100 dark:border-green-700">
+
             <h2 className="text-l font-bold">Consultancy location address:</h2>
             <p className="mb-2">
               <strong>city:</strong> {myOrder.city}
@@ -99,13 +100,14 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
           <div className="flex justify-end">
             <button
               onClick={handleUpdateClick}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-14"
+              className="px-4 py-2 rounded-md bg-green-700 text-green-100 hover:bg-green-800 dark:bg-green-600 dark:text-green-100 dark:hover:bg-green-700"
             >
               Update Order
             </button>
             <button
-              onClick={handleDeleteClick}
-              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+            style={{ marginLeft: "10px" }}
+            onClick={handleDeleteClick}
+            className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
             >
               Delete Order
             </button>

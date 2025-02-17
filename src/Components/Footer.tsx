@@ -1,12 +1,14 @@
 import React from "react";
 
 const Footer = () => {
+  const darkMode = false; 
   return (
     <div
-      className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-fuchsia-50 text-fuchsia-900 dark:text-fuchsia-50"
+  className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-fuchsia-50 text-fuchsia-900 dark:bg-green-800 dark:text-green-100"
       style={{
-        boxShadow: "0px -20px 20px rgba(0, 0, 0, 0.25)",
+        boxShadow: darkMode ? "0px -20px 20px rgba(255, 255, 255, 0.15)" : "0px -20px 20px rgba(0, 0, 0, 0.25)",
       }}
+      
     >
       <div className="text-center md:text-left flex flex-col md:flex-row md:items-center md:gap-6">
       <img

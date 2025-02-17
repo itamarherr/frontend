@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <nav
       id="app-nav"
-      className="hidden sm:flex items-center shadow-2xl p-8 flex gap-3 bg-fuchsia-50 text-fuchsia-900 dark:bg-fuchsia-900 dark:text-fuchsia-50"
+      className="hidden sm:flex items-center shadow-2xl p-8 flex gap-3 bg-fuchsia-50 text-fuchsia-900 dark:bg-green-800 dark:text-green-100"
     >
       <img
         src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_960_720.png"
