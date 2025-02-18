@@ -18,7 +18,13 @@ input, textarea, select {
   border-color: #166534 !important;     /* Tailwind's green-700 */
 }
 }
+form, .form-container {
+  @apply border-4 border-green-700 dark:border-green-500;
+}
 
+.dark form {
+  @apply bg-green-950; /* Darker shade of green for form background in dark mode */
+}
 /* Default (light mode) */
 
 /* body {

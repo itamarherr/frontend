@@ -26,7 +26,7 @@ const OaKConsultancyFormFields = ({ isLoading, error }) => {
   ]);
 
   return (
-    <Form className=" mt-10 mb-10 max-w-3xl mx-auto bg-white dark:bg-gray-900 text-black dark:text-white p-6 rounded-lg shadow-lg">
+    <Form className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 border">
       <h1 className="font-bold text-4xl mb-6 mt-12 text-center text-gray-800 dark:text-gray-100">
         Order Oak Consultancy Form
       </h1>
@@ -68,7 +68,7 @@ const OaKConsultancyFormFields = ({ isLoading, error }) => {
         <Field
           as="select"
           name="consultancyType"
-          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+          className="input"
         >
           <option value="">Select Consultancy Type</option>
           <option value="BeforeConstruction">Before Construction</option>
@@ -89,7 +89,7 @@ const OaKConsultancyFormFields = ({ isLoading, error }) => {
         <Field
           type="number"
           name="numberOfTrees"
-          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+          className="input"
         />
         <ErrorMessage
           name="numberOfTrees"
@@ -115,7 +115,7 @@ const OaKConsultancyFormFields = ({ isLoading, error }) => {
         <Field
           type="date"
           name="dateForConsultancy"
-          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+          className="input"
         />
         <ErrorMessage
           name="dateForConsultancy"
@@ -129,7 +129,7 @@ const OaKConsultancyFormFields = ({ isLoading, error }) => {
         <Field
           type="number"
           name="totalPrice"
-          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+          className="input"
           readOnly
         />
       </div>
@@ -144,7 +144,7 @@ const OaKConsultancyFormFields = ({ isLoading, error }) => {
               name="city"
               type="text"
               id="city"
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+              className="input"
             />
           </div>
           <div className="flex-1">
@@ -153,7 +153,7 @@ const OaKConsultancyFormFields = ({ isLoading, error }) => {
               name="street"
               type="text"
               id="street"
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+              className="input"
             />
           </div>
           <div className="w-1/4">
@@ -162,7 +162,7 @@ const OaKConsultancyFormFields = ({ isLoading, error }) => {
               name="number"
               type="number"
               id="number"
-             className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 bg-white dark:bg-gray-800 text-black dark:text-white focus:ring focus:ring-green-300 dark:focus:ring-green-500"
+             className="input"
             />
           </div>
           <div className="flex space-x-2 mt-1">

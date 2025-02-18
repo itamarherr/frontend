@@ -34,7 +34,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
       } else {
         navigate("/");
       }
-     
     } catch (error) {
       showErrorDialog("Failed to delete the order. Please try again.");
     }
@@ -82,7 +81,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
           </p>
 
           <div className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 bg-white text-black border border-gray-300 dark:bg-green-900 dark:text-green-100 dark:border-green-700">
-
             <h2 className="text-l font-bold">Consultancy location address:</h2>
             <p className="mb-2">
               <strong>city:</strong> {myOrder.city}
@@ -105,9 +103,9 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
               Update Order
             </button>
             <button
-            style={{ marginLeft: "10px" }}
-            onClick={handleDeleteClick}
-            className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
+              style={{ marginLeft: "10px" }}
+              onClick={handleDeleteClick}
+              className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
             >
               Delete Order
             </button>
