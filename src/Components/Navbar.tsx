@@ -30,14 +30,12 @@ const Navbar = () => {
       <NavLink className="rounded-lg p-2" to="/">
         <SiHomebridge aria-description="Home" />
       </NavLink>
-
       <NavLink className="rounded-lg p-2" to="/about">
         About
       </NavLink>
       <NavLink className="rounded-lg p-2" to="/">
         home
       </NavLink>
-
       {isLoggedIn && (
         <>
           <NavLink className="rounded-lg p-2" to="/MyOrderPage">
@@ -51,6 +49,7 @@ const Navbar = () => {
           </NavLink>
         </>
       )}
+      {role && <p>Detected Role: {role}</p>} {/* Debug output */}
       {role === "admin" && (
         <>
           <NavLink className="rounded-lg p-2" to="/UsersList">
@@ -61,9 +60,7 @@ const Navbar = () => {
           </NavLink>
         </>
       )}
-
       <div className="flex-1"></div>
-
       <div className="hidden sm:flex items-center">
         {!isLoggedIn && role !== "admin" && (
           <>

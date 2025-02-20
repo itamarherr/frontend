@@ -11,9 +11,9 @@ const UsersList: React.FC = () => {
   // const users = Array.isArray(data) ? data : [];
   const navigate = useNavigate();
 
-  if (loading) return <div>Loading users...</div>;
-  if (error) return <div className="text-red-500">Error: {error}</div>;
-  if (!users || users.length === 0) return <div>No users found</div>;
+  if (loading) return <div className="text-center">Loading users...</div>;
+  if (error) return <div className="text-center text-red-500">Error: {error}</div>;
+  if (!users || users.length === 0) return <div className="text-center">No users found</div>;
 
  
   const handleRowClick = (userId: string) => {
@@ -23,47 +23,47 @@ const UsersList: React.FC = () => {
   };
 
   return (
-    <div className="P-4 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">UsersList</h1>
-      <table>
-        <thead>
+    <div className="p-6 min-h-screen form-container">
+      <h1 className="text-2xl font-bold mb-6 text-center">UsersList</h1>
+      <div className="overflow-x-auto shadow-lg rounded-lg border border-green-700 dark:border-green-500">
+      <table className="w-full border-collapse bg-white dark:bg-green-950 text-gray-900 dark:text-green-100">
+        <thead className="bg-gray-200 dark:bg-green-800">
           <tr>
-            <th className="px-4 py-2">UserName</th>
-            <th className="px-4 py-2">FirstName</th>
-            <th className="px-4 py-2">LastName</th>
-            <th className="px-4 py-2">Email</th>
-            <th className="px-4 py-2">PhoneNumber</th>
-            <th className="px-4 py-2">ImageUrl</th>
+            <th className="px-4 py-2 border">UserName</th>
+            <th className="px-4 py-2 border">FirstName</th>
+            <th className="px-4 py-2 border">LastName</th>
+            <th className="px-4 py-2 border">Email</th>
+            <th className="px-4 py-2 border">PhoneNumber</th>
+            <th className="px-4 py-2 border">ImageUrl</th>
           </tr>
         </thead>
         <tbody>
         {users.map((user) => (
             <tr key={user.id}
-                className="cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition-all"
+                className="cursor-pointer hover:bg-gray-200 dark:hover:bg-green-700 transition-all"
                  onClick={() => handleRowClick(user.id)}
               >
-              <td className="px-4 py-2 text-center">{user.userName}</td>
-              <td className="px-4 py-2 text-center">{user.firstName}</td>
-              <td className="px-4 py-2 text-center">{user.lastName}</td>
-              <td className="px-4 py-2 text-center">
-                {user.email || "No email available"}
-              </td>
-              <td className="px-4 py-2 text-center">{user.phoneNumber}</td>
-              <td className="px-4 py-2 text-center">
+              <td className="px-4 py-2 text-center border">{user.userName}</td>
+              <td className="px-4 py-2 text-center border">{user.firstName}</td>
+              <td className="px-4 py-2 text-center border">{user.lastName}</td>
+              <td className="px-4 py-2 text-center border">{user.email || "No email available"}</td>
+              <td className="px-4 py-2 text-center border">{user.phoneNumber}</td>
+              <td className="px-4 py-2 text-center border">
                 {user.imageUrl ? (
                   <img
                     src={`https://localhost:7129${user.imageUrl}`}
                     alt={`${user.userName}'s profile`}
-                    className="w-16 h-16 rounded-full object-cover"
+                    className="w-16 h-16 rounded-full object-cover border border-gray-300 dark:border-green-500"
                   />
                 ) : (
-                  "No image available"
+                  <span className="italic text-gray-500 dark:text-green-300">No image</span>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

@@ -48,9 +48,9 @@ const OrdersList: React.FC = () => {
     }
   };
 
-  if (loading) return <div>Loading orders...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!ordersData || ordersData.orders.length === 0) return <div>No orders found</div>;
+  if (loading) return <div className="text-center">Loading orders...</div>;
+  if (error) return <div className="text-center text-red-500 dark:text-red-400">Error: {error}</div>;
+  if (!ordersData || ordersData.orders.length === 0) return <div className="text-center">No orders found</div>;
   // if (loading) {
   //   return ordersData?.orders?.length === 0 ? (
   //     <div className="text-center">No orders found</div>
@@ -61,45 +61,46 @@ const OrdersList: React.FC = () => {
   //   );
   // }
   return (
-    <div className="p-4 bg-gray-100 min-h-screen">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Order List</h2>
-      <table className="table-auto w-full bg-white rounded shadow">
+    <div className="p-4 min-h-screen form-container">
+      <h2 className="text-2xl font-bold mb-4">Order List</h2>
+      <div className="overflow-x-auto shadow-lg rounded-lg border border-green-700 dark:border-green-500">
+      <table className="w-full border-collapse">
         <thead>
-          <tr>
-            <th className="px-4 py-2">Order ID</th>
-            <th className="px-4 py-2">Created Date</th>
-            <th className="px-4 py-2">User Email</th>
-            <th className="px-4 py-2">Total Price</th>
-            <th className="px-4 py-2">Update Button</th>
-            <th className="px-4 py-2">Delete Button</th>
+          <tr className="bg-gray-200 dark:bg-green-800">
+            <th className="px-4 py-2 border">Order ID</th>
+            <th className="px-4 py-2 border">Created Date</th>
+            <th className="px-4 py-2 border">User Email</th>
+            <th className="px-4 py-2 border">Total Price</th>
+            <th className="px-4 py-2 border">Update Button</th>
+            <th className="px-4 py-2 border">Delete Button</th>
           </tr>
         </thead>
         <tbody>
             {ordersData.orders.map((order) => (
               <tr
                 key={order.id}
-                className="cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition-all"
+                className="cursor-pointer hover:bg-gray-200 dark:hover:bg-green-700 transition-all"
                  onClick={() => handleRowClick(order.id)}
               >
-                <td className="px-4 py-2 text-center">{order.id}</td>
-                <td className="px-4 py-2 text-center">
+                <td className="px-4 py-2 text-center border">{order.id}</td>
+                <td className="px-4 py-2 text-center border">
                   {new Date(order.createdAt).toLocaleDateString()}
                 </td>
-                <td className="px-4 py-2 text-center">
+                <td className="px-4 py-2 text-center border">
                   {order.userEmail || "No email available"}
                 </td>
-                <td className="px-4 py-2 text-center">{order.totalPrice}</td>
-                <td className="px-4 py-2 text-center">
+                <td className="px-4 py-2 text-center border">{order.totalPrice}</td>
+                <td className="px-4 py-2 text-center border">
                   <button
-                    className="bg-green-500 text-white px-2 py-1 rounded"
+                    className="bg-green-500 dark:bg-green-700 text-white px-3 py-1 rounded hover:bg-green-600 dark:hover:bg-green-800 transition"
                     onClick={() => handleUpdateClick(order.id)}
                   >
                     Update
                   </button>
                 </td>
-                <td className="px-4 py-2 text-center">
+                <td className="px-4 py-2 text-center border">
                   <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    className="bg-red-500 dark:bg-red-700 text-white px-3 py-1 rounded hover:bg-red-600 dark:hover:bg-red-800 transition"
                     onClick={() => handleDeleteClick(order.id)}
                   >
                     Delete
@@ -109,6 +110,7 @@ const OrdersList: React.FC = () => {
             ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

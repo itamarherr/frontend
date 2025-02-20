@@ -17,32 +17,63 @@ function AuthProvider(props) {
   const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    if (token) {
+    const storedToken = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("role");
+    if (storedToken) {
+      setToken(storedToken);
+      setIsLoggedIn(true);
       try {
-        const decode: any = jwtDecode(token);
-        setRole(decode.role || null);
+        const decode: any = jwtDecode(storedToken);
+        const decodedRole = decode.role || storedRole;
+        setRole(decodedRole);
       } catch (error) {
         console.log("Invalid token");
         logout();
       }
+    } else {
+      setRole(storedRole || null);
     }
-  }, [token]);
+  }, []);
 
   function login(token: string) {
-    localStorage.setItem("token", token);
-    setIsLoggedIn(true);
-    setToken(token);
-    try{
+    try {
       const decode: any = jwtDecode(token);
-      setRole(decode.role || null);
-    } catch (error){
-      console.log("Invalid token")
+      console.log("Decoded Token: ", decode); // Debugging output
+      const roleClaimKey = Object.keys(decode).find(key =>
+        key.includes("role") // Finds the role key dynamically
+      );
+  
+      let userRole = "user"; // Default to "user"
+      
+      if (roleClaimKey) {
+        const roles = decode[roleClaimKey]; // Extract roles
+  
+        if (Array.isArray(roles)) {
+          userRole = roles.includes("admin") ? "admin" : roles[0]; // Pick "admin" if available
+        } else {
+          userRole = roles;
+        }
+      }
+  
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", userRole);
+
+
+      console.log("Decoded Role on Login:", userRole);
+      console.log("Decoded Token:", decode); // Debugging output
+      setIsLoggedIn(true);
+      setToken(token);
+      setRole(userRole);
+    } catch (error) {
+      console.log("Invalid token");
       logout();
     }
   }
 
   function logout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     setIsLoggedIn(false);
     alert("click");
     setToken("");
