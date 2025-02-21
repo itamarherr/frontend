@@ -72,6 +72,15 @@ export interface UpdateOrderData {
     serviceType: string;
     userEmail: string;
 }
+export interface SearchOrderResponse{
+    id: number;
+    userEmail: string;
+    userName: string;
+    serviceType: string;
+    city: string;
+    statusTypeString: string;
+    consultancyTypeString: string;   
+}
 
 export const orders_api = {
     getOrders: async(params: { page: number; pageSize: number; sortBy: string; descending: boolean }) =>  {
@@ -136,6 +145,14 @@ export const orders_api = {
               url: "/Orders/my-orders/latest",
             method: "DELETE"
             });
+        },
+
+    searchOrders: async (query: string ): Promise<SearchOrderResponse[]>=>{
+            return await request<SearchOrderResponse[]>({
+                url: `/Orders/search`,
+                method: "GET",
+                params: {query},
+            })
         }
     }
 

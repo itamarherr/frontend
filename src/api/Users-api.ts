@@ -45,5 +45,13 @@ export const users_api = {
             url: `/Users/${userId}`,
             method: "DELETE",
         });
+    },
+
+    seartchUsers : async (query: string) => {
+        return await request({
+            url: `/Users/seartch`,
+            method: "GET",
+            params: { query},
+        });
     }
 };
