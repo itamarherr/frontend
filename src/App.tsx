@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import  ProtectedRoute from "./Components/ProtectedRoute";
 import Home from "./routes/Home";
 import About from "./routes/About";
 import Register from "./routes/Register";
@@ -21,6 +22,7 @@ import UserSettingsPage from "./routes/UserSettingsPage";
 import AdminUserProfilePage from "./routes/AdminUserProfilePage";
 import UserProfilePage from "./routes/UserProfilePage";
 import AdminOrderDetailsPage from "./routes/AdminOrderDetailsPage";
+import AdminRoute from "./routes/AdminRoute";
 
 const App = () => {
   const url = import.meta.env.VITE_BASE_URL;
@@ -32,27 +34,38 @@ const App = () => {
       <Navbar />
       <main className="flex-grow">
       <Routes>
+
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+
+
+      <Route element={<ProtectedRoute/>}>
         <Route path="/products" element={<Products />} />
         <Route path="/MyOrderPage" element={<MyOrderPage />} />
         <Route path="/UserSettingsPage" element={<UserSettingsPage />} />
         <Route path="/Profile" element={<UserProfilePage />} />
-        <Route path="/AdminUserProfilePage/:id" element={<AdminUserProfilePage />} />
-        <Route path="/AdminOrderDetailsPage/:id" element={<AdminOrderDetailsPage />} />
-        {/* <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} /> */}
         <Route path="/OakConsultancyForm" element={<OakConsultancyForm />} />
-        {/* <Route path="/EcoSurveyForm" element={<EcoSurveyForm />} />
-        <Route path="/ForestSurveyForm" element={<ForestSurveyForm />} /> */}
         <Route path="/my-orders/for-update" element={<UpdateOrderForm />} />
         <Route path="/Orders/:id" element={<UpdateOrderForm />} />
+        <Route path="/edit-order/:orderId" element={<OakConsultancyForm />} />
+        
+      </Route>
+
+      <Route element={<AdminRoute/>}>
+        <Route path="/AdminUserProfilePage/:id" element={<AdminUserProfilePage />} />
+        <Route path="/AdminOrderDetailsPage/:id" element={<AdminOrderDetailsPage />} />
         <Route path="/OrdersList" element={<OrdersList />} />
         <Route path="/UsersList" element={<UsersList />} />
+      </Route>
+
+      <Route path="*" element={<div>Not Found</div>} />
+      
+        {/* <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} /> */}
+        {/* <Route path="/EcoSurveyForm" element={<EcoSurveyForm />} />
+        <Route path="/ForestSurveyForm" element={<ForestSurveyForm />} /> */}
         {/* <Route path="/Users/:id" element={<UpdateUsersForm/>} /> */}
-        <Route path="/edit-order/:orderId" element={<OakConsultancyForm />} />
-        <Route path="*" element={<div>Not Found</div>} />
       </Routes>
       </main>
       <Footer/>

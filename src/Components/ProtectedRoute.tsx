@@ -1,11 +1,18 @@
-// import { Navigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 // import { FCP } from "../@types";
-// import useAuth from "../hooks/useAuth";
-// const ProtectedRoute: FCP = ({ children }) => {
-//   const { isLoggedIn } = useAuth();
-//   if (isLoggedIn) {
-//     return <Navigate to="/" />;
-//   }
-//   return children;
-// };
-// export default ProtectedRoute;
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import useAuth from "../hooks/useAuth";
+
+
+const ProtectedRoute = () => {
+  const { isLoggedIn } = useContext(AuthContext);
+  const location = useLocation();
+
+  const publicRoutes = ["/", "/about", "/login", "/register"]; 
+  if (!isLoggedIn && !publicRoutes.includes(location.pathname)) {
+    return <Navigate to="/" />;
+  }
+  return <Outlet/>;
+};
+export default ProtectedRoute;
