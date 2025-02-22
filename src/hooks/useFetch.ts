@@ -2,7 +2,7 @@ import { ErrorMessage } from 'formik';
 import { useEffect, useState, useCallback } from "react";
 import { users_api } from "../api/Users-api";
 
-const useFetch = <T>(apiCall: () => Promise<T>) => {
+const useFetch = <T>(apiCall: () => Promise<T>, dependencies: any[] = []) => {
  
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<T | null>(null);
@@ -11,8 +11,10 @@ const useFetch = <T>(apiCall: () => Promise<T>) => {
 
     useEffect(() => {
         let ismounted = true;
-
+        
         const fetchData = async () => {
+          if(!apiCall) return;
+
             setLoading(true);
             try{
                 const response = await  apiCall();
@@ -40,8 +42,11 @@ const useFetch = <T>(apiCall: () => Promise<T>) => {
       return () => {
         ismounted = false;
       };
-      }, [apiCall]);
+      }, dependencies);
+
       const refetch = useCallback(async () => {
+        if (!apiCall) return;  
+
         setLoading(true);
         setError(null);
         try {
@@ -52,7 +57,7 @@ const useFetch = <T>(apiCall: () => Promise<T>) => {
         } finally {
           setLoading(false);
         }
-      }, [apiCall]);
+      }, dependencies);
       return { data, loading, error, refetch };
     };
 export default useFetch;

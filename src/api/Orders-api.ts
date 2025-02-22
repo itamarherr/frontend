@@ -31,7 +31,15 @@ export interface DatabaseOrder {
   }
 
   export interface OrdersApiResponse {
-    orders: DatabaseOrder[];
+    orders: Array<{
+        id: number;
+        userEmail: string;
+        createdAt: string;
+        totalPrice: number;
+        city: string;
+        statusTypeString: string;
+        consultancyTypeString: string;
+    }>;
     totalItems: number;
   }
 

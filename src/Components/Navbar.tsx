@@ -15,14 +15,17 @@ const Navbar = () => {
   const { darkMode, toggle } = useDarkMode();
   const { isLoggedIn, logout, role } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   // const [searchResults, setSearchResults] = useState([])
   // const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
-  const {data: searchResults, loading, error } = useFetch(()=>
-    searchQuery ? orders_api.searchOrders(searchQuery) : Promise.resolve([])
-  );
+  // const {data: searchResults, loading, error } = useFetch(()=>{
+  //   if (!searchQuery.trim()) {
+  //     return Promise.resolve([]); // ✅ Return empty array if searchQuery is empty
+  //   }
+  //   return orders_api.searchOrders(searchQuery);
+  // }, [searchQuery]);
 
 
   return (
@@ -59,38 +62,38 @@ const Navbar = () => {
 
         {role === "admin" && (
      <div className="hidden md:flex relative">
-     <input
+     {/* <input
      type="text"
       placeholder="Search..."
      value={searchQuery}
      onChange={(e) => setSearchQuery(e.target.value)}
     className="p-2 pl-8 rounded-lg border border-gray-300 dark:border-gray-600 bg-white text-black dark:bg-green-900 dark:text-green-100 focus:ring focus:ring-green-300 dark:focus:ring-green-500"
-     />
-   <BiSearch className="absolute left-2 top-2 text-gray-500 dark:text-gray-300" />
+     /> */}
+   {/* <BiSearch className="absolute left-2 top-2 text-gray-500 dark:text-gray-300" /> */}
 
-   {loading && <p className="absolute top-10 left-2 text-gray-500">Loading...</p>}
-   {error && <p className="absolute top-10 left-2 text-red-500">Error fetching data</p>}
+   {/* {loading && <p className="absolute top-10 left-2 text-gray-500">Loading...</p>}
+   {error && <p className="absolute top-10 left-2 text-red-500">Error fetching data</p>} */}
 
-   {searchQuery && searchResults?.length > 0 && (
+   {/* {searchQuery && searchResults?.length > 0 && (
             <div className="absolute top-10 left-0 w-full bg-white dark:bg-green-900 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg">
               {searchResults.map((order) => (
-                <div
-                  key={order.id}
-                  className="block p-2 hover:bg-gray-200 dark:hover:bg-green-700 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/Orders/${order.id}`);
-                    setSearchQuery(""); // ✅ Clear input on click
-                  }}
-                >
-                  Order #{order.id} - {order.userEmail} ({order.statusTypeString})
-                </div>
+                // <div
+                //   key={order.id}
+                //   className="block p-2 hover:bg-gray-200 dark:hover:bg-green-700 cursor-pointer"
+                //   onClick={() => {
+                //     navigate(`/Orders/${order.id}`);
+                //     setSearchQuery(""); // ✅ Clear input on click
+                //   }}
+                // >
+                //   Order #{order.id} - {order.userEmail} ({order.statusTypeString})
+                // </div>
               ))}
             </div>
-          )}   
+          )}    */}
 
-             {searchQuery && searchResults?.length === 0 && !loading && (
+             {/* {searchQuery && searchResults?.length === 0 && !loading && (
               <p className="absolute top-10 left-2 text-gray-500">No results found</p>
-            )}
+            )} */}
 
 
 
@@ -151,7 +154,7 @@ const Navbar = () => {
 
       {menuOpen && (
         <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-          <div className="relative mb-4">
+          {/* <div className="relative mb-4">
             <input
               type="text"
               placeholder="Search..."
@@ -160,7 +163,7 @@ const Navbar = () => {
               className="w-full p-2 pl-8 rounded-lg border border-gray-300 dark:border-gray-600 bg-white text-black dark:bg-green-900 dark:text-green-100 focus:ring focus:ring-green-300 dark:focus:ring-green-500"
             />
             <BiSearch className="absolute left-2 top-2 text-gray-500 dark:text-gray-300" />
-          </div>
+          </div> */}
 
           <NavLink className="rounded-lg p-2" to="/">
             <SiHomebridge />
