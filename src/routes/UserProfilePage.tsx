@@ -6,7 +6,10 @@ import useFetch from "../hooks/useFetch";
 
 const UserProfilePage = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const[error, setError] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       const jwt = localStorage.getItem("token");
@@ -17,10 +20,15 @@ const UserProfilePage = () => {
       }
       try {
         const response = await getCurrentUserProfile(jwt);
+        if (!response || !response.data) {
+          throw new Error("Invalid response from server");
+        }
+        console.log("User Details:", response.data);
         setUser(response.data);
         console.log("User Details:", response.data);
       } catch (error) {
         console.log("Error fatching profile", error);
+        setError("Failed to load profile. Please try again.");
       } finally {
         console.log("Profile fetched");
       }
@@ -44,12 +52,11 @@ const UserProfilePage = () => {
 
   return (
     <div className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 bg-white text-black border border-gray-300 dark:bg-green-900 dark:text-green-100 dark:border-green-700">
-      {user ? (
-        <>
-          <UserProfileDetails user={user} />
+      
+      {user && <UserProfileDetails user={user} />} 
           <button
             className="px-4 py-2 rounded-md bg-green-700 text-green-100 hover:bg-green-800 dark:bg-green-600 dark:text-green-100 dark:hover:bg-green-700"
-            onClick={handleUpdateClick}
+            onClick={() => navigate("/UserSettingsPage")}
           >
             Update My Profile
           </button>
@@ -60,10 +67,6 @@ const UserProfilePage = () => {
           >
             Delete My Account
           </button>
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
     </div>
   );
 };

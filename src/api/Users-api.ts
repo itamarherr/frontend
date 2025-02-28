@@ -5,6 +5,7 @@ import request from "../utils/axios-interceptors";
 const usersUrl = import.meta.env.VITE_BASE_URL + "/Users";
 
 export interface UpdateUserData {
+    id?: string;
     userName?: string;
     firstName?: string;
     lastName?: string;
@@ -47,9 +48,9 @@ export const users_api = {
         });
     },
 
-    seartchUsers : async (query: string) => {
+    searchUsers : async (query: string) => {
         return await request({
-            url: `/Users/seartch`,
+            url: `/Users/search`,
             method: "GET",
             params: { query},
         });

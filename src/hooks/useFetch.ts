@@ -5,7 +5,7 @@ import { users_api } from "../api/Users-api";
 const useFetch = <T>(apiCall: () => Promise<T>, dependencies: any[] = []) => {
  
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState<T | null>(null);
+    const [data, setData] = useState<T | []>([]);
     const [error, setError] = useState<string | null>(null);
 
 
@@ -18,9 +18,9 @@ const useFetch = <T>(apiCall: () => Promise<T>, dependencies: any[] = []) => {
             setLoading(true);
             try{
                 const response = await  apiCall();
-                console.log("API Response:", response);
+                console.log("🔍 API Response:", response, "Type:", typeof response, "Is Array?", Array.isArray(response));
                 if(ismounted){
-                    setData(response);
+                    setData(Array.isArray(response) ? response : []);
                     setError(null);
                 }
             }

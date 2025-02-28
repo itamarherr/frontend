@@ -28,12 +28,20 @@ export const register = (form: FormData) =>
   }); 
 
 
-export const getCurrentUserProfile = (token: string) =>{
-  return axios.get(`${baseUrl}/my-profile`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
+  export const getCurrentUserProfile = async (token: string) => {
+    try {
+      const response = await axios.get(`${baseUrl}/my-profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      console.log("Fetched Current User Profile:", response); // Debugging
+      return response;
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+      return null;
+    }
+  };
 
 export const auth = { register, login };
