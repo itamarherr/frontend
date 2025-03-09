@@ -9,7 +9,9 @@ const AdminOrderDetailsPage: React.FC = () => {
     const { id } = useParams();
     console.log("Order ID from useParams:", id);
     const navigate = useNavigate();
+
   const fetchOrderById = useCallback(async () =>{
+    console.log(`🔍 Fetching order by ID: ${id}`); // ✅ Debug log
     if(!id || isNaN(Number(id))) {
       throw new Error("Order ID is missing");
     } 
@@ -50,18 +52,19 @@ const AdminOrderDetailsPage: React.FC = () => {
       <div className="p-6 bg-white shadow-md rounded-lg">
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        {order ? (
-          <>
-            <OrderDetails myOrder={order} />
-            {/* <div className="flex justify-end mt-4">
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded"
-                onClick={handleDeleteClick}
-              >
-                Delete Order
-              </button>
-            </div> */}
-          </>
+        {order && typeof order === "object" && !Array.isArray(order) ? ( 
+      
+        <OrderDetails 
+          myOrder={{ 
+            ...order, 
+            dateForConsultancy: 
+              typeof order.dateForConsultancy === "string"
+                ? order.dateForConsultancy
+                : order.dateForConsultancy instanceof Date
+                  ? order.dateForConsultancy.toISOString().split("T")[0]
+                  : "" 
+          }} 
+        />
         ) : (
           <p>No order data found.</p>
         )}

@@ -128,11 +128,12 @@ export const orders_api = {
         });
     },
     updateOrder: async(orderFormData: OrderFormData) => {
-        return await request<OrderFormData>({
+      const response =  await request<OrderFormData>({
      url: `/Orders/${orderFormData.id}`,
      method: "PUT",
      data: orderFormData
         });
+        return response ?? { success: true};
     },
     updateMyOrder: async(orderFormData: OrderFormData) => {
         return await request<OrderFormData>({

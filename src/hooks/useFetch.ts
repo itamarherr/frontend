@@ -20,7 +20,7 @@ const useFetch = <T>(apiCall: () => Promise<T>, dependencies: any[] = []) => {
                 const response = await  apiCall();
                 console.log("🔍 API Response:", response, "Type:", typeof response, "Is Array?", Array.isArray(response));
                 if(ismounted){
-                    setData(Array.isArray(response) ? response : []);
+                    setData( response ?? null);
                     setError(null);
                 }
             }
