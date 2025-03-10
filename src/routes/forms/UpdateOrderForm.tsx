@@ -18,9 +18,12 @@ const UpdateOrderForm = () => {
   
   
   const fetchOrder = useCallback(async () => {
+    console.log(`📢 Fetching Order for ID: ${orderId}`);  // ✅ Check the ID
+    console.log(`🛠 Calling API: ${orderId ? "getOrderById" : "getMyOrderForUpdate"}`);
     console.log(`id: " ${orderId}`);
     if (orderId) {
       if (isNaN(orderId)) {
+        console.error("❌ Invalid Order ID, aborting fetch!");
         throw new Error("Order Id is missing");
       }
       return await orders_api.getOrderById(orderId);
@@ -35,62 +38,91 @@ const UpdateOrderForm = () => {
     error,
   } = useFetch<OrderFormData>(fetchOrder);
 
-  const handleSubmit = async (
-    values: Partial<OrderFormDataWithFormattedDate>,
-    { setSubmitting }: any
-  ) => {
-    try {
-      console.log("Submitting order update:", values);
+
+  useEffect(() => {
+    console.log("📝 Order Data Fetched:", orderFormData);  // ✅ Confirm data received
+    console.log("❗ Fetch Error:", error); // ✅ If there's an error, log it
+  }, [orderFormData, error]);
+
   
-      const updatedValues: OrderFormData = {
-        id: orderId || 0, // ✅ Ensure ID exists
-        userId: values.userId || "", // ✅ Ensure required fields exist
-        productId: values.productId || 0,
-        userName: values.userName || "",
-        userEmail: values.userEmail || "",
-        totalPrice: values.totalPrice || 0,
-        numberOfTrees: values.numberOfTrees || 0,
-        city: values.city || "",
-        street: values.street || "",
-        number: values.number || 0,
-        additionalNotes: values.additionalNotes || "",
-        adminNotes: values.adminNotes || "",
-        dateForConsultancy: new Date(values.dateForConsultancy || new Date()), // ✅ Convert back to Date
-        consultancyType: Number(values.consultancyType) || 1,  // ✅ Default or existing value
-        isPrivateArea: values.isPrivateArea ?? false, // ✅ Ensure boolean value
-        createdAt: new Date(values.createdAt || new Date()).toISOString(),  // ✅ Preserve createdAt date
-        statusType:  Number(values.statusType) || 1, // ✅ Set default or existing value
-        serviceType: values.serviceType || "Standard", // ✅ Set default or existing value
-      };
   
-      let response;
-      if (orderId) {
-        console.log("🔄 Sending update request with:", updatedValues);
-        response = await orders_api.updateOrder(updatedValues);
-        console.log("✅ API Response:", response);
-      } else {
-        response = await orders_api.updateMyOrder(updatedValues);
-      }
-      console.log("Update response:", response);
-      if (!response && response != null) {
-        throw new Error("Failed to update order, empty response.");
-      }
-      await showSuccessDialog("Order updated successfully.");
-  
-      if (orderId) {
-        navigate(`/AdminOrderDetailsPage/${orderId}`, {
-          state: { refetch: true },
-        });
-      } else {
-        navigate("/MyOrderPage", { state: { refetch: true } });
-      }
-    } catch (error) {
-      console.error("Error updating order:", error);
-      showErrorDialog("Failed to update order. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+      const handleSubmit = async (
+        values: Partial<OrderFormDataWithFormattedDate>,
+        { setSubmitting }: any
+    ) => {
+        try {
+            console.log("Submitting order update:", values);
+    
+            // ✅ Ensure required fields exist
+            const updatedValues: Partial<OrderFormData> = {
+                userId: values.userId ?? "", // ✅ Ensure userId is always a string
+                productId: values.productId ?? 0,
+                userName: values.userName ?? "",
+                userEmail: values.userEmail ?? "",
+                totalPrice: values.totalPrice ?? 0,
+                numberOfTrees: values.numberOfTrees ?? 0,
+                city: values.city ?? "",
+                street: values.street ?? "",
+                number: values.number ?? 0,
+                additionalNotes: values.additionalNotes ?? "",
+                adminNotes: values.adminNotes ?? "",
+                dateForConsultancy: new Date(values.dateForConsultancy || new Date()), 
+                consultancyType: Number(values.consultancyType) || 1,  
+                isPrivateArea: values.isPrivateArea ?? false,
+                createdAt: new Date(values.createdAt || new Date()).toISOString(),
+                statusType: Number(values.statusType) || 1,
+                serviceType: values.serviceType ?? "Standard",
+            };
+    
+            let response;
+            if (orderId) { // ✅ Admin updating a specific order
+                const adminUpdateValues: OrderFormData = {
+                    id: orderId, // ✅ Ensure ID is included
+                    userId: updatedValues.userId, // ✅ Ensure userId is included
+                    productId: updatedValues.productId ?? 0,
+                    userName: updatedValues.userName ?? "",
+                    userEmail: updatedValues.userEmail ?? "",
+                    totalPrice: updatedValues.totalPrice ?? 0,
+                    numberOfTrees: updatedValues.numberOfTrees ?? 0,
+                    city: updatedValues.city ?? "",
+                    street: updatedValues.street ?? "",
+                    number: updatedValues.number ?? 0,
+                    additionalNotes: updatedValues.additionalNotes ?? "",
+                    adminNotes: updatedValues.adminNotes ?? "",
+                    dateForConsultancy: updatedValues.dateForConsultancy,
+                    consultancyType: updatedValues.consultancyType,
+                    isPrivateArea: updatedValues.isPrivateArea,
+                    createdAt: updatedValues.createdAt,
+                    statusType: updatedValues.statusType,
+                    serviceType: updatedValues.serviceType,
+                };
+    
+                console.log("📢 Sending Admin Update Request:", adminUpdateValues);
+                response = await orders_api.updateOrder(adminUpdateValues);
+            } else { // ✅ Regular user updating their latest order
+                console.log("📢 Sending User Update Request:", updatedValues);
+                response = await orders_api.updateMyOrder(updatedValues); // ✅ No `id` sent
+            }
+    
+            console.log("✅ API Response:", response);
+    
+            // ✅ Fix: Handle empty responses properly
+            if (response === undefined || response === null) {
+                console.warn("⚠️ Warning: API returned an empty response. This might be expected.");
+            }
+            await showSuccessDialog("Order updated successfully.");
+
+            // ✅ Navigate based on role
+            navigate(orderId ? `/AdminOrderDetailsPage/${orderId}` : "/MyOrderPage", {
+                state: { refetch: true },
+            });
+        } catch (error) {
+            console.error("❌ Error updating order:", error);
+            showErrorDialog("Failed to update order. Please try again.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
   
  
   const formattedOrderData: Partial<OrderFormDataWithFormattedDate> =

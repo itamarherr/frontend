@@ -47,7 +47,18 @@ const MyOrderPage: React.FC = () => {
         Your Order has been sent
       </h2>
       <div>
-        <OrderDetails myOrder={myOrder} />
+      <OrderDetails 
+          myOrder={{ 
+            ...myOrder, 
+            dateForConsultancy: 
+              typeof myOrder.dateForConsultancy === "string"
+                ? myOrder.dateForConsultancy
+                : myOrder.dateForConsultancy instanceof Date
+                  ? myOrder.dateForConsultancy.toISOString().split("T")[0]
+                  : "" 
+          }} 
+        />
+        {/* <OrderDetails myOrder={myOrder} /> */}
       </div>
     </div>
   );

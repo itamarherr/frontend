@@ -12,13 +12,24 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
   const navigate = useNavigate();
 
   const handleUpdateClick = () => {
-    if (myOrder.id) {
-      console.log(`User Order that the admin want to update: ${myOrder.id}`);
-      navigate(`/Orders/${myOrder.id}`);
+    const userRole = localStorage.getItem('role');
+    if (userRole === "Admin") {  
+      console.log(`🔍 Admin updating order ID: ${myOrder.id}`);
+      navigate(`/Orders/${myOrder.id}`); // Navigate to Admin path
     } else {
-      console.log("User updating their own order.");
-      navigate("/my-orders/for-update");
+      console.log("🔍 User updating their own order.");
+      navigate("/my-orders/for-update"); // Navigate to User path
     }
+    // console.log("handleUpdateClick triggered");
+    // console.log("Current Order: ", myOrder);
+    // console.log("User Id: ", myOrder?.userId);
+    // if (myOrder.id) {
+    //   console.log(`User Order that the admin want to update: ${myOrder.id}`);
+    //   navigate(`/Orders/${myOrder.id}`);
+    // } else {
+    //   console.log("User updating their own order.");
+    //   navigate("/my-orders/for-update");
+    // }
   };
   const handleDeleteClick = async () => {
     try {

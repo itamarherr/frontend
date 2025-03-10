@@ -135,11 +135,12 @@ export const orders_api = {
         });
         return response ?? { success: true};
     },
-    updateMyOrder: async(orderFormData: OrderFormData) => {
+    updateMyOrder: async(orderFormData: Partial<OrderFormData>) => {
+        const { id, ...dataWithoutId } = orderFormData; 
         return await request<OrderFormData>({
             url: `/Orders/my-orders/for-update`,
             method: "PUT",
-            data: orderFormData
+            data: dataWithoutId,
         });
     },
     deleteOrder: async(orderId: number) => {
