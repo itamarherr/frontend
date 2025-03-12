@@ -16,14 +16,17 @@ const UserSettingsPage = () => {
   const validationSchema = Yup.object({
     firstName: Yup.string()
       .min(2, "First Name must contain at least 2 characters")
-      .max(20, "First Name cannot exceed 20 characters"),
+      .max(20, "First Name cannot exceed 20 characters")
+      .required("This field is required"),
     lastName: Yup.string()
       .min(2, "Last Name must contain at least 2 characters")
-      .max(20, "Last Name cannot exceed 20 characters"),
+      .max(20, "Last Name cannot exceed 20 characters")
+      .required("This field is required"),
     email: Yup.string().email("Bad Email!"),
     username: Yup.string()
       .min(2, "UserName must contain at least 2 characters")
-      .max(20, "UserName cannot exceed 20 characters"),
+      .max(20, "UserName cannot exceed 20 characters")
+      .required("This field is required"),
     password: Yup.string()
       .nullable()
       .min(8, "Password must contain at least 8 characters")
@@ -31,17 +34,31 @@ const UserSettingsPage = () => {
       .matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_-]).{8,30}$/,
         "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
-      ),
+      )
+      .required("This field is required"),
     confirmPassword: Yup.string()
       .when("password", {
         is: (password) => password?.length > 0,
         then: (schema) => schema.required("confirme Password is required"),
         otherwise: (schema) => schema.notRequired(),
       })
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+      .oneOf([Yup.ref("password")], "Passwords must match")
+      .required("This field is required"),
     phone: Yup.string()
       .nullable()
-      .matches(/^\+?[0-9]{10,15}$/, "Invalid phone number"),
+      .matches(/^\+?[0-9]{10,15}$/, "Invalid phone number")
+      .required("This field is required"),
+      image: Yup.mixed()
+      .nullable()
+      .test("fileSize", "File is too large (Max: 2MB)", (value) => {
+        if (!value || !(value instanceof File)) return true; // Image is optional
+        return value.size <= 2 * 1024 * 1024; // 2MB limit
+      })
+      .test("fileType", "Unsupported file format", (value) => {
+        if (!value|| !(value instanceof File)) return true;
+        return ["image/jpeg", "image/png", "image/gif"].includes(value.type);
+      })
+      .required("This field is required"),
   });
   const initialValues = {
     id: "",
@@ -134,7 +151,21 @@ const UserSettingsPage = () => {
             enableReinitialize
             initialValues={userDetails}
             validationSchema={validationSchema}
-            onSubmit={(values) => updateProfile(values)}
+            onSubmit={(values,{ setSubmitting}) => {
+              // Check for empty required fields before submitting
+              const emptyFields = Object.entries(values).filter(([key, value]) => {
+                return key !== "image" && (value === "" || value === null);
+              });
+          
+              if (emptyFields.length > 0) {
+                setError("All fields must be filled out before submitting.");
+                setSubmitting(false);
+                return;
+              }
+              
+              
+              updateProfile(values)
+            }}
           >
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
@@ -164,3 +195,40 @@ const UserSettingsPage = () => {
 };
 
 export default UserSettingsPage;
+
+
+// return (
+//   <div className=" items-center">
+//     <section>
+//       {userDetails && (
+//         <Formik
+//           enableReinitialize
+//           initialValues={userDetails}
+//           validationSchema={validationSchema}
+//           onSubmit={(values) => updateProfile(values)}
+//         >
+//           {({ handleSubmit }) => (
+//             <form onSubmit={handleSubmit}>
+//               <h1 className="text-4xl font-bold text-center mb-6">
+//                 User Settings
+//               </h1>
+//               <h2 className="text-2xl mb-12 text-center">
+//                 Update your profile details
+//               </h2>
+//               <UserRegistrationFormFields
+//                 isLoading={isLoading}
+//                 error={error}
+//               />
+//               <button
+//                 type="submit"
+//                 className="bg-green-500 disabled:bg-blue-500/50 w-1/2 text-white font-bold px-4 py-2 mt-4 rounded"
+//               >
+//                 Save Changes
+//               </button>
+//             </form>
+//           )}
+//         </Formik>
+//       )}
+//     </section>
+//   </div>
+// );
