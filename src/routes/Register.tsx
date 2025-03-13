@@ -1,4 +1,6 @@
 import { Formik } from "formik";
+import { useEffect } from "react";
+import { useFormikContext } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 import Spinner from "../Components/Spinner";
@@ -10,9 +12,31 @@ import UserRegistrationFormFields from "./forms/UserRegistrationFormFields";
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
-
+  // const [initialValues, setInitialValues] = useState<null | {
+  //   email: string;
+  //   username: string;
+  //   firstName: string;
+  //   lastName: string;
+  //   phone: string;
+  //   image: File | null;
+  //   password: string;
+  //   confirmPassword: string;
+  // }>(null);
   const navigate = useNavigate();
 
+//  useEffect(() => {
+  
+//     setInitialValues({
+//       email: "",
+//       username: "",
+//       firstName: "",
+//       lastName: "",
+//       phone: "",
+//       image: null,
+//       password: "",
+//       confirmPassword: "",
+//     });
+//   }, []);
   const validationSchema = Yup.object({
     firstName: Yup.string()
       .required("First Name is required")
@@ -39,8 +63,18 @@ const Register = () => {
       .required("Confirm Password is requierd")
       .oneOf([Yup.ref("password")], "Passwords must match"),
     phone: Yup.string()
-      .nullable()
+      .required("Phone number is required")
       .matches(/^\+?[0-9]{10,15}$/, "Invalid phone number"),
+      image: Yup.mixed()
+      .required("Profile image is required") // ✅ Ensures image is required
+      .test("fileSize", "File is too large (Max: 2MB)", (value) => {
+        if (!value || !(value instanceof File)) return false; // ❌ Trigger required error when no file
+        return value.size <= 2 * 1024 * 1024; // ✅ Validate file size if file exists
+      })
+      .test("fileType", "Unsupported file format", (value) => {
+        if (!value || !(value instanceof File)) return false; // ❌ Trigger required error when no file
+        return ["image/jpeg", "image/png", "image/gif"].includes(value.type);
+      }),
   });
 
   const initialValues = {
@@ -63,7 +97,13 @@ const Register = () => {
     formData.append("FirstName", values.firstName);
     formData.append("LastName", values.lastName);
     if (values.phone) formData.append("PhoneNumber", values.phone);
-    if (values.image) formData.append("image", values.image);
+    if (values.image) {
+      formData.append("image", values.image);
+    } else {
+      showErrorDialog("Profile image is required");
+      setIsLoading(false);
+      return;
+    }
 
     try {
       await auth.register(formData);
@@ -75,14 +115,25 @@ const Register = () => {
       setIsLoading(false);
     }
   };
-
+  const ResetFormOnMount = () => {
+    const { resetForm } = useFormikContext();
+    useEffect(() => {
+      resetForm(); // ✅ Ensures fresh values on first load
+    }, []);
+    return null;
+  };
   return (
     <Formik
+    key={JSON.stringify(initialValues)} 
+      enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
+    
       {({ handleSubmit }) => (
+       <>
+        <ResetFormOnMount />
         <form onSubmit={handleSubmit}>
           <h1 className="text-4xl font-bold text-center mb-6">Register Form</h1>
           <h2 className="text-2xl mb-12 text-center">
@@ -96,6 +147,7 @@ const Register = () => {
             Register
           </button>
         </form>
+        </>
       )}
     </Formik>
   );

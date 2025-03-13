@@ -45,28 +45,26 @@ const UserSettingsPage = () => {
       .oneOf([Yup.ref("password")], "Passwords must match")
       .required("This field is required"),
     phone: Yup.string()
-      .nullable()
       .matches(/^\+?[0-9]{10,15}$/, "Invalid phone number")
       .required("This field is required"),
       image: Yup.mixed()
-      .nullable()
+      .test("required", "Profile image is required", (value) => value instanceof File) // ✅ Required check first
       .test("fileSize", "File is too large (Max: 2MB)", (value) => {
-        if (!value || !(value instanceof File)) return true; // Image is optional
-        return value.size <= 2 * 1024 * 1024; // 2MB limit
+        if (!value || !(value instanceof File)) return true; // ✅ Skip if no file
+        return value.size <= 2 * 1024 * 1024;
       })
       .test("fileType", "Unsupported file format", (value) => {
-        if (!value|| !(value instanceof File)) return true;
+        if (!value || !(value instanceof File)) return true; // ✅ Skip if no file
         return ["image/jpeg", "image/png", "image/gif"].includes(value.type);
-      })
-      .required("This field is required"),
+      }),
   });
   const initialValues = {
     id: "",
     email: "",
-    username: "",
+    userName: "",
     firstName: "",
     lastName: "",
-    phone: "",
+    phoneNumber: "",
     image: null as File | null,
     password: "",
     confirmPassword: "",
@@ -86,15 +84,14 @@ const UserSettingsPage = () => {
         setUserDetails({
           id: response.data.id || "",
           email: response.data.email || "",
-          username: response.data.username || "",
+          username: response.data.userName || "",
           firstName: response.data.firstName || "",
           lastName: response.data.lastName || "",
-          phone: response.data.phone || "",
-          image: null,
+          phone: response.data.phoneNumber || "",
+          image: response.data.imageUrl || null,
           password: "",
           confirmPassword: "",
         });
-        console.log("User Details:", userDetails);
       } catch (error) {
         console.error("Error fetching user details:", error);
         setError("Failed to fetch user details");
@@ -104,7 +101,11 @@ const UserSettingsPage = () => {
     };
     fetchUserDetails();
   }, [navigate]);
-
+  useEffect(() => {
+    if (userDetails) {
+      console.log("Updated User Details:", userDetails);
+    }
+  }, [userDetails]);
   const updateProfile = async (values: any) => {
     setIsLoading(true);
     setError(null);
@@ -122,13 +123,22 @@ const UserSettingsPage = () => {
       formData.append("Username", values.username);
       formData.append("FirstName", values.firstName);
       formData.append("LastName", values.lastName);
-      formData.append("PhoneNumber", values.phone);
+      if (values.phone !== undefined && values.phone !== null && values.phone !== "") {
+        formData.append("PhoneNumber", values.phone);
+      }
+  
+
       if (values.image) formData.append("image", values.image);
 
       for (let [key, value] of formData.entries()) {
         console.log(`FormData entry - ${key}:`, value);
       }
-      await updateUserProfile(jwt, values);
+
+      if (!values.phone) {
+        formData.append("phoneNumber", ""); // ✅ Ensures `null` isn't sent
+      }
+  
+      await updateUserProfile(jwt, formData);
       await showSuccessDialog("Profile updated successfully");
       navigate("/");
     } catch (error: any) {
