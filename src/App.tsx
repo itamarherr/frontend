@@ -24,6 +24,7 @@ import UserProfilePage from "./routes/UserProfilePage";
 import AdminOrderDetailsPage from "./routes/AdminOrderDetailsPage";
 import AdminRoute from "./routes/AdminRoute";
 
+
 const App = () => {
   const url = import.meta.env.VITE_BASE_URL;
   const mode = import.meta.env.VITE_MODE;

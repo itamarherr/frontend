@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import Swal from "sweetalert2";
 
 export interface AuthContextType {
   isLoggedIn: boolean;
@@ -72,12 +73,19 @@ function AuthProvider(props) {
   }
 
   function logout() {
+    Swal.fire({
+      icon: "success",
+      title: "Logged Out",
+      text: "You have successfully logged out.",
+      timer: 2000,
+      showConfirmButton: false,
+    }).then(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     setIsLoggedIn(false);
-    alert("click");
     setToken("");
     setRole(null);
+  });
   }
 
   return (

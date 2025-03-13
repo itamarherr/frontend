@@ -133,7 +133,7 @@ const Navbar = () => {
           {darkMode ? "🌞" : "🌚"}
         </button>
 
-        {isLoggedIn && (
+        {isLoggedIn && !menuOpen && (
           <button
             onClick={() => {
               logout();

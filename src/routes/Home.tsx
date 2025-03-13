@@ -2,8 +2,10 @@ import React from "react";
 import Card from "../Components/Card";
 import { useNavigate } from "react-router-dom";
 import HomeImage from "/src/images/HomeImage.jpg";
+import useAuth from "../hooks/useAuth";
 
 const Home = () => {
+  const {isLoggedIn} = useAuth();
   const navigate = useNavigate();
   const handleClickNewOrder = () => {
     navigate("/OaKConsultancyForm");
@@ -62,7 +64,7 @@ const Home = () => {
             options, and offer management plans to restore and maintain the
             vitality of your trees.
           </p>
-      
+          {isLoggedIn &&  (
           <button
             onClick={handleClickNewOrder}
             className="
@@ -73,6 +75,7 @@ const Home = () => {
           >
             Request Oak Consultancy
           </button>
+          )}
         </div>
       </section>
     </div>

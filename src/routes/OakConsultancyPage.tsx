@@ -2,8 +2,12 @@ import React from 'react'
 import HomeImage from '/src/images/HomeImage.jpg'
 import image3 from '/src/images/image3.jpg'
 import { useNavigate } from 'react-router-dom'
+import useAuth from "../hooks/useAuth";
 
 const OakConsultancyPage = () => {
+  console.log("🔥 OakConsultancyPage Rendered"); 
+  const {isLoggedIn} = useAuth();
+  console.log("isLoggedIn status:", isLoggedIn);
   const navigate = useNavigate();
   const handleButtonClick = ()=> {
     navigate("/OakConsultancyForm");
@@ -51,6 +55,7 @@ const OakConsultancyPage = () => {
        </ul>
        </div> 
         </div>
+      
         <button 
         className="bg-green-500
          text-white font-bold py-2 px-4 rounded 
@@ -61,6 +66,7 @@ const OakConsultancyPage = () => {
          >
   Request an Oak Consultancy
    </button>
+       
         </div>
         </>
   )
