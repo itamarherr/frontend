@@ -4,7 +4,7 @@ const Footer = () => {
   const darkMode = false;
   return (
     <div
-      className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-fuchsia-50 text-fuchsia-900 dark:bg-green-800 dark:text-green-100"
+      className=" mt-8  p-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-fuchsia-50 text-fuchsia-900 dark:bg-green-800 dark:text-green-100"
       style={{
         boxShadow: darkMode
           ? "0px -20px 20px rgba(255, 255, 255, 0.15)"

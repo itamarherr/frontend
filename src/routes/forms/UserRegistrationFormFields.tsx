@@ -44,7 +44,7 @@ const UserRegistrationFormFields: React.FC<UserRegistrationFormFieldsProps> = ({
         <label htmlFor="username" className="block font-semibold mb-1">
           User Name
         </label>
-        <Field name="username" type="text" id="username" className="input" />
+        <Field name="username" type="text" id="username" className="input" autoComplete="new-userName"  />
         <ErrorMessage
           name="username"
           component="div"
@@ -138,6 +138,7 @@ const UserRegistrationFormFields: React.FC<UserRegistrationFormFieldsProps> = ({
             name="password"
             type="password"
             id="password"
+            autoComplete="new-password" 
             className="input"
           />
           <ErrorMessage

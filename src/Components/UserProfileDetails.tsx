@@ -8,7 +8,7 @@ const UserProfileDetails = ({ user }) => {
   }
   const imageUrl = user.imageUrl ? `${BASE_URL}${user.imageUrl}` : null;
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white border border-gray-300 rounded-lg shadow-lg mt-8">
+    <div className="user-details-box">
       <h1 className="text-xl font bold md-4">{user.userName}'s Profile </h1>
       <p className="mb-2"><strong>Email:</strong> {user.email || "No email available"}</p>
       <p className="mb-2"><strong>First Name:</strong> {user.firstName || "N/A"}</p>

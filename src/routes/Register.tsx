@@ -140,12 +140,15 @@ const Register = () => {
             Fill out the form to register
           </h2>
           <UserRegistrationFormFields isLoading={isLoading} error={error} />
-          <button
+         <div className="flex justify-center">
+         <button
             type="submit"
-            className="px-4 py-2 mt-4 rounded bg-blue-500 text-white dark:bg-green-700 dark:text-green-100"
+            className="button mt-6 item-center w-1/2"
           >
             Register
           </button>
+         </div>
+         
         </form>
         </>
       )}

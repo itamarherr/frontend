@@ -36,8 +36,27 @@ const MyOrderPage: React.FC = () => {
   // }, [location.state, refetch, navigate]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-  if (!myOrder) return <p>No order found</p>;
+  if (error || !myOrder || Array.isArray(myOrder)) {
+    return (
+      <div className="order-details-box text-center">
+        <h2 className="text-2xl font-bold">You haven't placed any orders yet.</h2>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Explore our services and place your first order.
+        </p>
+        <button onClick={() => navigate("/")} className="button mt-4">
+          Go to Homepage
+        </button>
+      </div>
+    );
+  }
+
+  // ✅ Ensure `dateForConsultancy` exists before modifying it
+  const formattedOrder: OrderResponse = {
+    ...myOrder,
+    dateForConsultancy: myOrder.dateForConsultancy
+      ? new Date(myOrder.dateForConsultancy).toISOString().split("T")[0]
+      : "",
+  };
   return (
     <div>
       <h1 className="font-bold text-4xl mb-6 mt-12 text-center">
@@ -47,21 +66,36 @@ const MyOrderPage: React.FC = () => {
         Your Order has been sent
       </h2>
       <div>
-      <OrderDetails 
-          myOrder={{ 
-            ...myOrder, 
-            dateForConsultancy: 
-              typeof myOrder.dateForConsultancy === "string"
-                ? myOrder.dateForConsultancy
-                : myOrder.dateForConsultancy instanceof Date
-                  ? myOrder.dateForConsultancy.toISOString().split("T")[0]
-                  : "" 
-          }} 
-        />
-        {/* <OrderDetails myOrder={myOrder} /> */}
+        <OrderDetails myOrder={formattedOrder} />
       </div>
     </div>
   );
 };
+
+//   return (
+//     <div className="order-details-box text-center">
+//       <h1 className="font-bold text-4xl mb-6 mt-12 text-center">
+//         Thanks for choosing our service
+//       </h1>
+//       <h2 className="font-bold text-3xl mb-6 mt-12 text-center">
+//         Your Order has been sent
+//       </h2>
+//       <div>
+//       <OrderDetails 
+//           myOrder={{ 
+//             ...myOrder, 
+//             dateForConsultancy: 
+//               typeof myOrder.dateForConsultancy === "string"
+//                 ? myOrder.dateForConsultancy
+//                 : myOrder.dateForConsultancy instanceof Date
+//                   ? myOrder.dateForConsultancy.toISOString().split("T")[0]
+//                   : "" 
+//           }} 
+//         />
+//         {/* <OrderDetails myOrder={myOrder} /> */}
+//       </div>
+//     </div>
+//   );
+
 
 export default MyOrderPage;

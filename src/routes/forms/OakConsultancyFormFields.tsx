@@ -8,8 +8,8 @@ import { OrderFormData } from "../../api/Orders-api";
 
 interface OaKConsultancyFormFieldsProps {
   isLoading: boolean;
-  error: string | null; // ✅ Allow null to prevent errors
-  values: any; // ✅ Temporarily use `any` to prevent blocking progress
+  error: string | null; 
+  values: any; 
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({ 
@@ -32,7 +32,7 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
     setFieldValue,
   ]);
   return (
-    <Form className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 border">
+    <Form className="form-container">
       <h1 className="font-bold text-4xl mb-6 mt-12 text-center text-gray-800 dark:text-gray-100">
         Order Oak Consultancy Form
       </h1>
@@ -63,7 +63,7 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
         <ErrorMessage
           name="consultancyType"
           component="div"
-          className="text-red-500 dark:text-red-400 text-sm mt-1"
+          className="error-message"
         />
       </div>
 
@@ -75,19 +75,19 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
         <ErrorMessage
           name="numberOfTrees"
           component="div"
-          className="text-red-500 dark:text-red-400 text-sm mt-1"
+          className="error-message"
         />
       </div>
 
-      <div className="mb-5 flex items-center">
-        <Field type="checkbox" name="isPrivateArea" />
+      <div className="mb-5 flex items-center gap-2">
+        <Field type="checkbox" name="isPrivateArea" className="checkbox-input"/>
         <label htmlFor="isPrivateArea" className="font-semibold">
           Is this a private area?
         </label>
         <ErrorMessage
           name="isPrivateArea"
           component="div"
-          className="text-red-500 dark:text-red-400 text-sm ml-2"
+          className="error-message"
         />
       </div>
 
@@ -102,12 +102,13 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
           type="date"
           name="dateForConsultancy"
           className="input"
+          value={values.dateForConsultancy ? new Date(values.dateForConsultancy).toISOString().split("T")[0] : ""}
           onChange={(e) => setFieldValue("dateForConsultancy", e.target.value)}
         />
         <ErrorMessage
           name="dateForConsultancy"
           component="div"
-          className="text-red-500 dark:text-red-400 text-sm mt-1"
+          className="error-message"
         />
       </div>
 
@@ -124,35 +125,35 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
             <label htmlFor="city" className="block font-semibold mb-1">
               City
             </label>
-            <Field name="city" type="text" id="city" className="input" />
+            <Field name="city" type="text" id="city"  autoComplete="new-city" className="input" />
           </div>
           <div className="flex-1">
             <label htmlFor="street" className="block font-semibold mb-1">
               Street
             </label>
-            <Field name="street" type="text" id="street" className="input" />
+            <Field name="street" type="text" id="street"  autoComplete="new-street" className="input" />
           </div>
           <div className="w-1/4">
             <label htmlFor="number" className="block font-semibold mb-1">
               Number
             </label>
-            <Field name="number" type="number" id="number" className="input" />
+            <Field name="number" type="number" id="number"  autoComplete="new-number" className="input" />
           </div>
           <div className="flex space-x-2 mt-1">
             <ErrorMessage
               name="city"
               component="div"
-              className="text-red-500 dark:text-red-400 text-sm mt-1"
+              className="error-message"
             />
             <ErrorMessage
               name="street"
               component="div"
-              className="text-red-500 dark:text-red-400 text-sm mt-1"
+              className="error-message"
             />
             <ErrorMessage
               name="number"
               component="div"
-              className="text-red-500 dark:text-red-400 text-sm mt-1"
+              className="error-message"
             />
           </div>
         </div>
@@ -162,7 +163,7 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
         <button
           disabled={isLoading}
           type="submit"
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-md disabled:bg-green-500/50"
+          className="button"
         >
           Submit
         </button>

@@ -30,10 +30,12 @@ const login = () => {
     email: "",
     password: "",
   };
+  console.log("Initial Values:", initialValues);
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
+      enableReinitialize={true}
       onSubmit={(o) => {
         setIsLoading(true);
         auth
@@ -56,13 +58,17 @@ const login = () => {
       <Form className="flex flex-col items-center">
         {isLoading && <Spinner title="WaitUp!" />}
         {error && <p className="text-red-500">{error}</p>}
-
+        <h1 className="text-4xl font-bold text-center mb-6">Login Form</h1>
+          <h2 className="text-2xl mb-12 text-center">
+            Fill out the form to Login
+          </h2>
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="email">Email Address</label>
           <Field
             name="email"
             type="email"
             id="email"
+            autoComplete="new-email" 
             className="rounded-md hover:border-2 border-2 px-2 py-2"
           />
           <ErrorMessage name="email" component="div" className="text-red-500" />
@@ -74,6 +80,7 @@ const login = () => {
             name="password"
             type="password"
             id="password"
+            autoComplete="new-password" 
             className="rounded-md hover:border-2 border-2 px-2 py-2"
           />
           <ErrorMessage
@@ -85,7 +92,7 @@ const login = () => {
         <button
           disabled={isLoading}
           type="submit"
-          className="bg-blue-500 disabled:bg-blue-500/50 w-1/2   block text-left hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
+          className="button mt-6 item-center w-1/2"
         >
           login
         </button>

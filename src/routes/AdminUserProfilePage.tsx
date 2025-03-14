@@ -49,7 +49,7 @@ const AdminUserProfilePage = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 bg-white text-black border border-gray-300 dark:bg-green-900 dark:text-green-100 dark:border-green-700">
+    <div className="user-details-box">
       
           <UserProfileDetails user={user} />
           <button 

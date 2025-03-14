@@ -270,6 +270,9 @@ const OrdersList: React.FC = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [ordersData, setOrdersData] = useState<OrdersApiResponse | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 10;
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -278,12 +281,13 @@ const OrdersList: React.FC = () => {
     const fetchOrders = async () => {
       try {
         const data = await orders_api.getOrders({
-          page: 1,
-          pageSize: 20,
+          page,
+          pageSize,
           sortBy: "CreatedAt",
           descending: true,
         });
         setOrdersData(data);
+        setTotalPages(Math.ceil(data.totalItems / pageSize));
       } catch (error) {
         console.error("Error fetching orders:", error);
       } finally {
@@ -291,8 +295,13 @@ const OrdersList: React.FC = () => {
       }
     };
     fetchOrders();
-  }, []);
+  }, [page]);
 
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
   // 🔎 Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -390,48 +399,72 @@ const OrdersList: React.FC = () => {
       {loading ? (
         <Spinner title="Loading orders..." />
       ) : (
-        <div className="overflow-x-auto shadow-lg rounded-lg border border-green-700 dark:border-green-500">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-200 dark:bg-green-800">
-                <th className="px-4 py-2 border">Order ID</th>
-                <th className="px-4 py-2 border">Created Date</th>
-                <th className="px-4 py-2 border">User Email</th>
-                <th className="px-4 py-2 border">City</th>
-                <th className="px-4 py-2 border">Status</th>
-                <th className="px-4 py-2 border">Consultancy Type</th>
-                <th className="px-4 py-2 border">Total Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredOrders.map((order) => (
-                <tr
-                  key={order.id}
-                  className="cursor-pointer hover:bg-gray-200 dark:hover:bg-green-700 transition-all"
-                  onClick={() => handleResultClick(order.id)}
-                >
-                  <td className="px-4 py-2 text-center border">{order.id}</td>
-                  <td className="px-4 py-2 text-center border">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-4 py-2 text-center border">
-                    {order.userEmail}
-                  </td>
-                  <td className="px-4 py-2 text-center border">{order.city}</td>
-                  <td className="px-4 py-2 text-center border">
-                    {order.statusTypeString}
-                  </td>
-                  <td className="px-4 py-2 text-center border">
-                    {order.consultancyTypeString}
-                  </td>
-                  <td className="px-4 py-2 text-center border">
-                    {order.totalPrice}
-                  </td>
+        <>
+          <div className="overflow-x-auto shadow-lg rounded-lg border border-green-700 dark:border-green-500">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-200 dark:bg-green-800">
+                  <th className="px-4 py-2 border">Order ID</th>
+                  <th className="px-4 py-2 border">Created Date</th>
+                  <th className="px-4 py-2 border">User Email</th>
+                  <th className="px-4 py-2 border">City</th>
+                  <th className="px-4 py-2 border">Status</th>
+                  <th className="px-4 py-2 border">Consultancy Type</th>
+                  <th className="px-4 py-2 border">Total Price</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filteredOrders.map((order) => (
+                  <tr
+                    key={order.id}
+                    className="cursor-pointer hover:bg-gray-200 dark:hover:bg-green-700 transition-all"
+                    onClick={() => handleResultClick(order.id)}
+                  >
+                    <td className="px-4 py-2 text-center border">{order.id}</td>
+                    <td className="px-4 py-2 text-center border">
+                      {new Date(order.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-2 text-center border">
+                      {order.userEmail}
+                    </td>
+                    <td className="px-4 py-2 text-center border">
+                      {order.city}
+                    </td>
+                    <td className="px-4 py-2 text-center border">
+                      {order.statusTypeString}
+                    </td>
+                    <td className="px-4 py-2 text-center border">
+                      {order.consultancyTypeString}
+                    </td>
+                    <td className="px-4 py-2 text-center border">
+                      {order.totalPrice}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex justify-center mt-4">
+            <button
+              className="px-4 py-2 mx-2 bg-gray-300 text-black rounded-lg"
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+            >
+              ⬅️ Previous
+            </button>
+            <span className="px-4 py-2">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              className="px-4 py-2 mx-2 bg-gray-300 text-black rounded-lg"
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages}
+            >
+              Next ➡️
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

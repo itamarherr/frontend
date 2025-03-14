@@ -5,7 +5,7 @@ import HomeImage from "/src/images/HomeImage.jpg";
 import useAuth from "../hooks/useAuth";
 
 const Home = () => {
-  const {isLoggedIn} = useAuth();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const handleClickNewOrder = () => {
     navigate("/OaKConsultancyForm");
@@ -40,41 +40,48 @@ const Home = () => {
             our ecosystem.
           </p>
           <p className="text-lg leading-relaxed mb-6">
-          <strong>Services for Private Yard Owners</strong>: We offer personalized
-            consultancy for homeowners looking to maintain or enhance the health
-            of oak trees in their private yards. Our experts provide tailored
-            advice to ensure your trees continue to flourish and add beauty to
-            your property.
+            <strong>Oak Tree Care for Private & Public Spaces</strong>: Whether
+            you're a homeowner nurturing trees in your private yard or a manager
+            responsible for public green spaces, our consultancy services
+            provide expert guidance. We tailor our approach to your specific
+            needs, ensuring your trees remain healthy, resilient, and a thriving
+            part of the environment.
           </p>
           <p className="text-lg leading-relaxed mb-6">
-          <strong>Pre-Construction Tree Care</strong>: Planning a construction project near
-            your oak trees? We provide consultancy on how to protect and care
-            for your trees before, during, and after construction to minimize
-            stress and damage, ensuring they remain healthy.
+            <strong>Pre-Construction Tree Care</strong>: Planning a construction
+            project near your oak trees? We provide consultancy on how to
+            protect and care for your trees before, during, and after
+            construction to minimize stress and damage, ensuring they remain
+            healthy.
           </p>
           <p className="text-lg leading-relaxed mb-6">
-            <strong>Tree Relocation Services</strong>: If you need to relocate an oak tree,
-            our team can guide you through the process. We assess the
-            feasibility, plan the relocation carefully, and provide aftercare
-            strategies to help the tree establish itself in its new location.
+            <strong>Tree Relocation Services</strong>: If you need to relocate
+            an oak tree, our team can guide you through the process. We assess
+            the feasibility, plan the relocation carefully, and provide
+            aftercare strategies to help the tree establish itself in its new
+            location.
           </p>
           <p className="text-lg leading-relaxed mb-6 h-full">
-          <strong>Tree Health and Illness Consultation</strong>: Concerned about the health
-            of your oak trees? We diagnose illnesses, recommend treatment
-            options, and offer management plans to restore and maintain the
-            vitality of your trees.
+            <strong>Tree Health and Illness Consultation</strong>: Concerned
+            about the health of your oak trees? We diagnose illnesses, recommend
+            treatment options, and offer management plans to restore and
+            maintain the vitality of your trees.
           </p>
-          {isLoggedIn &&  (
-          <button
-            onClick={handleClickNewOrder}
-            className="
+
+          <p className="text-lg leading-relaxed mb-6 h-full">
+            <strong>Ready to take care of your oak trees?</strong>: Start your consultation today!
+          </p>
+          {isLoggedIn && (
+            <button
+              onClick={handleClickNewOrder}
+              className="
             bg-green-500
              text-white font-bold py-2 px-4 rounded mt-6 
              hover:bg-green-600 focus:outline-none focus:ring-2 
              focus:ring-green-500 focus:ring-opacity-50"
-          >
-            Request Oak Consultancy
-          </button>
+            >
+              Request Oak Consultancy
+            </button>
           )}
         </div>
       </section>

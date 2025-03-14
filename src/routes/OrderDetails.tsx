@@ -53,7 +53,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
   return (
     <>
       {myOrder && (
-        <div className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 bg-white text-black border border-gray-300 dark:bg-green-900 dark:text-green-100 dark:border-green-700">
+        <div className="order-details-box">
           <h3 className="text-xl font-bold mb-4">Order Details</h3>
           <p className="mb-2">
             <strong>User name:</strong> {myOrder.userName}
@@ -109,14 +109,14 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
           <div className="flex justify-end">
             <button
               onClick={handleUpdateClick}
-              className="px-4 py-2 rounded-md bg-green-700 text-green-100 hover:bg-green-800 dark:bg-green-600 dark:text-green-100 dark:hover:bg-green-700"
+              className="button"
             >
               Update Order
             </button>
             <button
               style={{ marginLeft: "10px" }}
               onClick={handleDeleteClick}
-              className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
+              className="button  bg-red-500 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 "
             >
               Delete Order
             </button>
