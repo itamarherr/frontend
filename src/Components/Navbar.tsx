@@ -48,12 +48,17 @@ const Navbar = () => {
 
         {isLoggedIn && (
           <>
+          {isLoggedIn && role != "admin" &&(
+            <>
             <NavLink className="rounded-lg p-2" to="/MyOrderPage">
               My Order
             </NavLink>
             <NavLink className="rounded-lg-2 p-2" to="/Profile">
               My Profile
             </NavLink>
+            </>
+          )}  
+          
             <NavLink className="rounded-lg p-2" to="/OakConsultancyForm">
               Request Oak Consultancy
             </NavLink>

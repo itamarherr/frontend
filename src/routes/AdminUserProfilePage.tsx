@@ -49,11 +49,12 @@ const AdminUserProfilePage = () => {
   };
 
   return (
-    <div className="p-6 bg-white shedow-md rounded-lg">
+    <div className="max-w-lg mx-auto p-6 rounded-lg shadow-lg mt-8 bg-white text-black border border-gray-300 dark:bg-green-900 dark:text-green-100 dark:border-green-700">
       
           <UserProfileDetails user={user} />
-          <button
-            className="bg-red-500 text-white px-4 py-2 rounded mt-4"
+          <button 
+          style={{marginLeft: "10px", marginTop: "10px"}}
+            className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
             onClick={handleDeleteClick}
           >
             Delete User
