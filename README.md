@@ -70,17 +70,21 @@ Eco Services is a **full-stack web application** that provides **oak tree consul
 git clone https://github.com/your-username/EcoServices-Frontend.git
 cd EcoServices-Frontend
 ---
+```
 ### 2️⃣ Install Dependencies
 ```sh
 npm install
---- 
+```
+---
 # 3️⃣ Configure Environment Variables
 ```ini
 VITE_API_BASE_URL="http://localhost:5000/api"
+```
 ---
 ### 4️⃣ Run the Development Server
 ```sh
 npm run dev
+```
 
 By default, the frontend will run at http://localhost:5173
 
@@ -95,7 +99,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const getOrders = async () => {
   return await axios.get(`${API_BASE_URL}/orders`);
 };
-   ```ts
+   ```
 
 ## 📌 Features
 - 📝 **Consultancy Form** – Users can submit oak tree consultations.
@@ -108,7 +112,7 @@ To deploy the frontend, use
 
 ```sh
 npm run build
-```sh
+```
 Then, deploy the dist/ folder using Netlify, Vercel, or any static hosting provider.
 
 ## 📬 Contact
