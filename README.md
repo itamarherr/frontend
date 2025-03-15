@@ -69,22 +69,20 @@ Eco Services is a **full-stack web application** that provides **oak tree consul
 ```sh
 git clone https://github.com/your-username/EcoServices-Frontend.git
 cd EcoServices-Frontend
----
 ```
 ### 2️⃣ Install Dependencies
 ```sh
 npm install
 ```
----
-# 3️⃣ Configure Environment Variables
+### 3️⃣ Configure Environment Variables
 ```ini
 VITE_API_BASE_URL="http://localhost:5000/api"
 ```
----
 ### 4️⃣ Run the Development Server
 ```sh
 npm run dev
 ```
+---
 
 By default, the frontend will run at http://localhost:5173
 
