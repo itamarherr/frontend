@@ -1,30 +1,28 @@
 import { Route, Routes } from "react-router-dom";
-import ProtectedRoute from "./Components/ProtectedRoute";
-import Home from "./routes/Home";
-import About from "./routes/About";
-import Register from "./routes/Register";
-import Login from "./routes/Login";
-import Products from "./routes/Products";
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
+// import ProtectedRoute from "./Components/ProtectedRoute";
+import Home from "./pages/home/Home";
+import About from "./pages/about/About";
+import Register from "./pages/autherized/Register";
+import Login from "./pages/autherized/Login";
+import Navbar from "./layout/Navbar";
+import Footer from "./layout/Footer";
 import "./App.css";
-import OakConsultancyPage from "./routes/OakConsultancyPage";
 // import EcoConsultancyForm from "./routes/forms/EcoConsultancyForm";
-import OakConsultancyForm from "./routes/forms/OakConsultancyForm";
+import OakConsultancyForm from "./pages/forms/OakConsultancyForm";
 // import EcoSurveyForm from "./routes/forms/EcoSurveyForm";
 // import ForestSurveyForm from "./routes/forms/ForestSurveyForm";
-import OrdersList from "./routes/OrdersList";
-import MyOrderPage from "./routes/MyOrderPage";
-import UpdateOrderForm from "./routes/forms/UpdateOrderForm";
-import UsersList from "./routes/UsersList";
-import UserRegistrationFormFields from "./routes/forms/UserRegistrationFormFields";
-import UserSettingsPage from "./routes/UserSettingsPage";
-import AdminUserProfilePage from "./routes/AdminUserProfilePage";
-import UserProfilePage from "./routes/UserProfilePage";
-import AdminOrderDetailsPage from "./routes/AdminOrderDetailsPage";
-import AdminRoute from "./routes/AdminRoute";
-import NotFound from "./routes/NotFound";
-import UnauthorizedPage from "./routes/UnauthorizedPage";
+import OrdersList from "./pages/orders/OrdersList";
+import MyOrderPage from "./pages/orders/MyOrderPage";
+import UpdateOrderForm from "./pages/forms/UpdateOrderForm";
+import UsersList from "./pages/users/UsersList";
+import UserSettingsPage from "./pages/users/UserSettingsPage";
+import AdminUserProfilePage from "./pages/users/AdminUserProfilePage";
+import UserProfilePage from "./pages/users/UserProfilePage";
+import AdminOrderDetailsPage from "./pages/orders/AdminOrderDetailsPage";
+import NotFound from "./pages/errorHandling/NotFound";
+import UnauthorizedPage from "./pages/errorHandling/UnauthorizedPage";
+import AdminRoute from "./pages/autherized/AdminRoute";
+import ProtectedRoute from "./pages/autherized/ProtectedRoute";
 
 const App = () => {
   const url = import.meta.env.VITE_BASE_URL;
@@ -42,7 +40,6 @@ const App = () => {
           <Route path="/login" element={<Login />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/products" element={<Products />} />
             <Route path="/MyOrderPage" element={<MyOrderPage />} />
             <Route path="/UserSettingsPage" element={<UserSettingsPage />} />
             <Route path="/Profile" element={<UserProfilePage />} />
@@ -57,7 +54,6 @@ const App = () => {
               element={<OakConsultancyForm />}
             />
           </Route>
-
           <Route element={<AdminRoute />}>
             <Route
               path="/AdminUserProfilePage/:id"
@@ -72,11 +68,6 @@ const App = () => {
           </Route>
           <Route path="/401" element={<UnauthorizedPage />} />
           <Route path="*" element={<NotFound />} />
-
-          {/* <Route path="/EcoConsultancyForm" element={<EcoConsultancyForm />} /> */}
-          {/* <Route path="/EcoSurveyForm" element={<EcoSurveyForm />} />
-        <Route path="/ForestSurveyForm" element={<ForestSurveyForm />} /> */}
-          {/* <Route path="/Users/:id" element={<UpdateUsersForm/>} /> */}
         </Routes>
       </main>
       <Footer />

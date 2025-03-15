@@ -1,12 +1,12 @@
 
-#  Eco Services – Frontend (React + TypeScript)
+#  Eco Services – Frontend (React)
 
-Eco Services is a **full-stack web application** that provides **oak tree consultancy services** for **private yard owners and public area managers**. This repository contains the **React frontend**, allowing users to **register, log in, submit orders, and track tree care recommendations**.
+Eco Services is a **full-stack web application** that provides **oak tree consultancy services** for **private yard owners and public area managers**. This repository contains the **React frontend**, allowing users to **register, log in, submit orders, and Other CRUD operaetions.**.
 
 ---
 
 ##  Tech Stack
--  **React 18** – Modern, type-safe frontend.
+-  **React** – Modern, type-safe frontend.
 -  **Tailwind CSS** – Responsive UI with dark/light mode support.
 -  **Axios** – Handles API requests to the backend.
 -  **React Router** – Enables navigation and routing.
@@ -49,6 +49,15 @@ export const getOrders = async () => {
   return await axios.get(`${API_BASE_URL}/orders`);
 };
    ```
+
+##  Testing Credentials
+
+To log in as an admin, use the following credentials:
+
+- **Email:** `itamarherr@gmail.com`
+- **Password:** `ItamarherrPassword1!`
+
+ Note: These credentials are for testing purposes only and should not be used in production._
 
 ##  Features
 -  **Consultancy Form** – Users can submit oak tree consultations.

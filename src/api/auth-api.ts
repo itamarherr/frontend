@@ -9,8 +9,6 @@ export const register = (form: FormData) =>
     },
   });
 
-//after successful login, the server will return a token
-//and we will store it in the local storage
  export const login = (email: string, password: string) =>
   axios.post(`${baseUrl}/login`, { email, password }).then((response) => {
     if (response.data.token) {

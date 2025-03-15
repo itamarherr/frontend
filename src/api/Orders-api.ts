@@ -6,7 +6,6 @@ export interface OrderFormData {
     userId: string;
     productId: number;
     userName: string;
-    // imageUrl: string;
     adminNotes?: string; 
     totalPrice: number;
     additionalNotes?: string; 
