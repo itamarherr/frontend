@@ -3,15 +3,13 @@ import { users_api, UpdateUserData } from "../../api/Users-api";
 import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import { showErrorDialog, showSuccessDialog } from "../../dialogs/dialogs";
-import { array } from "yup";
-import { debounce } from "lodash";
+
 
 const UsersList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterQuery, setFilterQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  // const [filteredUsers, setFilteredUsers] = useState([]);
-  // const [filter, setFilter] = useState("");
+
   const [loading, setLoading] = useState(true);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
@@ -56,77 +54,7 @@ const UsersList: React.FC = () => {
       setSearchLoading(false);
     }
   };
-  // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchQuery(e.target.value);
-  // };
-
-  //   const filteredResults = users.filter((user) =>
-  //     ["userName", "firstName", "lastName", "email", "phoneNumber"].some(
-  //       (key) =>
-  //         user[key as keyof UpdateUserData]
-  //           ?.toLowerCase()
-  //           .includes(query.toLowerCase())
-  //     )
-  //   );
-  //   setSearchResults(filteredResults);
-  // };
-
-  // // Trigger API call when searchQuery updates
-  // useEffect(() => {
-  //   const search = async () => {
-  //     if (!searchQuery.trim()) {
-  //       setFilteredUsers(users); // Reset users when empty
-  //       return;
-  //     }
-  //     try {
-  //       const results = await users_api.searchUsers(searchQuery);
-  //       setFilteredUsers(results);
-  //     } catch (error) {
-  //       showErrorDialog("Error searching users. Please try again.");
-  //       console.error("Error searching users:", error);
-  //     }
-  //   };
-
-  //   const debounceSearch = setTimeout(search, 500);
-  //   return () => clearTimeout(debounceSearch);
-  // }, [searchQuery, users]);
-
-  // const applyFilter = (filterValue: string) => {
-  //   setFilter(filterValue);
-
-  //   let updatedUsers = users || [];
-
-  //   if (filterValue) {
-  //     updatedUsers = updatedUsers.filter(user =>
-  //       user.role?.toLowerCase() === filterValue.toLowerCase()
-  //     );
-  //   }
-
-  //   if (searchQuery.trim() !== "") {
-  //     updatedUsers = updatedUsers.filter(user =>
-  //       user.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  //     );
-  //   }
-
-  //   setFilteredUsers(updatedUsers);
-  // };
-
-  // const handleRowClick = (userId: string) => {
-  //   if (window.confirm("Do you want to view this user?")) {
-  //     navigate(`/AdminUserProfilePage/${userId}`);
-  //   }
-  // };
-
-  // if (loading) return <div className="text-center">Loading users...</div>;
-  // if (error)
-  //   return <div className="text-center text-red-500">Error: {error}</div>;
-  // if (!filteredUsers || filteredUsers.length === 0)
-  //   return <div className="text-center">No users found</div>;
-  // console.log("🔍 Users State in Component:", users);
-  // if (!users) return <div className="text-center">Loading...</div>; // Wait until users is set
-  // if (users.length === 0)
-  //   return <div className="text-center">No users found</div>;
+  
 
   const handleResultClick = (userId: string) => {
     navigate(`/AdminUserProfilePage/${userId}`);
@@ -148,11 +76,6 @@ const UsersList: React.FC = () => {
       (user.phoneNumber?.toLowerCase() ?? "").includes(filterQuery.toLowerCase())
   ) || [];
 
-  // const handleRowClick = (userId: string) => {
-  //   if (window.confirm("Do you want to view this user?")) {
-  //     navigate(`/AdminUserProfilePage/${userId}`);
-  //   }
-  // };
 
   return (
     <div className="p-6 min-h-screen form-container">
@@ -173,18 +96,7 @@ const UsersList: React.FC = () => {
       >
         Search
       </button>
-      {/* <div className="flex justify-center mb-4">
-        <select
-          value={filter}
-          onChange={(e) => applyFilter(e.target.value)}
-          className="ml-4 border px-2 py-1"
-        >
-          <option value="">All Roles</option>
-          <option value="admin">Admins</option>
-          <option value="user">Regular Users</option>
-          <option value="guest">Guest</option>
-        </select>
-      </div> */}
+    
 
       {searchLoading && <p>Searching...</p>}
       {searchError && <p className="text-red-500">{searchError}</p>}

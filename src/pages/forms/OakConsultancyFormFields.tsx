@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import Spinner from "../../ui/Spinner";
 import { calculateTotalPrice } from "../../utils/calculateTotalPrice";
 import React from "react";
-import { useFormikContext } from "formik";
-import { OrderFormData } from "../../api/Orders-api";
 
 interface OaKConsultancyFormFieldsProps {
   isLoading: boolean;

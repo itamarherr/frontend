@@ -1,4 +1,3 @@
-import { object } from "yup";
 import request from "../utils/axios-interceptors";
 
 export interface OrderFormData {

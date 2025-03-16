@@ -7,7 +7,7 @@ import { orders_api, OrderFormData } from "../../api/Orders-api";
 import { calculateTotalPrice } from "../../utils/calculateTotalPrice";
 import { showErrorDialog, showSuccessDialog } from "../../dialogs/dialogs";
 import OaKConsultancyFormFields from "./OakConsultancyFormFields";
-import useFetch from "../../hooks/useFetch";
+
 
 const OakConsultancyForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -89,8 +89,7 @@ const OakConsultancyForm = () => {
 
   const initialValues: OrderFormData = {
     productId: 1,
-    userName: "",
-    // imageUrl: "https://picsum.photos/id/1/200/300",
+    userName: "", 
     adminNotes: "",
     totalPrice: 0,
     additionalNotes: "NotesTest",
@@ -102,7 +101,6 @@ const OakConsultancyForm = () => {
     isPrivateArea: false,
     dateForConsultancy: new Date(new Date().setDate(new Date().getDate() + 1)),
     createdAt: new Date().toISOString(),
-    // statusType: {value="pending"},
     statusType: 1,
     userEmail: "",
     serviceType: "Test Service",

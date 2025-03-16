@@ -6,7 +6,6 @@ import {
   OrdersApiResponse,
 } from "../../api/Orders-api";
 import { useNavigate } from "react-router-dom";
-import { showErrorDialog, showSuccessDialog } from "../../dialogs/dialogs";
 
 const OrdersList: React.FC = () => {
   const [filterQuery, SetFilterQuery] = useState("");
@@ -21,7 +20,7 @@ const OrdersList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // ✅ Fetch all orders on component mount
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -47,12 +46,12 @@ const OrdersList: React.FC = () => {
       setPage(newPage);
     }
   };
-  // 🔎 Handle search input change
+  //
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  // 🔎 Fetch search results from API
+  
   const handleSearchSubmit = async () => {
     if (!searchQuery.trim()) return; // Ignore empty search
     setSearchLoading(true);
@@ -70,14 +69,14 @@ const OrdersList: React.FC = () => {
     }
   };
 
-  // 🔹 Navigate to Order Details Page
+ 
   const handleResultClick = (orderId: number) => {
     navigate(`/AdminOrderDetailsPage/${orderId}`);
     setSearchQuery(""); // Clear input
     setSearchResults([]);
   };
 
-  // 🔍 Filter Orders Locally (For filtering after initial fetch)
+  
   const filteredOrders =
     ordersData?.orders.filter(
       (order) =>
@@ -98,7 +97,7 @@ const OrdersList: React.FC = () => {
     <div className="p-4 min-h-screen form-container">
       <h2 className="text-2xl font-bold mb-4">Order List</h2>
 
-      {/* 🔎 Search Box (Fetch from API) */}
+    
       <div className="relative mb-4">
         <input
           type="text"
@@ -115,7 +114,7 @@ const OrdersList: React.FC = () => {
         </button>
       </div>
 
-      {/* 🔎 Show Search Results */}
+    
       {searchLoading && <p>Searching...</p>}
       {searchError && <p className="text-red-500">{searchError}</p>}
       {searchResults.length > 0 && (
@@ -140,7 +139,7 @@ const OrdersList: React.FC = () => {
           className="w-full p-2 border rounded-lg dark:border-green-500"
         />
       </div>
-      {/* 📝 Display All Orders */}
+    
       {loading ? (
         <Spinner title="Loading orders..." />
       ) : (

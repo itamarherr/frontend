@@ -1,5 +1,3 @@
-import { string } from 'yup';
-import React from 'react'
 import request from "../utils/axios-interceptors";
 
 const usersUrl = import.meta.env.VITE_BASE_URL + "/Users";

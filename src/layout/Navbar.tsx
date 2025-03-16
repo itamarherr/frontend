@@ -2,30 +2,21 @@ import { BsGithub } from "react-icons/bs";
 import { SiHomebridge } from "react-icons/si";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-// import { DarkModeContext } from "../contexts/DarkmodeContext";
+
 import { BiLogOut, BiSearch, BiMenu } from "react-icons/bi";
 import useAuth from "../hooks/useAuth";
 import useDarkMode from "../hooks/useDarkMode";
 import "../styles/Navbar.scss";
-import { orders_api } from "../api/Orders-api";
-import useFetch from "../hooks/useFetch";
 
-// const { darkMode, toggle } = useContext(DarkModeContext);
+
+
 const Navbar = () => {
   const { darkMode, toggle } = useDarkMode();
   const { isLoggedIn, logout, role } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  // const [searchQuery, setSearchQuery] = useState("");
-  // const [searchResults, setSearchResults] = useState([])
-  // const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate();
 
-  // const {data: searchResults, loading, error } = useFetch(()=>{
-  //   if (!searchQuery.trim()) {
-  //     return Promise.resolve([]); // ✅ Return empty array if searchQuery is empty
-  //   }
-  //   return orders_api.searchOrders(searchQuery);
-  // }, [searchQuery]);
 
   return (
     <nav id="app-nav" className="p-4 flex items-center justify-between">

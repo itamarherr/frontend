@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-// import ProtectedRoute from "./Components/ProtectedRoute";
 import Home from "./pages/home/Home";
 import About from "./pages/about/About";
 import Register from "./pages/autherized/Register";
@@ -7,10 +6,7 @@ import Login from "./pages/autherized/Login";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import "./App.css";
-// import EcoConsultancyForm from "./routes/forms/EcoConsultancyForm";
 import OakConsultancyForm from "./pages/forms/OakConsultancyForm";
-// import EcoSurveyForm from "./routes/forms/EcoSurveyForm";
-// import ForestSurveyForm from "./routes/forms/ForestSurveyForm";
 import OrdersList from "./pages/orders/OrdersList";
 import MyOrderPage from "./pages/orders/MyOrderPage";
 import UpdateOrderForm from "./pages/forms/UpdateOrderForm";

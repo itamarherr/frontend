@@ -60,9 +60,6 @@ function AuthProvider(props) {
       localStorage.setItem("token", token);
       localStorage.setItem("role", userRole);
 
-
-      console.log("Decoded Role on Login:", userRole);
-      console.log("Decoded Token:", decode); // Debugging output
       setIsLoggedIn(true);
       setToken(token);
       setRole(userRole);

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { users_api } from "../../api/Users-api";
 import UserProfileDetails from "../users/UserProfileDetails";
-import useFetch from "../../hooks/useFetch";
 import { showErrorDialog, showSuccessDialog } from "../../dialogs/dialogs";
 
 const AdminUserProfilePage = () => {

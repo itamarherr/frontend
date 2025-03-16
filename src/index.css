@@ -73,31 +73,3 @@ button {
 
 
 }
-/* Default (light mode) */
-
-/* body {
-    @apply bg-white text-black transition-colors duration-300;
-  }
-  
-  
-  body.dark {
-    @apply bg-gray-900 text-white;
-  }
-  
- 
-  .dark a, 
-  .dark button, 
-  .dark input, 
-  .dark textarea {
-    @apply text-white bg-gray-800 border-gray-600;
-  }
-  
-  .dark a:hover {
-    @apply text-yellow-400;
-  }
-  
-  .dark .container,
-  .dark .card {
-    @apply bg-gray-800 text-gray-200;
-  }
-*/

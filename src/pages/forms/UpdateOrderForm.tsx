@@ -18,8 +18,6 @@ const UpdateOrderForm = () => {
   
   
   const fetchOrder = useCallback(async () => {
-    console.log(` Fetching Order for ID: ${orderId}`);  
-    console.log(` Calling API: ${orderId ? "getOrderById" : "getMyOrderForUpdate"}`);
     console.log(`id: " ${orderId}`);
     if (orderId) {
       if (isNaN(orderId)) {
@@ -44,16 +42,14 @@ const UpdateOrderForm = () => {
     console.log(" Fetch Error:", error); 
   }, [orderFormData, error]);
 
-  
-  
+
       const handleSubmit = async (
         values: Partial<OrderFormDataWithFormattedDate>,
         { setSubmitting }: any
     ) => {
         try {
             console.log("Submitting order update:", values);
-    
-         
+
             const updatedValues: Partial<OrderFormData> = {
                 userId: values.userId ?? "", 
                 productId: values.productId ?? 0,
@@ -104,8 +100,6 @@ const UpdateOrderForm = () => {
                 response = await orders_api.updateMyOrder(updatedValues); 
             }
     
-            console.log("✅ API Response:", response);
-    
           
             if (response === undefined || response === null) {
                 console.warn(" Warning: API returned an empty response. This might be expected.");
@@ -126,7 +120,7 @@ const UpdateOrderForm = () => {
   
  
   const formattedOrderData: Partial<OrderFormDataWithFormattedDate> =
-  !orderFormData || Array.isArray(orderFormData) // ✅ Prevent array issues
+  !orderFormData || Array.isArray(orderFormData) 
     ? {} 
     : {
         ...orderFormData,
@@ -139,13 +133,13 @@ const UpdateOrderForm = () => {
             ? orderFormData.dateForConsultancy.toISOString().split("T")[0] 
             : "", // Default if missing
 
-        // ✅ Fix: Ensure `createdAt` stays a string
+
         createdAt:
           typeof orderFormData.createdAt === "string"
             ? orderFormData.createdAt 
             : orderFormData.createdAt
-            ? new Date(orderFormData.createdAt).toISOString() // ✅ Convert if valid
-            : new Date().toISOString(), // ✅ Default to current time if missing
+            ? new Date(orderFormData.createdAt).toISOString() 
+            : new Date().toISOString(), 
       };
 
   const validationSchema = Yup.object({
@@ -178,7 +172,7 @@ const UpdateOrderForm = () => {
   initialValues={formattedOrderData}
   validationSchema={validationSchema}
   enableReinitialize={true}
-  onSubmit={handleSubmit} // ✅ Now TypeScript is happy!
+  onSubmit={handleSubmit} 
 >
      {({ values, setFieldValue, isSubmitting }) => (
         <OaKConsultancyFormFields

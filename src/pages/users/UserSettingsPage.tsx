@@ -52,13 +52,13 @@ const UserSettingsPage = () => {
         "required",
         "Profile image is required",
         (value) => value instanceof File
-      ) // ✅ Required check first
+      ) t
       .test("fileSize", "File is too large (Max: 2MB)", (value) => {
-        if (!value || !(value instanceof File)) return true; // ✅ Skip if no file
+        if (!value || !(value instanceof File)) return true; 
         return value.size <= 2 * 1024 * 1024;
       })
       .test("fileType", "Unsupported file format", (value) => {
-        if (!value || !(value instanceof File)) return true; // ✅ Skip if no file
+        if (!value || !(value instanceof File)) return true; 
         return ["image/jpeg", "image/png", "image/gif"].includes(value.type);
       }),
   });
@@ -119,7 +119,6 @@ const UserSettingsPage = () => {
         setError("User not authenticated");
         return;
       }
-      console.log("Updated Profile Values before submission:", values);
 
       const formData = new FormData();
       formData.append("Id", values.id);
@@ -142,7 +141,7 @@ const UserSettingsPage = () => {
       }
 
       if (!values.phone) {
-        formData.append("phoneNumber", ""); // ✅ Ensures `null` isn't sent
+        formData.append("phoneNumber", ""); 
       }
 
       await updateUserProfile(jwt, formData);
@@ -214,38 +213,3 @@ const UserSettingsPage = () => {
 
 export default UserSettingsPage;
 
-// return (
-//   <div className=" items-center">
-//     <section>
-//       {userDetails && (
-//         <Formik
-//           enableReinitialize
-//           initialValues={userDetails}
-//           validationSchema={validationSchema}
-//           onSubmit={(values) => updateProfile(values)}
-//         >
-//           {({ handleSubmit }) => (
-//             <form onSubmit={handleSubmit}>
-//               <h1 className="text-4xl font-bold text-center mb-6">
-//                 User Settings
-//               </h1>
-//               <h2 className="text-2xl mb-12 text-center">
-//                 Update your profile details
-//               </h2>
-//               <UserRegistrationFormFields
-//                 isLoading={isLoading}
-//                 error={error}
-//               />
-//               <button
-//                 type="submit"
-//                 className="bg-green-500 disabled:bg-blue-500/50 w-1/2 text-white font-bold px-4 py-2 mt-4 rounded"
-//               >
-//                 Save Changes
-//               </button>
-//             </form>
-//           )}
-//         </Formik>
-//       )}
-//     </section>
-//   </div>
-// );

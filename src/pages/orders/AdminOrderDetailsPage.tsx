@@ -28,16 +28,7 @@ const AdminOrderDetailsPage: React.FC = () => {
     refetch();
   }, [id, refetch]);
 
-  // const handleDeleteClick = async () => {
-  //   try {
-  //     await orders_api.deleteOrder(Number(id));
-  //     showSuccessDialog("Order deleted successfully.");
-  //     navigate("/OrdersList");
-  //   } catch (error) {
-  //     console.error("Error deleting order", error);
-  //     showErrorDialog("Failed to delete order. Please try again.");
-  //   }
-  // };
+
 
   useEffect(() => {
     refetch(); // Ensure fresh data when component mounts

@@ -28,12 +28,6 @@ const MyOrderPage: React.FC = () => {
     refetch();
   }, [refetch]);
 
-  // useEffect(() => {
-  //   if(location.state?.refetch){
-  //     refetch();
-  //     navigate(".", { replace: true});
-  //   }
-  // }, [location.state, refetch, navigate]);
 
   if (loading) return <p>Loading...</p>;
   if (error || !myOrder || Array.isArray(myOrder)) {
@@ -52,7 +46,7 @@ const MyOrderPage: React.FC = () => {
     );
   }
 
-  // ✅ Ensure `dateForConsultancy` exists before modifying it
+
   const formattedOrder: OrderResponse = {
     ...myOrder,
     dateForConsultancy: myOrder.dateForConsultancy

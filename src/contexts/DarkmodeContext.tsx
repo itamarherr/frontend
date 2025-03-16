@@ -1,19 +1,8 @@
-// Data store (context) for dark mode
 
-//state variable: isDark
-
-//function to toggle dark mode
 
 import { createContext, useEffect, useState } from "react";
 
 
-// export interface DarkModeContextType{
-//   darkMode : boolean;
-//   toggle : () => void;
-// } 
- 
-
-// const DarkModeContext = createContext<DarkModeContextType | null>(null);
 
 const DarkModeContext = createContext(null);
 
