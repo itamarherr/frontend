@@ -45,9 +45,8 @@ const Navbar = () => {
           About
         </NavLink>
 
-        {isLoggedIn && (
-          <>
-            {isLoggedIn && role != "admin" && (
+   
+            {isLoggedIn && role !== "admin" && (
               <>
                 <NavLink className="rounded-lg p-2" to="/MyOrderPage">
                   My Order
@@ -55,14 +54,12 @@ const Navbar = () => {
                 <NavLink className="rounded-lg-2 p-2" to="/Profile">
                   My Profile
                 </NavLink>
-              </>
-            )}
-
             <NavLink className="rounded-lg p-2" to="/OakConsultancyForm">
               Request Oak Consultancy
             </NavLink>
           </>
         )}
+       
 
         {role === "admin" && (
           <div className="hidden md:flex relative">
@@ -127,7 +124,7 @@ const Navbar = () => {
           <NavLink className="rounded-lg p-2" to="/about">
             About
           </NavLink>
-          {isLoggedIn && (
+          {isLoggedIn &&  role !== "admin" && (
             <>
               <NavLink className="rounded-lg p-2" to="/MyOrderPage">
                 My Order

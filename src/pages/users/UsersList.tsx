@@ -169,7 +169,7 @@ const UsersList: React.FC = () => {
       </div>
       <button
         onClick={handleSearchSubmit}
-        className="bg-blue-500 text-white px-4 py-2 ml-2"
+        className="bg-blue-500 text-white px-4 py-2 ml-2 mb-5"
       >
         Search
       </button>
@@ -230,7 +230,7 @@ const UsersList: React.FC = () => {
             {filteredUsers.map((user) => (
               <tr
                 key={user.id}
-                className="cursor-pointer hover:bg-gray-200 dark:hover:bg-green-700 transition-all"
+                className="cursor-pointer hover:bg-gray-200 dark:hover:bg-green-700 transition-all "
                 onClick={() => handleResultClick(user.id!)}
               >
                 <td className="px-4 py-2 text-center border">

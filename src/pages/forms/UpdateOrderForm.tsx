@@ -18,12 +18,12 @@ const UpdateOrderForm = () => {
   
   
   const fetchOrder = useCallback(async () => {
-    console.log(`📢 Fetching Order for ID: ${orderId}`);  // ✅ Check the ID
-    console.log(`🛠 Calling API: ${orderId ? "getOrderById" : "getMyOrderForUpdate"}`);
+    console.log(` Fetching Order for ID: ${orderId}`);  
+    console.log(` Calling API: ${orderId ? "getOrderById" : "getMyOrderForUpdate"}`);
     console.log(`id: " ${orderId}`);
     if (orderId) {
       if (isNaN(orderId)) {
-        console.error("❌ Invalid Order ID, aborting fetch!");
+        console.error(" Invalid Order ID, aborting fetch!");
         throw new Error("Order Id is missing");
       }
       return await orders_api.getOrderById(orderId);
@@ -66,7 +66,7 @@ const UpdateOrderForm = () => {
                 number: values.number ?? 0,
                 additionalNotes: values.additionalNotes ?? "",
                 adminNotes: values.adminNotes ?? "",
-                dateForConsultancy: new Date(values.dateForConsultancy || new Date()), 
+                dateForConsultancy: new Date(new Date().setDate(new Date().getDate() + 1)),
                 consultancyType: Number(values.consultancyType) || 1,  
                 isPrivateArea: values.isPrivateArea ?? false,
                 createdAt: new Date(values.createdAt || new Date()).toISOString(),
@@ -149,16 +149,19 @@ const UpdateOrderForm = () => {
       };
 
   const validationSchema = Yup.object({
+    consultancyType: Yup.string()
+    .required("Consultancy type is required")
+    .oneOf(["BeforeConstruction", "Dislocations", "TreesIllness"], "Please select a valid consultancy type"),
     numberOfTrees: Yup.number()
 
       .min(1, "Number of trees must contain at least 1")
       .max(30, "Number of trees cannot exceed 30 characters"),
-      dateForConsultancy: Yup.string()
-      .matches(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format (YYYY-MM-DD expected)")
-      .required("Date is required"),
-    city: Yup.string().max(50, "city name cennot exceed 50 characters"),
-    street: Yup.string().max(50, "Street name cennot exceed 50 characters"),
-    number: Yup.number().min(1, "Street number must be positive"),
+      dateForConsultancy: Yup.date()
+      .required("Date For Consultancy is required")
+      .min(new Date(), "Date for consultancy must be in the future"),
+    city: Yup.string().max(50, "city name cennot exceed 50 characters").required("City name must be provided"),
+    street: Yup.string().max(50, "Street name cennot exceed 50 characters").required("Street name must be provided"),
+    number: Yup.number().min(1, "Street number must be positive").required("Street number must be provided"),
   });
 
   if (loading) return <div>Loading order details...</div>;

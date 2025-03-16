@@ -40,7 +40,7 @@ const OakConsultancyForm = () => {
       const requestData: OrderFormData = {
         ...values,
         id: 0,
-        userId, 
+        userId,
         createdAt: new Date().toISOString(),
         serviceType: "Oak Consultancy",
       };
@@ -61,12 +61,19 @@ const OakConsultancyForm = () => {
     }
   };
   const validationSchema = Yup.object({
-    consultancyType: Yup.string().required(" Consultancy type is required"),
+    consultancyType: Yup.string()
+      .required(" Consultancy type is required")
+      .oneOf(
+        ["BeforeConstruction", "Dislocations", "TreesIllness"],
+        "Please select a valid consultancy type"
+      ),
     numberOfTrees: Yup.number()
       .required("Number of trees is required")
       .min(1, "Number of trees must contain at least 1")
       .max(30, "Number of trees cannot exceed 30 characters"),
     dateForConsultancy: Yup.date()
+      
+      .required("Date For Consultancy is required")
       .required("Date For Consultancy is required")
       .min(new Date(), "Date for consultancy must be in the future"),
     city: Yup.string()
@@ -75,7 +82,9 @@ const OakConsultancyForm = () => {
     street: Yup.string()
       .required("Street name is required")
       .max(50, "Street name cennot exceed 50 characters"),
-    number: Yup.number().min(1, "Street number must be positive"),
+    number: Yup.number()
+      .min(1, "Street number must be positive")
+      .required("Street number is required"),
   });
 
   const initialValues: OrderFormData = {

@@ -13,7 +13,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
 
   const handleUpdateClick = () => {
     const userRole = localStorage.getItem('role');
-    if (userRole === "Admin") {  
+    if (userRole === "admin") {  
       console.log(`🔍 Admin updating order ID: ${myOrder.id}`);
       navigate(`/Orders/${myOrder.id}`); // Navigate to Admin path
     } else {
@@ -33,19 +33,20 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ myOrder }) => {
   };
   const handleDeleteClick = async () => {
     try {
-      if (myOrder.id) {
+      const userRole = localStorage.getItem("role");
+      if (userRole === "admin") {
+        console.log(` Admin deleting order ID: ${myOrder.id}`);
         await orders_api.deleteOrder(myOrder.id);
+        navigate("/OrdersList"); 
       } else {
+        console.log(" User deleting their own order.");
         await orders_api.deleteMyOrder();
+        navigate("/"); 
       }
       await showSuccessDialog("Your order has been deleted successfully.");
 
-      if (myOrder.id) {
-        navigate("/OrdersList");
-      } else {
-        navigate("/");
-      }
     } catch (error) {
+      console.error(" Error deleting order:", error);
       showErrorDialog("Failed to delete the order. Please try again.");
     }
   };

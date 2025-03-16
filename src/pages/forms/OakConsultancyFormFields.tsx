@@ -142,6 +142,11 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
               autoComplete="new-city"
               className="input"
             />
+             <ErrorMessage
+              name="city"
+              component="div"
+              className="error-message"
+            />
           </div>
           <div className="flex-1">
             <label htmlFor="street" className="block font-semibold mb-1">
@@ -153,6 +158,11 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
               id="street"
               autoComplete="new-street"
               className="input"
+            />
+            <ErrorMessage
+              name="street"
+              component="div"
+              className="error-message "
             />
           </div>
           <div className="w-1/4">
@@ -166,19 +176,7 @@ const OaKConsultancyFormFields: React.FC<OaKConsultancyFormFieldsProps> = ({
               autoComplete="new-number"
               className="input"
             />
-          </div>
-          <div className="flex space-x-2 mt-1">
-            <ErrorMessage
-              name="city"
-              component="div"
-              className="error-message"
-            />
-            <ErrorMessage
-              name="street"
-              component="div"
-              className="error-message"
-            />
-            <ErrorMessage
+             <ErrorMessage
               name="number"
               component="div"
               className="error-message"
